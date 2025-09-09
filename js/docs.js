@@ -859,6 +859,9 @@
 
             // Обновляем URL
             history.pushState(null, null, `#${sectionId}/${articleId}`);
+
+            // Обновляем видимость TOC
+            this.updateTocVisibility();
         }
 
         renderArticleContent(article, section) {
@@ -973,19 +976,57 @@
                 return `<a href="#${id}" class="toc-item level-${level}" data-heading="${id}">${heading.text}</a>`;
             }).join('');
 
-            // Создаем новый TOC с особым классом для статей
+            // Создаем новый TOC БЕЗ автоматического класса
             const toc = document.createElement('div');
-            toc.className = 'article-toc show-for-article'; // специальный класс
+            toc.className = 'article-toc'; // Убираем автоматический show-for-article
             toc.innerHTML = `
                 <h4>Содержание</h4>
                 ${tocItems}
             `;
 
             document.body.appendChild(toc);
+
+            // Обновляем видимость TOC на основе текущей страницы
+            this.updateTocVisibility();
+
             console.log('TOC создан для статьи');
 
             // Активируем текущий заголовок при скролле
             this.setupTocActiveTracking();
+        }
+
+        // Функция для управления видимостью TOC
+        updateTocVisibility(currentHash = window.location.hash) {
+            // Страницы документации, где должен отображаться TOC
+            const docPages = [
+                'introduction',
+                'architecture',
+                'user-guide',
+                'api',
+                'pricing',
+                'support'
+            ];
+
+            const toc = document.querySelector('.article-toc');
+            if (!toc) return;
+
+            // Очищаем хэш от символа # и приводим к нижнему регистру
+            const cleanHash = currentHash.replace(/^#/, '').toLowerCase();
+
+            // Проверяем, находимся ли мы на документационной странице
+            const isDocPage = docPages.some(page => {
+                // Проверяем точное совпадение или начало хэша (для вложенных страниц типа #introduction/overview)
+                return cleanHash === page || cleanHash.startsWith(page + '/');
+            });
+
+            // Управляем видимостью TOC
+            if (isDocPage && this.currentArticle) {
+                toc.classList.add('show-for-article');
+                console.log('TOC показан для страницы:', cleanHash);
+            } else {
+                toc.classList.remove('show-for-article');
+                console.log('TOC скрыт для страницы:', cleanHash);
+            }
         }
 
         setupTocActiveTracking() {
@@ -1073,6 +1114,9 @@
         }
 
         handleHashChange() {
+            // Обновляем видимость TOC ПЕРЕД обработкой навигации
+            this.updateTocVisibility();
+
             const hash = window.location.hash.slice(1);
             if (hash) {
                 const [sectionId, articleId] = hash.split('/');
@@ -1139,8 +1183,11 @@
             // ПРИНУДИТЕЛЬНО УБРАТЬ TOC НА ГЛАВНОЙ СТРАНИЦЕ
             this.hideToc();
             this.currentArticle = null;
-            console.log('Показана главная страница, TOC скрыт');
 
+            // Обновляем видимость TOC
+            this.updateTocVisibility();
+
+            console.log('Показана главная страница, TOC скрыт');
             history.pushState(null, null, '#');
         }
 
@@ -1219,6 +1266,52 @@
             this.currentArticle = null;
         }
     }
+
+    // Глобальная функция для использования из app.js
+    window.updateTocVisibility = function (currentHash = window.location.hash) {
+        // Страницы документации, где должен отображаться TOC
+        const docPages = [
+            'introduction',
+            'architecture',
+            'user-guide',
+            'api',
+            'pricing',
+            'support'
+        ];
+
+        const toc = document.querySelector('.article-toc');
+        if (!toc) return;
+
+        // Очищаем хэш от символа # и приводим к нижнему регистру
+        const cleanHash = currentHash.replace(/^#/, '').toLowerCase();
+
+        // Проверяем, находимся ли мы на документационной странице
+        const isDocPage = docPages.some(page => {
+            // Проверяем точное совпадение или начало хэша (для вложенных страниц типа #introduction/overview)
+            return cleanHash === page || cleanHash.startsWith(page + '/');
+        });
+
+        // Управляем видимостью TOC
+        if (isDocPage) {
+            toc.classList.add('show-for-article');
+            console.log('TOC показан для страницы:', cleanHash);
+        } else {
+            toc.classList.remove('show-for-article');
+            console.log('TOC скрыт для страницы:', cleanHash);
+        }
+    };
+
+    // Автоматическое обновление при изменении хэша
+    window.addEventListener('hashchange', () => {
+        window.updateTocVisibility();
+    });
+
+    // Обновление при загрузке страницы
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            window.updateTocVisibility();
+        }, 100); // Небольшая задержка для загрузки элементов
+    });
 
     // Инициализация при загрузке страницы
     document.addEventListener('DOMContentLoaded', () => {
