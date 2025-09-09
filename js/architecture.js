@@ -50,7 +50,7 @@
             connections: ["core", "ui"],
             protocols: ["Webhook"],
             position: { x: 80, y: 420 },
-            size: { width: 240, height: 100 },
+            size: { width: 240, height: 120 },
             color: "#ec4899",
             block: "userInterface"
         },
@@ -110,7 +110,7 @@
             connections: ["orchestrator", "tools", "kali"],
             protocols: ["API", "CLI/API"],
             position: { x: 1800, y: 200 },
-            size: { width: 200, height: 120 },
+            size: { width: 200, height: 140 },
             color: "#10b981",
             block: "toolsAndEngines"
         },
