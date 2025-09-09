@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VulneraAI - Профессиональное решение для автоматизированного пентестинга</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <!-- <span class="logo-icon"></span> -->
+                    <span class="logo-text">VulneraAI</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#home" class="nav-link active" data-page="home">Главная</a>
+                    <a href="#architecture" class="nav-link" data-page="architecture">Архитектура</a>
+                    <a href="#documentation" class="nav-link" data-page="documentation">Документация</a>
+                    <a href="#contact" class="nav-link" data-page="contact">Контакты</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <main id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="status status--info">Релиз планируется в Q4 2025</span>
+                    </div>
+                    <h1 class="hero-title">
+                        VulneraAI
+                        <br>
+                        <span class="hero-subtitle-text">ИИ для Пентестинга</span>
+                    </h1>
+                    <p class="hero-description">
+                        Профессиональное решение для автоматизированного тестирования на проникновение
+                        с использованием искусственного интеллекта. Система нового поколения для
+                        предприятий и специалистов по кибербезопасности.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn--primary btn--lg" data-page="architecture">
+                            Обзор архитектуры
+                        </button>
+                        <button class="btn btn--outline btn--lg" data-page="documentation">
+                            Документация
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Ключевые возможности</h2>
+                    <p class="section-subtitle">
+                        Передовые технологии для автоматизации процессов тестирования безопасности
+                    </p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3 class="feature-title">Автоматическая генерация эксплойтов</h3>
+                        <p class="feature-description">Система автоматически создает и адаптирует эксплойты на основе
+                            анализа целевой инфраструктуры</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3 class="feature-title">Детекция неизвестных уязвимостей</h3>
+                        <p class="feature-description">Машинное обучение для обнаружения zero-day уязвимостей и
+                            нестандартных векторов атак</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3 class="feature-title">Интеллектуальная база знаний</h3>
+                        <p class="feature-description">RAG-система с контекстным поиском по базе CVE и актуальным
+                            векторам атак</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3 class="feature-title">Адаптивные стратегии атак</h3>
+                        <p class="feature-description">ИИ динамически изменяет подход к тестированию на основе
+                            результатов сканирования</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚙️</div>
+                        <h3 class="feature-title">Автоматизация процессов</h3>
+                        <p class="feature-description">Полная автоматизация рутинных задач пентестинга с
+                            интеллектуальным планированием</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔗</div>
+                        <h3 class="feature-title">Интеграция с инструментами</h3>
+                        <p class="feature-description">Бесшовная работа с Kali Linux, OpenWebUI и профессиональными
+                            средствами тестирования</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Architecture Page -->
+    <main id="architecture" class="page">
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="page-title">Архитектура системы</h1>
+                <p class="page-subtitle">Интерактивная схема компонентов VulneraAI и их взаимодействий</p>
+            </div>
+        </section>
+
+        <section class="architecture-section">
+            <div class="container">
+                <div class="architecture-container">
+                    <div class="architecture-diagram">
+                        <svg width="100%" height="700" viewBox="0 0 1400 700" id="architectureSvg">
+                            <!-- Background areas -->
+                            <rect x="20" y="20" width="200" height="400" rx="8" fill="none" stroke="#333"
+                                stroke-width="1" stroke-dasharray="2,2" opacity="0.3" />
+                            <text x="120" y="15" text-anchor="middle" fill="#888" font-size="12">Интерфейс
+                                пользователя</text>
+
+                            <rect x="300" y="20" width="800" height="300" rx="8" fill="none" stroke="#333"
+                                stroke-width="1" stroke-dasharray="2,2" opacity="0.3" />
+                            <text x="700" y="15" text-anchor="middle" fill="#888" font-size="12">Ядро системы</text>
+
+                            <rect x="1150" y="20" width="220" height="400" rx="8" fill="none" stroke="#333"
+                                stroke-width="1" stroke-dasharray="2,2" opacity="0.3" />
+                            <text x="1260" y="15" text-anchor="middle" fill="#888" font-size="12">Инструменты и
+                                данные</text>
+
+                            <!-- User Interface -->
+                            <g class="component ui" data-id="ui">
+                                <rect x="40" y="150" width="160" height="120" rx="8" fill="#1a1a1a" stroke="#3b82f6"
+                                    stroke-width="2" />
+                                <text x="120" y="180" text-anchor="middle" fill="#fff" font-size="14"
+                                    font-weight="bold">OpenWeb UI</text>
+                                <text x="120" y="200" text-anchor="middle" fill="#b0b0b0"
+                                    font-size="11">Веб-интерфейс</text>
+                                <text x="120" y="220" text-anchor="middle" fill="#b0b0b0" font-size="10">•
+                                    Настройки</text>
+                            </g>
+
+                            <!-- Webhook notifications area -->
+                            <g class="webhook-area">
+                                <rect x="240" y="60" width="120" height="80" rx="6" fill="#2a2a2a" stroke="#ec4899"
+                                    stroke-width="1" />
+                                <text x="300" y="85" text-anchor="middle" fill="#ec4899" font-size="10"
+                                    font-weight="bold">Webhook</text>
+                                <text x="300" y="100" text-anchor="middle" fill="#b0b0b0"
+                                    font-size="9">Уведомления</text>
+                            </g>
+
+                            <!-- VulneraAI Core -->
+                            <g class="component core" data-id="core">
+                                <rect x="320" y="150" width="200" height="120" rx="8" fill="#f59e0b" stroke="#d97706"
+                                    stroke-width="2" />
+                                <text x="420" y="180" text-anchor="middle" fill="#000" font-size="16"
+                                    font-weight="bold">VulneraAI</text>
+                                <text x="420" y="200" text-anchor="middle" fill="#000" font-size="12">(API)</text>
+                                <text x="420" y="220" text-anchor="middle" fill="#000" font-size="10">• Конвейер
+                                    OpenWebUI</text>
+                                <text x="420" y="235" text-anchor="middle" fill="#000" font-size="10">• Webhook
+                                    события</text>
+                            </g>
+
+                            <!-- Orchestrator -->
+                            <g class="component orchestrator" data-id="orchestrator">
+                                <rect x="600" y="150" width="220" height="140" rx="8" fill="#8b5cf6" stroke="#7c3aed"
+                                    stroke-width="2" />
+                                <text x="710" y="180" text-anchor="middle" fill="#fff" font-size="14"
+                                    font-weight="bold">Оркестратор</text>
+                                <text x="710" y="200" text-anchor="middle" fill="#c4b5fd" font-size="11">(Менеджер
+                                    процессов)</text>
+                                <text x="710" y="220" text-anchor="middle" fill="#c4b5fd" font-size="9">• Планирование
+                                    задач</text>
+                                <text x="710" y="235" text-anchor="middle" fill="#c4b5fd" font-size="9">• Агрегация
+                                    результатов</text>
+                                <text x="710" y="250" text-anchor="middle" fill="#c4b5fd" font-size="9">• Управление
+                                    очередями</text>
+                                <text x="710" y="265" text-anchor="middle" fill="#c4b5fd" font-size="9">• Мониторинг
+                                    состояния</text>
+                                <text x="710" y="280" text-anchor="middle" fill="#c4b5fd" font-size="9">• Retry
+                                    механизмы</text>
+                            </g>
+
+                            <!-- DataStream -->
+                            <g class="component datastream" data-id="datastream">
+                                <rect x="900" y="60" width="180" height="100" rx="8" fill="#6b7280" stroke="#4b5563"
+                                    stroke-width="2" />
+                                <text x="990" y="90" text-anchor="middle" fill="#fff" font-size="14"
+                                    font-weight="bold">DataStream</text>
+                                <text x="990" y="110" text-anchor="middle" fill="#d1d5db" font-size="11">Контекстные
+                                    данные</text>
+                                <text x="990" y="130" text-anchor="middle" fill="#d1d5db" font-size="9">API</text>
+                                <text x="990" y="145" text-anchor="middle" fill="#d1d5db" font-size="9">Обогащение
+                                    данных</text>
+                            </g>
+
+                            <!-- RAG Module -->
+                            <g class="component rag" data-id="rag">
+                                <rect x="1170" y="150" width="180" height="140" rx="8" fill="#f59e0b" stroke="#d97706"
+                                    stroke-width="2" />
+                                <text x="1260" y="180" text-anchor="middle" fill="#000" font-size="12"
+                                    font-weight="bold">RAG-модуль</text>
+                                <text x="1260" y="200" text-anchor="middle" fill="#000"
+                                    font-size="10">(Retrieval-Augmented</text>
+                                <text x="1260" y="215" text-anchor="middle" fill="#000"
+                                    font-size="10">Generation)</text>
+                                <text x="1260" y="235" text-anchor="middle" fill="#000" font-size="9">• База знаний
+                                    CVE</text>
+                                <text x="1260" y="250" text-anchor="middle" fill="#000" font-size="9">• Контекстный
+                                    поиск</text>
+                                <text x="1260" y="265" text-anchor="middle" fill="#000" font-size="9">•
+                                    Семантическая</text>
+                                <text x="1260" y="280" text-anchor="middle" fill="#000" font-size="9">индексация</text>
+                            </g>
+
+                            <!-- BattleNet -->
+                            <g class="component battlenet" data-id="battlenet">
+                                <rect x="1170" y="350" width="180" height="140" rx="8" fill="#10b981" stroke="#059669"
+                                    stroke-width="2" />
+                                <text x="1260" y="380" text-anchor="middle" fill="#fff" font-size="14"
+                                    font-weight="bold">BattleNet</text>
+                                <text x="1260" y="400" text-anchor="middle" fill="#a7f3d0" font-size="11">(Атакующая
+                                    нейросеть)</text>
+                                <text x="1260" y="420" text-anchor="middle" fill="#a7f3d0" font-size="9">• Генерация
+                                    эксплойтов</text>
+                                <text x="1260" y="435" text-anchor="middle" fill="#a7f3d0" font-size="9">• Адаптивные
+                                    атаки</text>
+                                <text x="1260" y="450" text-anchor="middle" fill="#a7f3d0" font-size="9">• Zero-day
+                                    детекция</text>
+                            </g>
+
+                            <!-- Kali Linux -->
+                            <g class="component kali" data-id="kali">
+                                <rect x="1170" y="520" width="180" height="120" rx="8" fill="#10b981" stroke="#059669"
+                                    stroke-width="2" />
+                                <text x="1260" y="550" text-anchor="middle" fill="#fff" font-size="14"
+                                    font-weight="bold">Kali Linux</text>
+                                <text x="1260" y="570" text-anchor="middle" fill="#a7f3d0"
+                                    font-size="11">(Тестирование</text>
+                                <text x="1260" y="585" text-anchor="middle" fill="#a7f3d0"
+                                    font-size="11">безопасности)</text>
+                                <text x="1260" y="605" text-anchor="middle" fill="#a7f3d0" font-size="9">CLI/API</text>
+                                <text x="1260" y="620" text-anchor="middle" fill="#a7f3d0" font-size="9">Выполнение
+                                    тестов</text>
+                            </g>
+
+                            <!-- Tools and Data -->
+                            <g class="component tools" data-id="tools">
+                                <rect x="900" y="350" width="180" height="140" rx="8" fill="#6b7280" stroke="#4b5563"
+                                    stroke-width="2" />
+                                <text x="990" y="380" text-anchor="middle" fill="#fff" font-size="12"
+                                    font-weight="bold">Инструменты и данные</text>
+                                <text x="990" y="400" text-anchor="middle" fill="#d1d5db" font-size="11">API</text>
+                                <text x="990" y="420" text-anchor="middle" fill="#d1d5db"
+                                    font-size="9">Рекомендации</text>
+                                <text x="990" y="435" text-anchor="middle" fill="#d1d5db" font-size="9">Запрос
+                                    контекста</text>
+                                <text x="990" y="450" text-anchor="middle" fill="#d1d5db" font-size="9">Результаты
+                                    сканирования</text>
+                            </g>
+
+                            <!-- Connection lines with labels -->
+                            <g class="connections">
+                                <!-- REST/HTTPS запросы API -->
+                                <line x1="200" y1="210" x2="320" y2="210" stroke="#3b82f6" stroke-width="3"
+                                    marker-end="url(#arrowhead)" />
+                                <text x="260" y="205" text-anchor="middle" fill="#3b82f6" font-size="10"
+                                    font-weight="bold">REST/HTTPS</text>
+                                <text x="260" y="230" text-anchor="middle" fill="#3b82f6" font-size="9">Запросы
+                                    API</text>
+
+                                <!-- RPC Делегирование задач -->
+                                <line x1="520" y1="210" x2="600" y2="210" stroke="#8b5cf6" stroke-width="3"
+                                    marker-end="url(#arrowhead)" />
+                                <text x="560" y="205" text-anchor="middle" fill="#8b5cf6" font-size="10"
+                                    font-weight="bold">RPC</text>
+                                <text x="560" y="240" text-anchor="middle" fill="#8b5cf6" font-size="9">Делегирование
+                                    задач</text>
+
+                                <!-- API Обогащение данных -->
+                                <line x1="820" y1="180" x2="900" y2="120" stroke="#f59e0b" stroke-width="3"
+                                    marker-end="url(#arrowhead)" />
+                                <text x="860" y="140" text-anchor="middle" fill="#f59e0b" font-size="10"
+                                    font-weight="bold">API</text>
+                                <text x="860" y="155" text-anchor="middle" fill="#f59e0b" font-size="9">Обогащение
+                                    данных</text>
+
+                                <!-- DataStream to RAG -->
+                                <line x1="1080" y1="130" x2="1170" y2="200" stroke="#f59e0b" stroke-width="3"
+                                    marker-end="url(#arrowhead)" />
+                                <text x="1125" y="155" text-anchor="middle" fill="#f59e0b" font-size="10"
+                                    font-weight="bold">API</text>
+                                <text x="1125" y="170" text-anchor="middle" fill="#f59e0b" font-size="9">Контекстные
+                                    данные</text>
+
+                                <!-- Orchestrator to BattleNet -->
+                                <line x1="820" y1="250" x2="1170" y2="400" stroke="#10b981" stroke-width="3"
+                                    marker-end="url(#arrowhead)" />
+                                <text x="950" y="300" text-anchor="middle" fill="#10b981" font-size="10"
+                                    font-weight="bold">API</text>
+                                <text x="950" y="315" text-anchor="middle" fill="#10b981" font-size="9">Запуск
+                                    атак</text>
+
+                                <!-- Webhook уведомления -->
+                                <line x1="320" y1="170" x2="240" y2="120" stroke="#ec4899" stroke-width="3"
+                                    stroke-dasharray="8,4" marker-end="url(#arrowhead)" />
+                                <line x1="240" y1="100" x2="200" y2="170" stroke="#ec4899" stroke-width="3"
+                                    stroke-dasharray="8,4" marker-end="url(#arrowhead)" />
+                                <text x="280" y="140" text-anchor="middle" fill="#ec4899" font-size="10"
+                                    font-weight="bold">Webhook</text>
+                                <text x="180" y="130" text-anchor="middle" fill="#ec4899" font-size="9">Результаты
+                                    атак</text>
+
+                                <!-- BattleNet to Tools -->
+                                <line x1="1170" y1="420" x2="1080" y2="420" stroke="#6b7280" stroke-width="3"
+                                    marker-end="url(#arrowhead)" />
+                                <text x="1125" y="415" text-anchor="middle" fill="#6b7280" font-size="10"
+                                    font-weight="bold">API</text>
+                                <text x="1125" y="440" text-anchor="middle" fill="#6b7280"
+                                    font-size="9">Рекомендации</text>
+
+                                <!-- BattleNet to Kali -->
+                                <line x1="1260" y1="490" x2="1260" y2="520" stroke="#10b981" stroke-width="3"
+                                    marker-end="url(#arrowhead)" />
+                                <text x="1300" y="505" text-anchor="middle" fill="#10b981" font-size="10"
+                                    font-weight="bold">API</text>
+                                <text x="1340" y="520" text-anchor="middle" fill="#10b981" font-size="9">Запрос
+                                    контекста</text>
+
+                                <!-- Tools to Kali -->
+                                <line x1="1080" y1="460" x2="1170" y2="560" stroke="#10b981" stroke-width="3"
+                                    marker-end="url(#arrowhead)" />
+                                <text x="1125" y="500" text-anchor="middle" fill="#10b981" font-size="10"
+                                    font-weight="bold">CLI/API</text>
+                                <text x="1125" y="515" text-anchor="middle" fill="#10b981" font-size="9">Результаты
+                                    сканирования</text>
+
+                                <!-- Direct SSH/API управление -->
+                                <line x1="200" y1="250" x2="1170" y2="580" stroke="#10b981" stroke-width="3"
+                                    stroke-dasharray="8,4" marker-end="url(#arrowhead)" />
+                                <text x="600" y="380" text-anchor="middle" fill="#10b981" font-size="10"
+                                    font-weight="bold">SSH/API</text>
+                                <text x="600" y="395" text-anchor="middle" fill="#10b981" font-size="9">Прямое
+                                    управление</text>
+                            </g>
+
+                            <!-- Arrow markers -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="11" refY="4"
+                                    orient="auto">
+                                    <polygon points="0 0, 12 4, 0 8" fill="#ffffff" />
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    <div class="component-details" id="componentDetails">
+                        <div class="details-placeholder">
+                            <h3>Архитектура VulneraAI</h3>
+                            <p>Система построена на модульной архитектуре с четким разделением ответственности:</p>
+                            <ul>
+                                <li><strong>Интерфейс пользователя</strong> - OpenWebUI для удобного управления</li>
+                                <li><strong>Ядро системы</strong> - API и оркестратор для координации</li>
+                                <li><strong>ИИ-компоненты</strong> - BattleNet и RAG для интеллектуального анализа</li>
+                                <li><strong>Инструменты</strong> - Kali Linux и дополнительные API</li>
+                            </ul>
+                            <p>Нажмите на любой компонент диаграммы для получения подробной информации.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- Documentation Page -->
+    <main id="documentation" class="page">
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="page-title">Техническая документация</h1>
+                <p class="page-subtitle">Руководства по установке, настройке и интеграции VulneraAI</p>
+            </div>
+        </section>
+
+        <section class="documentation-section">
+            <div class="container">
+                <div class="docs-layout">
+                    <nav class="docs-nav">
+                        <div class="docs-nav-section">
+                            <h4 class="docs-nav-title">Быстрый старт</h4>
+                            <ul class="docs-nav-list">  
+                            </ul>
+                        </div>
+                    
+                    </nav>
+
+                    <div class="docs-content">
+                        <article class="docs-article">
+                            
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Page -->
+    <main id="contact" class="page">
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="page-title">Связаться с нами</h1>
+                <p class="page-subtitle">Техническая поддержка и консультации по внедрению</p>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3>Техническая поддержка</h3>
+                        <div class="contact-item">
+                            <strong>Email:</strong>
+                            <a href="mailto:-">-</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Техническая документация:</strong>
+                            <a href="#" data-page="documentation">Перейти к документации</a>
+                        </div>
+
+                        <h3>Коммерческие вопросы</h3>
+                        <div class="contact-item">
+                            <strong>Email:</strong>
+                            <a href="mailto:-">-</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Телефон:</strong>
+                            <a href="tel:-">-</a>
+                        </div>
+
+                        <h3>Разработка</h3>
+                        <div class="contact-item">
+                            <strong>GitHub:</strong>
+                            <a href="https://github.com/kelll31" target="_blank">github.com/kelll31</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Issue Tracker:</strong>
+                            <a href="https://github.com/kelll31/vulneraai/issues" target="_blank">Сообщить о
+                                проблеме</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-container">
+                        <form class="contact-form">
+                            <div class="form-group">
+                                <label class="form-label">Имя</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Тип запроса</label>
+                                <select class="form-control">
+                                    <option>Техническая поддержка</option>
+                                    <option>Коммерческий запрос</option>
+                                    <option>Интеграция</option>
+                                    <option>Демонстрация</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Сообщение</label>
+                                <textarea class="form-control" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn--primary btn--full-width">Отправить запрос</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <!-- <span class="logo-icon"></span> -->
+                        <span class="logo-text">VulneraAI</span>
+                    </div>
+                    <p class="footer-description">
+                        Профессиональное решение для автоматизированного пентестинга
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Продукт</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link" data-page="architecture">Архитектура</a></li>
+                        <li><a href="#" class="footer-link" data-page="documentation">Документация</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Поддержка</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link" data-page="contact">Связаться</a></li>
+                        <li><a href="https://github.com/kelll31" target="_blank" class="footer-link">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Компания</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">О нас</a></li>
+                        <li><a href="#" class="footer-link">Новости</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    © 2025 VulneraAI. Все права защищены.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/architecture.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/docs.js"></script>
+</body>
+
+</html>
