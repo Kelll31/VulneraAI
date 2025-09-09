@@ -446,7 +446,7 @@
                         margin-top: 0;
                     }
                     
-                    /* Навигационное меню по заголовкам статьи */
+                    /* НАВИГАЦИОННОЕ МЕНЮ ПО ЗАГОЛОВКАМ - СКРЫТО ПО УМОЛЧАНИЮ */
                     .article-toc {
                         position: fixed;
                         right: 20px;
@@ -461,11 +461,12 @@
                         overflow-y: auto;
                         backdrop-filter: blur(8px);
                         z-index: 100;
-                        display: none;
+                        display: none !important; /* ПРИНУДИТЕЛЬНО СКРЫТО */
                     }
                     
-                    .article-toc.show {
-                        display: block;
+                    /* ТОЛЬКО для статей с currentArticle */
+                    .article-toc.show-for-article {
+                        display: block !important;
                     }
                     
                     .article-toc h4 {
@@ -543,6 +544,68 @@
                     @keyframes spin {
                         to { transform: rotate(360deg); }
                     }
+
+                    /* Welcome page styles */
+                    .docs-welcome {
+                        text-align: center;
+                        padding: 40px 20px;
+                    }
+
+                    .docs-welcome-header h1 {
+                        font-size: 2.5rem;
+                        margin-bottom: 1rem;
+                        color: #ffffff;
+                    }
+
+                    .docs-welcome-header p {
+                        font-size: 1.2rem;
+                        color: #9ca3af;
+                        max-width: 600px;
+                        margin: 0 auto 2rem;
+                    }
+
+                    .docs-welcome-sections {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                        gap: 1.5rem;
+                        margin-top: 3rem;
+                    }
+
+                    .welcome-section {
+                        background: rgba(255, 255, 255, 0.05);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        border-radius: 12px;
+                        padding: 1.5rem;
+                        transition: all 0.3s ease;
+                        cursor: pointer;
+                    }
+
+                    .welcome-section:hover {
+                        background: rgba(255, 255, 255, 0.08);
+                        transform: translateY(-2px);
+                    }
+
+                    .welcome-section-icon {
+                        font-size: 2rem;
+                        margin-bottom: 1rem;
+                    }
+
+                    .welcome-section-title {
+                        font-size: 1.25rem;
+                        font-weight: 600;
+                        color: #ffffff;
+                        margin-bottom: 0.5rem;
+                    }
+
+                    .welcome-section-description {
+                        color: #9ca3af;
+                        margin-bottom: 1rem;
+                    }
+
+                    .welcome-section-meta {
+                        font-size: 0.875rem;
+                        color: #6b7280;
+                    }
                 </style>
             `;
             document.head.insertAdjacentHTML('beforeend', styles);
@@ -609,7 +672,7 @@
                     const articleId = articleLink.dataset.article;
                     this.showArticle(sectionId, articleId);
                     this.updateActiveLink(sectionId, articleId);
-                    this.scrollToContentTop(); // Исправлено: скролл только в контенте
+                    this.scrollToContentTop();
                     return;
                 }
 
@@ -654,7 +717,6 @@
                     }, 200);
                 });
 
-                // Скрыть результаты поиска при потере фокуса
                 searchInput.addEventListener('blur', () => {
                     setTimeout(() => this.hideSearchResults(), 150);
                 });
@@ -792,7 +854,7 @@
             this.renderArticleContent(article, section);
             this.currentArticle = { section: sectionId, article: articleId };
 
-            // Генерируем навигацию по заголовкам
+            // Генерируем навигацию по заголовкам только для статей
             this.generateTableOfContents(article.content);
 
             // Обновляем URL
@@ -875,14 +937,33 @@
             }
         }
 
-        // Генерируем навигацию по заголовкам статьи
+        // ПРИНУДИТЕЛЬНО убираем существующий TOC
+        hideToc() {
+            const existingTocs = document.querySelectorAll('.article-toc');
+            existingTocs.forEach(toc => {
+                if (toc && toc.parentNode) {
+                    toc.remove();
+                }
+            });
+            console.log('TOC скрыт');
+        }
+
+        // Генерируем навигацию по заголовкам ТОЛЬКО для статей
         generateTableOfContents(content) {
+            // ВСЕГДА убираем существующий TOC сначала
+            this.hideToc();
+
+            // Проверяем что мы в статье
+            if (!this.currentArticle) {
+                console.log('Нет currentArticle - не показываем TOC');
+                return;
+            }
+
             const headings = content.filter(block => block.type === 'heading');
 
+            // Показываем TOC только если заголовков больше 1
             if (headings.length < 2) {
-                // Скрываем TOC если заголовков мало
-                const existingToc = document.querySelector('.article-toc');
-                if (existingToc) existingToc.remove();
+                console.log('Мало заголовков - не показываем TOC');
                 return;
             }
 
@@ -892,19 +973,16 @@
                 return `<a href="#${id}" class="toc-item level-${level}" data-heading="${id}">${heading.text}</a>`;
             }).join('');
 
-            // Удаляем существующий TOC
-            const existingToc = document.querySelector('.article-toc');
-            if (existingToc) existingToc.remove();
-
-            // Создаем новый TOC
+            // Создаем новый TOC с особым классом для статей
             const toc = document.createElement('div');
-            toc.className = 'article-toc show';
+            toc.className = 'article-toc show-for-article'; // специальный класс
             toc.innerHTML = `
                 <h4>Содержание</h4>
                 ${tocItems}
             `;
 
             document.body.appendChild(toc);
+            console.log('TOC создан для статьи');
 
             // Активируем текущий заголовок при скролле
             this.setupTocActiveTracking();
@@ -962,7 +1040,6 @@
             }
         }
 
-        // Исправленная прокрутка - только в контейнере контента
         scrollToContentTop() {
             const container = document.querySelector('.docs-content');
             if (container) {
@@ -1003,7 +1080,13 @@
                     this.showArticle(sectionId, articleId);
                     this.updateActiveLink(sectionId, articleId);
                     this.scrollToContentTop();
+                } else {
+                    // Если неполный хэш, показываем главную и УБИРАЕМ TOC
+                    this.showWelcomePage();
                 }
+            } else {
+                // Если нет хэша, показываем главную и УБИРАЕМ TOC
+                this.showWelcomePage();
             }
         }
 
@@ -1019,17 +1102,8 @@
                 }
             }
 
-            // Показать первую статью первого раздела
-            if (this.docsData.sections.length > 0) {
-                const firstSection = this.docsData.sections[0];
-                if (firstSection.articles && firstSection.articles.length > 0) {
-                    const firstArticle = firstSection.articles[0];
-                    this.expandedSections.add(firstSection.id);
-                    this.showArticle(firstSection.id, firstArticle.id);
-                    this.updateActiveLink(firstSection.id, firstArticle.id);
-                    history.replaceState(null, null, `#${firstSection.id}/${firstArticle.id}`);
-                }
-            }
+            // Показать главную страницу БЕЗ TOC
+            this.showWelcomePage();
         }
 
         showWelcomePage() {
@@ -1062,9 +1136,10 @@
                 link.classList.remove('active');
             });
 
-            // Убрать TOC
-            const existingToc = document.querySelector('.article-toc');
-            if (existingToc) existingToc.remove();
+            // ПРИНУДИТЕЛЬНО УБРАТЬ TOC НА ГЛАВНОЙ СТРАНИЦЕ
+            this.hideToc();
+            this.currentArticle = null;
+            console.log('Показана главная страница, TOC скрыт');
 
             history.pushState(null, null, '#');
         }
@@ -1107,8 +1182,8 @@
         }
 
         highlightCode() {
-            // Здесь можно подключить Prism.js или другую библиотеку подсветки синтаксиса
             document.querySelectorAll('pre code').forEach((block) => {
+                // Здесь можно подключить Prism.js или другую библиотеку подсветки синтаксиса
                 // Prism.highlightElement(block);
             });
         }
@@ -1138,6 +1213,10 @@
                     </div>
                 `;
             }
+
+            // Убираем TOC на странице ошибки
+            this.hideToc();
+            this.currentArticle = null;
         }
     }
 

@@ -5,6 +5,7 @@
     // Application state
     let currentPage = 'home';
     let aiBackground = null;
+    let isDocsActive = false; // Флаг для отслеживания активности docs
 
     // Wait for DOM to be ready
     document.addEventListener('DOMContentLoaded', function () {
@@ -13,7 +14,7 @@
         initializeContactForm();
         initializeScrollEffects();
         initializeAnimations();
-        initializeAIBackground(); // Инициализируем фон сразу
+        initializeAIBackground();
         console.log('VulneraAI: Initialization complete');
     });
 
@@ -23,11 +24,11 @@
             setTimeout(() => {
                 aiBackground = createDynamicAIBackground();
                 console.log('VulneraAI: AI Background initialized for all pages');
-            }, 500); // Небольшая задержка для плавности
+            }, 500);
         }
     }
 
-    // Navigation system
+    // Enhanced Navigation system with hash support (avoiding docs conflicts)
     function initializeNavigation() {
         // Handle navigation links
         const navLinks = document.querySelectorAll('[data-page]');
@@ -35,15 +36,118 @@
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetPage = this.getAttribute('data-page');
-                navigateToPage(targetPage);
+
+                console.log('VulneraAI: Clicking on:', targetPage);
+
+                // Для документации - особая обработка
+                if (targetPage === 'documentation') {
+                    navigateToDocumentation();
+                    return;
+                }
+
+                // Для остальных страниц - обновляем хэш
+                navigateToPage(targetPage, true);
             });
         });
 
-        // Initialize with home page
-        navigateToPage('home');
+        // Handle browser back/forward buttons - НО НЕ для документации
+        window.addEventListener('hashchange', handleHashChange);
+
+        // Initialize with current state
+        initializeFromCurrentState();
     }
 
-    function navigateToPage(pageName) {
+    function initializeFromCurrentState() {
+        const hash = window.location.hash.slice(1);
+
+        // Если хэш содержит слэш или это документация - передаем управление docs.js
+        if (hash.includes('/') || hash === 'documentation' || !hash) {
+            if (hash.includes('/')) {
+                // Это навигация документации - активируем документы
+                navigateToDocumentation();
+                return;
+            } else if (hash === 'documentation') {
+                navigateToDocumentation();
+                return;
+            } else {
+                // Пустой хэш - показываем главную
+                navigateToPage('home', false);
+                return;
+            }
+        }
+
+        // Проверяем, существует ли страница
+        const targetPage = document.getElementById(hash);
+        if (targetPage && targetPage.classList.contains('page')) {
+            navigateToPage(hash, false);
+        } else {
+            navigateToPage('home', false);
+        }
+    }
+
+    function handleHashChange() {
+        // ИГНОРИРУЕМ hashchange если активны документы
+        if (isDocsActive) {
+            console.log('VulneraAI: Ignoring hash change - docs is active');
+            return;
+        }
+
+        const hash = window.location.hash.slice(1);
+        console.log('VulneraAI: Hash changed to:', hash);
+
+        // Если это документация или навигация документации
+        if (hash === 'documentation' || hash.includes('/')) {
+            navigateToDocumentation();
+            return;
+        }
+
+        // Если пустой хэш
+        if (!hash) {
+            navigateToPage('home', false);
+            return;
+        }
+
+        // Проверяем, существует ли страница
+        const targetPage = document.getElementById(hash);
+        if (targetPage && targetPage.classList.contains('page')) {
+            navigateToPage(hash, false);
+        } else {
+            // Неизвестный хэш - перенаправляем на главную
+            navigateToPage('home', true);
+        }
+    }
+
+    function navigateToDocumentation() {
+        console.log('VulneraAI: Navigating to documentation');
+
+        // Показываем страницу документации
+        showPage('documentation');
+
+        // Активируем флаг документации
+        isDocsActive = true;
+
+        // Если нет хэша документации, ставим базовый
+        if (!window.location.hash || !window.location.hash.includes('/')) {
+            window.history.replaceState(null, null, '#documentation');
+        }
+    }
+
+    function navigateToPage(pageName, updateHash = true) {
+        console.log('VulneraAI: Navigating to page:', pageName);
+
+        // Деактивируем флаг документации
+        isDocsActive = false;
+
+        // Показываем страницу
+        showPage(pageName);
+
+        // Обновляем хэш если нужно
+        if (updateHash && window.location.hash.slice(1) !== pageName) {
+            window.history.pushState(null, null, `#${pageName}`);
+        }
+    }
+
+    function showPage(pageName) {
         // Hide all pages
         const pages = document.querySelectorAll('.page');
         pages.forEach(page => {
@@ -56,16 +160,16 @@
             targetPage.classList.add('active');
             currentPage = pageName;
 
-            // УБИРАЕМ логику управления фоном - теперь он работает везде
-            // Фон создается один раз и остается на всех страницах
-
             // Update navigation
             updateNavigation(pageName);
 
             // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
 
-            console.log('Navigated to:', pageName);
+            console.log('VulneraAI: Displayed page:', pageName);
         }
     }
 
@@ -92,7 +196,6 @@
             // Get form data
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
-
             console.log('Contact form submitted:', data);
 
             // Show success message
@@ -156,7 +259,6 @@
     // ============================================
     // PERSISTENT DYNAMIC AI BACKGROUND
     // ============================================
-
     function createDynamicAIBackground() {
         // Проверяем, не создан ли уже фон
         const existingCanvas = document.getElementById('ai-background-canvas');
@@ -200,7 +302,7 @@
         canvas.height = height;
 
         // Настройки частиц
-        const particlesCount = Math.min(100, Math.floor((width * height) / 18000)); // Оптимизированное количество
+        const particlesCount = Math.min(100, Math.floor((width * height) / 18000));
         const maxDistance = 160;
         const particles = [];
         let mouseX = width / 2;
@@ -270,11 +372,11 @@
 
                 ctx.shadowColor = 'rgba(59, 130, 246, 0.4)';
                 ctx.shadowBlur = 12;
+
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = gradient;
                 ctx.fill();
-
                 ctx.restore();
             }
         }
@@ -298,7 +400,6 @@
 
                     if (distance < maxDistance) {
                         const opacity = (1 - distance / maxDistance) * 0.25;
-
                         const gradient = ctx.createLinearGradient(
                             particles[i].x, particles[i].y,
                             particles[j].x, particles[j].y
@@ -346,7 +447,6 @@
             );
             spot1.addColorStop(0, `rgba(59, 130, 246, ${0.06 + Math.sin(time * 1.2) * 0.02})`);
             spot1.addColorStop(1, 'rgba(59, 130, 246, 0)');
-
             ctx.fillStyle = spot1;
             ctx.fillRect(0, 0, width, height);
 
@@ -357,7 +457,6 @@
             );
             spot2.addColorStop(0, `rgba(16, 185, 129, ${0.04 + Math.sin(time * 1.8) * 0.02})`);
             spot2.addColorStop(1, 'rgba(16, 185, 129, 0)');
-
             ctx.fillStyle = spot2;
             ctx.fillRect(0, 0, width, height);
 
@@ -369,7 +468,6 @@
             if (!canvas || !canvas.parentNode) return;
 
             ctx.clearRect(0, 0, width, height);
-
             drawBackground();
             connectParticles();
 
@@ -415,7 +513,6 @@
                 }
                 window.removeEventListener('resize', handleResize);
                 document.removeEventListener('mousemove', handleMouseMove);
-
                 if (canvas && canvas.parentNode) {
                     canvas.style.opacity = '0';
                     setTimeout(() => {
@@ -447,105 +544,24 @@
         const notification = document.createElement('div');
         notification.className = `notification notification--${type}`;
         notification.innerHTML = `
-            <div class="notification-content">
-                <div class="notification-icon">
-                    ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}
-                </div>
-                <div class="notification-message">${message}</div>
-                <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            <div class="notification__content">
+                <span class="notification__message">${message}</span>
+                <button class="notification__close" onclick="this.parentNode.parentNode.remove()">×</button>
             </div>
         `;
 
-        // Стили для уведомления
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10000;
-            background: ${type === 'success' ? 'var(--color-success)' : type === 'error' ? 'var(--color-danger)' : 'var(--color-primary)'};
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            max-width: 400px;
-            animation: slideIn 0.3s ease-out;
-            font-family: var(--font-family-primary);
-        `;
-
-        // CSS для анимации
-        if (!document.querySelector('#notification-styles')) {
-            const styles = document.createElement('style');
-            styles.id = 'notification-styles';
-            styles.innerHTML = `
-                @keyframes slideIn {
-                    from {
-                        transform: translateX(100%);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateX(0);
-                        opacity: 1;
-                    }
-                }
-                .notification-content {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.75rem;
-                }
-                .notification-close {
-                    background: none;
-                    border: none;
-                    color: white;
-                    font-size: 1.25rem;
-                    cursor: pointer;
-                    margin-left: auto;
-                    opacity: 0.8;
-                    transition: opacity 0.2s;
-                }
-                .notification-close:hover {
-                    opacity: 1;
-                }
-            `;
-            document.head.appendChild(styles);
-        }
-
         document.body.appendChild(notification);
 
-        // Автоудаление через 5 секунд
+        // Auto remove after 5 seconds
         setTimeout(() => {
-            if (notification && notification.parentNode) {
-                notification.style.animation = 'slideOut 0.3s ease-in';
-                setTimeout(() => {
-                    if (notification && notification.parentNode) {
-                        notification.remove();
-                    }
-                }, 300);
+            if (notification.parentNode) {
+                notification.remove();
             }
         }, 5000);
     }
 
-    // Global error handler
-    window.addEventListener('error', function (e) {
-        console.error('VulneraAI Error:', e.error);
-        showNotification('Произошла ошибка. Попробуйте обновить страницу.', 'error');
-    });
-
-    // Cleanup on page unload
-    window.addEventListener('beforeunload', function () {
-        if (aiBackground && aiBackground.destroy) {
-            aiBackground.destroy();
-        }
-    });
-
-    // Expose some functions globally for debugging
-    window.VulneraAI = {
-        navigateToPage,
-        showNotification,
-        createBackground: createDynamicAIBackground,
-        currentPage: () => currentPage,
-        backgroundStatus: () => aiBackground ? 'active' : 'inactive'
-    };
-
-    console.log('VulneraAI: App.js loaded successfully');
+    // Global functions for HTML onclick handlers
+    window.navigateToPage = navigateToPage;
+    window.showNotification = showNotification;
 
 })();
