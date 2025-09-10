@@ -1,6 +1,5 @@
 // VulneraAI Architecture Module - Block-Based Interactive Diagram
 // Features: Zoom, Pan, Block Grouping, Modern Design
-
 (function () {
     'use strict';
 
@@ -140,8 +139,6 @@
         }
     };
 
-
-
     // Enhanced connection definitions
     const connections = [
         { from: "ui", to: "core", type: "REST/HTTPS", label: "Запросы API", color: "#3b82f6" },
@@ -153,7 +150,7 @@
         { from: "webhook", to: "ui", type: "Webhook", label: "Уведомления", color: "#ec4899", dashed: true },
         { from: "battlenet", to: "tools", type: "API", label: "Рекомендации", color: "#6b7280" },
         { from: "battlenet", to: "kali", type: "CLI/API", label: "Выполнение тестов", color: "#10b981" },
-        { from: "tools", to: "kali", type: "API", label: "Результаты сканирования", color: "#10b981" },
+        { from: "tools", to: "kali", type: "API", label: "Результаты сканирования", color: "#10b981" }
     ];
 
     // Advanced Architecture Manager with Block Support
@@ -177,13 +174,11 @@
         // Initialize the enhanced diagram
         initialize() {
             console.log('Architecture: Initializing advanced block-based diagram...');
-
             this.detailsContainer = document.getElementById('componentDetails');
             if (!this.detailsContainer) {
                 console.warn('Architecture: Details container not found');
                 return;
             }
-
             this.createEnhancedSVGDiagram();
             this.setupZoomAndPan();
             this.setupInteractions();
@@ -202,7 +197,7 @@
             this.svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             this.svgElement.setAttribute('width', '100%');
             this.svgElement.setAttribute('height', '100%');
-            this.svgElement.setAttribute('viewBox', '0 0 1600 700');
+            this.svgElement.setAttribute('viewBox', '0 0 2200 800');
             this.svgElement.setAttribute('id', 'architectureSvg');
             this.svgElement.style.background = 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.02) 0%, transparent 70%)';
             this.svgElement.style.cursor = 'grab';
@@ -218,10 +213,8 @@
 
             // Draw blocks first
             this.drawBlocks();
-
             // Draw connections
             this.drawConnections();
-
             // Draw components
             this.drawComponents();
 
@@ -336,7 +329,6 @@
             this.connections.forEach((conn, index) => {
                 const fromComp = this.components[conn.from];
                 const toComp = this.components[conn.to];
-
                 if (!fromComp || !toComp) return;
 
                 // Calculate connection points
@@ -348,11 +340,9 @@
                 path.setAttribute('stroke', conn.color);
                 path.setAttribute('stroke-width', '3');
                 path.setAttribute('fill', 'none');
-
                 if (conn.dashed) {
                     path.setAttribute('stroke-dasharray', '12,6');
                 }
-
                 path.setAttribute('class', 'connection-line');
                 path.setAttribute('data-from', conn.from);
                 path.setAttribute('data-to', conn.to);
@@ -377,8 +367,8 @@
             const dx = to.x - from.x;
             const dy = to.y - from.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-
             const controlOffset = Math.min(distance * 0.3, 100);
+
             const cp1x = from.x + (dx > 0 ? controlOffset : -controlOffset);
             const cp1y = from.y;
             const cp2x = to.x - (dx > 0 ? controlOffset : -controlOffset);
@@ -392,10 +382,7 @@
 
         // Get midpoint of curved path
         getPathMidpoint(from, to) {
-            return {
-                x: (from.x + to.x) / 2,
-                y: (from.y + to.y) / 2
-            };
+            return { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
         }
 
         // Create enhanced connection label
@@ -612,10 +599,8 @@
 
             // Enhanced drag behavior
             let dragStart = null;
-
             this.svgElement.addEventListener('mousedown', (e) => {
                 if (e.target.closest('.component') || e.target.closest('.block')) return;
-
                 this.isDragging = true;
                 dragStart = { x: e.clientX, y: e.clientY };
                 this.svgElement.style.cursor = 'grabbing';
@@ -624,15 +609,11 @@
 
             document.addEventListener('mousemove', (e) => {
                 if (!this.isDragging || !dragStart) return;
-
                 const dx = e.clientX - dragStart.x;
                 const dy = e.clientY - dragStart.y;
-
                 this.currentTransform.x += dx;
                 this.currentTransform.y += dy;
-
                 this.updateTransform();
-
                 dragStart = { x: e.clientX, y: e.clientY };
             });
 
@@ -649,13 +630,9 @@
         // Setup touch support for mobile
         setupTouchSupport() {
             let touchStart = null;
-
             this.svgElement.addEventListener('touchstart', (e) => {
                 if (e.touches.length === 1) {
-                    touchStart = {
-                        x: e.touches[0].clientX,
-                        y: e.touches[0].clientY
-                    };
+                    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
                 }
             });
 
@@ -664,16 +641,10 @@
                 if (e.touches.length === 1 && touchStart) {
                     const dx = e.touches[0].clientX - touchStart.x;
                     const dy = e.touches[0].clientY - touchStart.y;
-
                     this.currentTransform.x += dx;
                     this.currentTransform.y += dy;
-
                     this.updateTransform();
-
-                    touchStart = {
-                        x: e.touches[0].clientX,
-                        y: e.touches[0].clientY
-                    };
+                    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
                 }
             });
 
@@ -685,7 +656,6 @@
         // Enhanced zoom function
         zoom(factor, centerX, centerY) {
             const newScale = Math.max(this.minZoom, Math.min(this.maxZoom, this.currentTransform.scale * factor));
-
             if (newScale === this.currentTransform.scale) return;
 
             const rect = this.svgElement.getBoundingClientRect();
@@ -757,7 +727,6 @@
         // Select and highlight component
         selectComponent(componentId) {
             this.deselectAll();
-
             const component = document.querySelector(`[data-id="${componentId}"]`);
             if (component) {
                 component.classList.add('selected');
@@ -770,7 +739,6 @@
         // Select and highlight block
         selectBlock(blockId) {
             this.deselectAll();
-
             const block = document.querySelector(`[data-block-id="${blockId}"]`);
             if (block) {
                 block.classList.add('selected');
@@ -787,31 +755,43 @@
             const block = this.blocks[data.block];
             const connectionsHtml = data.connections.map(conn => {
                 const connData = this.components[conn];
-                return `<li><strong>${connData.name}</strong> (${connData.technical_name})</li>`;
+                return `<span class="connection-tag" style="background-color: ${connData ? connData.color : '#666'}40; color: ${connData ? connData.color : '#666'}; border-color: ${connData ? connData.color : '#666'};">${connData ? connData.name : conn}</span>`;
             }).join('');
 
             const protocolsHtml = data.protocols.map(protocol =>
-                `<span class="protocol-badge" style="background: ${data.color}20; color: ${data.color}; border: 1px solid ${data.color}40;">${protocol}</span>`
+                `<span class="protocol-tag">${protocol}</span>`
             ).join('');
 
             this.detailsContainer.innerHTML = `
-                <div class="component-info">
-                    <div class="component-header">
-                        <h3 class="component-title">${data.name}</h3>
-                        <span class="component-block" style="background: ${block.color}20; color: ${block.color};">${block.title}</span>
+                <div class="component-details-header" style="border-left: 4px solid ${data.color};">
+                    <div class="component-name">${data.name}</div>
+                    <div class="component-technical-name">${data.technical_name}</div>
+                </div>
+                
+                <div class="component-details-content">
+                    <div class="component-description">
+                        <h4>Описание</h4>
+                        <p>${data.description}</p>
                     </div>
-                    <p class="component-subtitle">${data.technical_name}</p>
-                    <p class="component-description">${data.description}</p>
                     
-                    <div class="component-details">
-                        <h4>Подробное описание</h4>
+                    <div class="component-full-details">
+                        <h4>Подробности</h4>
                         <p>${data.details}</p>
-                        
-                        <h4>Протоколы взаимодействия</h4>
-                        <div class="protocols">${protocolsHtml}</div>
-                        
-                        <h4>Связанные компоненты</h4>
-                        <ul class="connections-list">${connectionsHtml}</ul>
+                    </div>
+                    
+                    <div class="component-connections">
+                        <h4>Подключения</h4>
+                        <div class="connections-list">${connectionsHtml}</div>
+                    </div>
+                    
+                    <div class="component-protocols">
+                        <h4>Протоколы</h4>
+                        <div class="protocols-list">${protocolsHtml}</div>
+                    </div>
+                    
+                    <div class="component-block-info">
+                        <h4>Архитектурный блок</h4>
+                        <div class="block-name" style="color: ${block.color};">${block.title}</div>
                     </div>
                 </div>
             `;
@@ -819,341 +799,279 @@
 
         // Show block details
         showBlockDetails(blockId) {
-            const block = this.blocks[blockId];
-            if (!block || !this.detailsContainer) return;
+            const blockData = this.blocks[blockId];
+            if (!blockData || !this.detailsContainer) return;
 
-            const componentsHtml = block.components.map(compId => {
+            const componentsInBlock = blockData.components.map(compId => {
                 const comp = this.components[compId];
-                return `<li><strong>${comp.name}</strong> - ${comp.technical_name}</li>`;
+                return `<div class="block-component" style="border-left: 3px solid ${comp.color};">
+                    <div class="block-component-name">${comp.name}</div>
+                    <div class="block-component-description">${comp.description}</div>
+                </div>`;
             }).join('');
 
             this.detailsContainer.innerHTML = `
-                <div class="block-info">
-                    <h3 class="block-title" style="color: ${block.color};">${block.title}</h3>
-                    <p class="block-description">Архитектурный блок системы VulneraAI</p>
-                    
-                    <div class="block-details">
+                <div class="block-details-header" style="border-left: 4px solid ${blockData.color};">
+                    <div class="block-title">${blockData.title}</div>
+                    <div class="block-subtitle">Архитектурный блок системы VulneraAI</div>
+                </div>
+                
+                <div class="block-details-content">
+                    <div class="block-description">
                         <h4>Компоненты блока</h4>
-                        <ul class="block-components">${componentsHtml}</ul>
-                        
-                        <h4>Характеристики</h4>
-                        <div class="block-specs">
-                            <div class="spec-item">
-                                <strong>Количество компонентов:</strong> ${block.components.length}
-                            </div>
-                        </div>
+                        <div class="block-components-list">${componentsInBlock}</div>
                     </div>
                 </div>
             `;
         }
 
-        // Show default info
+        // Show default information
         showDefaultInfo() {
             if (!this.detailsContainer) return;
 
             this.detailsContainer.innerHTML = `
-                <div class="details-placeholder">
-                    <h3>Архитектура VulneraAI</h3>
-                    <p>Интерактивная блочная диаграмма системы с возможностями:</p>
-                    <ul>
-                        <li><strong>Зум и панорамирование</strong> - колесо мыши или управление</li>
-                        <li><strong>Блоки системы</strong> - группировка по функциональности</li>
-                        <li><strong>Детали компонентов</strong> - клик по элементам</li>
-                        <li><strong>Связи между модулями</strong> - интерактивные соединения</li>
-                    </ul>
-                    
-                    <div class="system-blocks">
-                        <h4>Архитектурные блоки:</h4>
-                        <div class="block-list">
-                            <div class="block-item" style="border-left: 4px solid #1e40af;">
-                                <strong>Интерфейс пользователя</strong>
-                                <span>OpenWeb UI, Webhook уведомления</span>
-                            </div>
-                            <div class="block-item" style="border-left: 4px solid #7c2d12;">
-                                <strong>Ядро системы</strong>
-                                <span>API, Оркестратор, DataStream</span>
-                            </div>
-                            <div class="block-item" style="border-left: 4px solid #065f46;">
-                                <strong>Инструменты и движки</strong>
-                                <span>RAG, BattleNet, Tools, Kali Linux</span>
-                            </div>
-                        </div>
+                <div class="default-info">
+                    <div class="default-info-header">
+                        <div class="default-info-title">Архитектура VulneraAI</div>
+                        <div class="default-info-subtitle">Интерактивная блочная диаграмма системы</div>
                     </div>
                     
-                    <p><em>Нажмите на блок или компонент для получения подробной информации.</em></p>
+                    <div class="default-info-content">
+                        <div class="default-info-description">
+                            <h4>Интерактивная блочная диаграмма системы с возможностями:</h4>
+                            <ul>
+                                <li>🔍 Масштабирование (колесо мыши)</li>
+                                <li>🖱️ Перемещение (перетаскивание)</li>
+                                <li>📱 Сенсорная поддержка</li>
+                                <li>🎯 Детальная информация о компонентах</li>
+                            </ul>
+                            <p><em>*Нажмите на блок или компонент для получения подробной информации.*</em></p>
+                        </div>
+                    </div>
                 </div>
             `;
         }
 
-        // Highlight component with enhanced effects
-        highlightComponent(component) {
-            const rect = component.querySelector('.component-rect');
-            if (rect) {
-                rect.style.filter = 'brightness(1.3) drop-shadow(0 0 15px rgba(59, 130, 246, 0.6))';
-                rect.style.strokeWidth = '3';
-                rect.style.transform = 'scale(1.02)';
-                rect.style.transformOrigin = 'center';
+        // Add enhanced controls
+        addEnhancedControls() {
+            const controlsContainer = document.createElement('div');
+            controlsContainer.className = 'architecture-controls';
+            controlsContainer.innerHTML = `
+                <button class="control-btn zoom-in" title="Приблизить">+</button>
+                <button class="control-btn zoom-out" title="Отдалить">−</button>
+                <button class="control-btn reset-zoom" title="Сбросить масштаб">⌂</button>
+            `;
+
+            const diagramContainer = document.querySelector('.architecture-diagram');
+            if (diagramContainer) {
+                diagramContainer.appendChild(controlsContainer);
+
+                // Add event listeners
+                controlsContainer.querySelector('.zoom-in').addEventListener('click', () => this.zoom(1.2, window.innerWidth / 2, window.innerHeight / 2));
+                controlsContainer.querySelector('.zoom-out').addEventListener('click', () => this.zoom(0.8, window.innerWidth / 2, window.innerHeight / 2));
+                controlsContainer.querySelector('.reset-zoom').addEventListener('click', () => this.resetZoom());
             }
         }
 
-        // Remove component highlight
+        // Reset zoom to default
+        resetZoom() {
+            this.currentTransform = { x: 0, y: 0, scale: 1 };
+            this.updateTransform();
+        }
+
+        // Deselect all elements
+        deselectAll() {
+            document.querySelectorAll('.selected').forEach(elem => {
+                elem.classList.remove('selected');
+            });
+            this.selectedComponent = null;
+            this.selectedBlock = null;
+        }
+
+        // Highlight component
+        highlightComponent(component) {
+            component.style.filter = 'brightness(1.2)';
+        }
+
+        // Unhighlight component
         unhighlightComponent(component) {
-            if (!component.classList.contains('selected')) {
-                const rect = component.querySelector('.component-rect');
-                if (rect) {
-                    rect.style.filter = 'none';
-                    rect.style.strokeWidth = '2';
-                    rect.style.transform = 'scale(1)';
-                }
-            }
+            component.style.filter = '';
         }
 
         // Highlight connection
         highlightConnection(connection) {
             connection.style.strokeWidth = '5';
             connection.style.opacity = '1';
-            connection.style.filter = 'drop-shadow(0 0 8px currentColor)';
         }
 
-        // Remove connection highlight
+        // Unhighlight connection
         unhighlightConnection(connection) {
             connection.style.strokeWidth = '3';
             connection.style.opacity = '0.8';
-            connection.style.filter = 'none';
         }
 
         // Highlight related connections
         highlightRelatedConnections(componentId) {
-            // Dim all connections
-            document.querySelectorAll('.connection-line').forEach(line => {
-                line.style.opacity = '0.2';
-            });
-
-            // Highlight related connections
-            const relatedConnections = this.connections.filter(conn =>
-                conn.from === componentId || conn.to === componentId
-            );
-
-            relatedConnections.forEach(conn => {
-                const line = document.querySelector(`[data-from="${conn.from}"][data-to="${conn.to}"]`);
-                if (line) {
-                    line.style.opacity = '1';
-                    line.style.strokeWidth = '5';
-                    line.style.filter = 'drop-shadow(0 0 10px currentColor)';
+            const connections = document.querySelectorAll('.connection-line');
+            connections.forEach(conn => {
+                const from = conn.getAttribute('data-from');
+                const to = conn.getAttribute('data-to');
+                if (from === componentId || to === componentId) {
+                    this.highlightConnection(conn);
                 }
             });
-
-            // Reset after delay
-            setTimeout(() => {
-                document.querySelectorAll('.connection-line').forEach(line => {
-                    line.style.opacity = '0.8';
-                    line.style.strokeWidth = '3';
-                    line.style.filter = 'none';
-                });
-            }, 3000);
-        }
-
-        // Deselect all elements
-        deselectAll() {
-            document.querySelectorAll('.component, .block').forEach(elem => {
-                elem.classList.remove('selected');
-            });
-
-            document.querySelectorAll('.component .component-rect').forEach(rect => {
-                rect.style.filter = 'none';
-                rect.style.strokeWidth = '2';
-                rect.style.transform = 'scale(1)';
-            });
-
-            this.selectedComponent = null;
-            this.selectedBlock = null;
-            this.showDefaultInfo();
-        }
-
-        // Add enhanced controls
-        addEnhancedControls() {
-            const controls = document.createElement('div');
-            controls.className = 'diagram-controls';
-            controls.innerHTML = `
-                <button class="control-btn zoom-in" title="Увеличить">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                        <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
-                    </svg>
-                </button>
-                <button class="control-btn zoom-out" title="Уменьшить">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                        <line x1="8" y1="11" x2="14" y2="11"/>
-                    </svg>
-                </button>
-                <button class="control-btn zoom-reset" title="Сбросить">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                        <path d="M3 3v5h5"/>
-                    </svg>
-                </button>
-                <button class="control-btn fullscreen" title="Полный экран">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
-                    </svg>
-                </button>
-            `;
-
-            // Enhanced control styles
-            const style = document.createElement('style');
-            style.textContent = `
-                .diagram-controls {
-                    position: absolute;
-                    top: 15px;
-                    right: 15px;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 8px;
-                    z-index: 100;
-                }
-                
-                .control-btn {
-                    width: 44px;
-                    height: 44px;
-                    background: rgba(15, 15, 15, 0.95);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    color: #ffffff;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: all 0.2s ease;
-                    backdrop-filter: blur(10px);
-                }
-                
-                .control-btn:hover {
-                    background: rgba(59, 130, 246, 0.9);
-                    border-color: #3b82f6;
-                    transform: translateY(-1px);
-                    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
-                }
-                
-                .control-btn:active {
-                    transform: translateY(0);
-                }
-
-                .protocol-badge {
-                    display: inline-block;
-                    padding: 4px 8px;
-                    margin: 2px;
-                    border-radius: 6px;
-                    font-size: 10px;
-                    font-weight: bold;
-                }
-
-                .component-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 12px;
-                }
-
-                .component-block {
-                    padding: 4px 12px;
-                    border-radius: 12px;
-                    font-size: 11px;
-                    font-weight: bold;
-                }
-
-                .block-list {
-                    margin-top: 16px;
-                }
-
-                .block-item {
-                    padding: 12px;
-                    margin: 8px 0;
-                    border-radius: 8px;
-                    background: rgba(255, 255, 255, 0.05);
-                }
-
-                .block-item strong {
-                    display: block;
-                    margin-bottom: 4px;
-                }
-
-                .block-item span {
-                    color: #888;
-                    font-size: 13px;
-                }
-            `;
-            document.head.appendChild(style);
-
-            const diagramContainer = document.querySelector('.architecture-diagram');
-            if (diagramContainer) {
-                diagramContainer.style.position = 'relative';
-                diagramContainer.appendChild(controls);
-
-                // Enhanced control handlers
-                controls.querySelector('.zoom-in').addEventListener('click', () => {
-                    this.zoom(1.25, this.svgElement.clientWidth / 2, this.svgElement.clientHeight / 2);
-                });
-
-                controls.querySelector('.zoom-out').addEventListener('click', () => {
-                    this.zoom(0.8, this.svgElement.clientWidth / 2, this.svgElement.clientHeight / 2);
-                });
-
-                controls.querySelector('.zoom-reset').addEventListener('click', () => {
-                    this.resetView();
-                });
-
-                controls.querySelector('.fullscreen').addEventListener('click', () => {
-                    this.toggleFullscreen();
-                });
-            }
-        }
-
-        // Fit diagram to view
-        fitToView() {
-            const viewBox = this.svgElement.viewBox.baseVal;
-            const containerRect = this.svgElement.getBoundingClientRect();
-
-            const scaleX = containerRect.width / viewBox.width;
-            const scaleY = containerRect.height / viewBox.height;
-            const scale = Math.min(scaleX, scaleY) * 0.9; // 90% to add padding
-
-            this.currentTransform = {
-                x: (containerRect.width - viewBox.width * scale) / 2,
-                y: (containerRect.height - viewBox.height * scale) / 2,
-                scale: scale
-            };
-
-            this.updateTransform();
-        }
-
-        // Reset view to default
-        resetView() {
-            this.currentTransform = { x: 0, y: 0, scale: 1 };
-            this.updateTransform();
-        }
-
-        // Toggle fullscreen mode
-        toggleFullscreen() {
-            const container = document.querySelector('.architecture-container');
-            if (!document.fullscreenElement) {
-                container.requestFullscreen().catch(console.error);
-            } else {
-                document.exitFullscreen();
-            }
         }
     }
 
-    // Initialize the enhanced architecture manager
-    window.architectureManager = new ArchitectureManager();
+    // ============================================
+    // TOC CLOSE BUTTON FUNCTIONALITY
+    // ============================================
 
-    // Auto-initialize
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            window.architectureManager.initialize();
+    // Функция для добавления кнопки закрытия в TOC
+    function addCloseButtonToToc() {
+        const toc = document.querySelector('.article-toc.show-for-article');
+        if (!toc) return;
+
+        // Проверяем, если кнопка уже добавлена
+        if (toc.querySelector('.toc-close-button')) return;
+
+        // Создаем кнопку закрытия
+        const closeButton = document.createElement('button');
+        closeButton.className = 'toc-close-button';
+        closeButton.type = 'button';
+        closeButton.setAttribute('aria-label', 'Закрыть содержание');
+        closeButton.setAttribute('title', 'Закрыть содержание');
+        closeButton.innerHTML = '&times;'; // HTML entity для крестика
+
+        // Применяем стили к кнопке
+        Object.assign(closeButton.style, {
+            position: 'absolute',
+            top: '8px',
+            right: '8px',
+            width: '24px',
+            height: '24px',
+            background: 'transparent',
+            border: 'none',
+            color: '#9ca3af',
+            fontSize: '20px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            zIndex: '102',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '4px',
+            transition: 'all 0.2s ease'
         });
-    } else {
-        window.architectureManager.initialize();
+
+        // Обработчик наведения для эффекта hover
+        closeButton.addEventListener('mouseenter', function () {
+            this.style.color = '#ffffff';
+            this.style.backgroundColor = 'rgba(239, 68, 68, 0.8)';
+        });
+
+        closeButton.addEventListener('mouseleave', function () {
+            this.style.color = '#9ca3af';
+            this.style.backgroundColor = 'transparent';
+        });
+
+        // Основной обработчик клика - закрывает TOC
+        closeButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Убираем класс для скрытия TOC
+            toc.classList.remove('show-for-article');
+
+            console.log('TOC закрыт пользователем');
+        });
+
+        // Убеждаемся, что TOC имеет относительное позиционирование
+        if (getComputedStyle(toc).position === 'static') {
+            toc.style.position = 'relative';
+        }
+
+        // Добавляем кнопку в TOC
+        toc.appendChild(closeButton);
+
+        console.log('Кнопка закрытия TOC добавлена');
     }
+
+    // Автоматическое добавление кнопки при различных событиях
+    function initializeTocCloseButton() {
+        // Добавляем кнопку при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(addCloseButtonToToc, 200);
+        });
+
+        // Добавляем кнопку при изменении хэша (навигация)
+        window.addEventListener('hashchange', function () {
+            setTimeout(addCloseButtonToToc, 150);
+        });
+
+        // Наблюдаем за изменениями в DOM
+        const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.type === 'attributes' &&
+                    mutation.attributeName === 'class' &&
+                    mutation.target.classList.contains('show-for-article')) {
+                    setTimeout(addCloseButtonToToc, 50);
+                }
+            });
+        });
+
+        // Наблюдаем за всеми элементами article-toc
+        setTimeout(() => {
+            const tocElements = document.querySelectorAll('.article-toc');
+            tocElements.forEach(function (element) {
+                observer.observe(element, {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+            });
+        }, 100);
+
+        // Также наблюдаем за добавлением новых TOC элементов
+        const bodyObserver = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                mutation.addedNodes.forEach(function (node) {
+                    if (node.nodeType === 1 && node.classList &&
+                        node.classList.contains('article-toc')) {
+                        observer.observe(node, {
+                            attributes: true,
+                            attributeFilter: ['class']
+                        });
+                        if (node.classList.contains('show-for-article')) {
+                            setTimeout(addCloseButtonToToc, 50);
+                        }
+                    }
+                });
+            });
+        });
+
+        bodyObserver.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+
+    // Инициализация всех систем
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize architecture diagram
+        const architectureManager = new ArchitectureManager();
+        architectureManager.initialize();
+
+        // Initialize TOC close button system
+        initializeTocCloseButton();
+
+        // Make architecture manager globally available
+        window.VulneraAIArchitecture = architectureManager;
+
+        console.log('VulneraAI Architecture Module loaded successfully');
+    });
+
+    // Экспорт функций в глобальную область
+    window.addCloseButtonToToc = addCloseButtonToToc;
+    window.ArchitectureManager = ArchitectureManager;
 
 })();
