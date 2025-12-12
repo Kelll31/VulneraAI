@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VulneraAI - Профессиональное решение для автоматизированного пентеста</title>
+    <title>VulneraAI - AI-Powered Penetration Testing Platform</title>
+    <meta name="description" content="VulneraAI - полностью автоматизированная платформа для тестирования на проникновение с ИИ. FastAPI сервер с K8s, Python+React клиент для Kali Linux.">
+    <meta name="keywords" content="VulneraAI, пентест, penetration testing, AI, machine learning, Kali Linux, FastAPI, Python">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -14,12 +16,12 @@
         <div class="container">
             <div class="nav-content">
                 <div class="logo">
-                    <!-- <span class="logo-icon"></span> -->
                     <span class="logo-text">VulneraAI</span>
                 </div>
                 <div class="nav-links">
                     <a href="#home" class="nav-link active" data-page="home">Главная</a>
                     <a href="#architecture" class="nav-link" data-page="architecture">Архитектура</a>
+                    <a href="#components" class="nav-link" data-page="components">Компоненты</a>
                     <a href="#documentation" class="nav-link" data-page="documentation">Документация</a>
                     <a href="#contact" class="nav-link" data-page="contact">Контакты</a>
                 </div>
@@ -34,24 +36,22 @@
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-badge">
-                        <span class="status status--info">Релиз Q4 2025</span>
+                        <span class="status status--info">Production Ready v1.0.0</span>
                     </div>
                     <h1 class="hero-title">
                         VulneraAI
                         <br>
-                        <span class="hero-subtitle-text">ИИ для Пентеста</span>
+                        <span class="hero-subtitle-text">Автоматизированный ИИ-пентест</span>
                     </h1>
                     <p class="hero-description">
-                        Профессиональное решение для автоматизированного тестирования на проникновение
-                        с использованием искусственного интеллекта. Система нового поколения для
-                        предприятий и специалистов по кибербезопасности.
+                        Полнофункциональная платформа для автоматизированного тестирования на проникновение с использованием искусственного интеллекта. Состоит из мощного REST API сервера (FastAPI, PostgreSQL, K8s-ready) и лёгкого Kali Linux клиента (Python + React + CLI).
                     </p>
                     <div class="hero-actions">
                         <button class="btn btn--primary btn--lg" data-page="architecture">
                             Обзор архитектуры
                         </button>
-                        <button class="btn btn--outline btn--lg" data-page="documentation">
-                            Документация
+                        <button class="btn btn--outline btn--lg" data-page="components">
+                            Компоненты системы
                         </button>
                     </div>
                 </div>
@@ -62,47 +62,69 @@
         <section class="section">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Ключевые возможности</h2>
+                    <h2 class="section-title">Ключевые возможности платформы</h2>
                     <p class="section-subtitle">
-                        Передовые технологии для автоматизации процессов тестирования безопасности
+                        Передовые технологии для полной автоматизации процесса тестирования безопасности
                     </p>
                 </div>
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">⚡</div>
                         <h3 class="feature-title">Автоматическая генерация эксплойтов</h3>
-                        <p class="feature-description">Система автоматически создает и адаптирует эксплойты на основе
-                            анализа целевой инфраструктуры</p>
+                        <p class="feature-description">Система анализирует архитектуру целевой инфраструктуры и автоматически генерирует адаптированные эксплойты</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔍</div>
-                        <h3 class="feature-title">Детекция неизвестных уязвимостей</h3>
-                        <p class="feature-description">Машинное обучение для обнаружения zero-day уязвимостей и
-                            нестандартных векторов атак</p>
+                        <h3 class="feature-title">Детекция unknown уязвимостей</h3>
+                        <p class="feature-description">ML-алгоритмы обнаруживают zero-day и нестандартные векторы атак</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">📚</div>
-                        <h3 class="feature-title">Интеллектуальная база знаний</h3>
-                        <p class="feature-description">RAG-система с контекстным поиском по базе CVE и актуальным
-                            векторам атак</p>
+                        <h3 class="feature-title">RAG-система знаний</h3>
+                        <p class="feature-description">Контекстный поиск по базе CVE с семантической индексацией и актуальными векторами атак</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🎯</div>
-                        <h3 class="feature-title">Адаптивные стратегии атак</h3>
-                        <p class="feature-description">ИИ динамически изменяет подход к тестированию на основе
-                            результатов сканирования</p>
+                        <h3 class="feature-title">Адаптивные стратегии</h3>
+                        <p class="feature-description">ИИ динамически меняет тактику в реальном времени на основе результатов</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">⚙️</div>
-                        <h3 class="feature-title">Автоматизация процессов</h3>
-                        <p class="feature-description">Полная автоматизация рутинных задач пентеста с
-                            интеллектуальным планированием</p>
+                        <h3 class="feature-title">Полная автоматизация</h3>
+                        <p class="feature-description">От планирования до генерации отчётов - вся рутина автоматизирована</p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon">🔗</div>
-                        <h3 class="feature-title">Интеграция с инструментами</h3>
-                        <p class="feature-description">Бесшовная работа с Kali Linux, OpenWebUI и профессиональными
-                            средствами тестирования</p>
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">Подробные отчёты</h3>
+                        <p class="feature-description">JSON, PDF, SARIF форматы с визуализацией и рекомендациями</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack -->
+        <section class="section" style="background: linear-gradient(180deg, rgba(15,23,42,0.5) 0%, rgba(30,41,59,0.5) 100%);">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Технологический стек</h2>
+                    <p class="section-subtitle">Современные и надёжные технологии</p>
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <h4>🖥️ Backend Server</h4>
+                        <p>FastAPI • Python 3.11+ • PostgreSQL • Redis • RabbitMQ • Kubernetes</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🐧 Kali Linux Client</h4>
+                        <p>Python 3.11+ • React 18 • TypeScript • Vite • FastAPI</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>⚙️ Admin Panel</h4>
+                        <p>Appsmith • PostgreSQL • REST API</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🚀 DevOps</h4>
+                        <p>Docker • Docker Compose • Kubernetes • Portainer • Prometheus</p>
                     </div>
                 </div>
             </div>
@@ -113,284 +135,313 @@
     <main id="architecture" class="page">
         <section class="page-hero">
             <div class="container">
-                <h1 class="page-title">Архитектура системы</h1>
-                <p class="page-subtitle">Интерактивная схема компонентов VulneraAI и их взаимодействий</p>
+                <h1 class="page-title">Полная архитектура системы</h1>
+                <p class="page-subtitle">Современная микросервисная архитектура с полной автоматизацией</p>
             </div>
         </section>
 
         <section class="architecture-section">
             <div class="container">
-                <div class="architecture-container">
-                    <div class="architecture-diagram">
-                        <svg width="100%" height="700" viewBox="0 0 1400 700" id="architectureSvg">
-                            <!-- Background areas -->
-                            <rect x="20" y="20" width="200" height="400" rx="8" fill="none" stroke="#333"
-                                stroke-width="1" stroke-dasharray="2,2" opacity="0.3" />
-                            <text x="120" y="15" text-anchor="middle" fill="#888" font-size="12">Интерфейс
-                                пользователя</text>
+                <div class="architecture-overview" style="margin-bottom: 40px;">
+                    <h3>VulneraAI 2025 - Новая архитектура</h3>
+                    <p>Система полностью переработана и состоит из трёх основных компонентов, тесно интегрированных друг с другом:</p>
+                    <ul>
+                        <li><strong>VulneraAI Server</strong> — мощный REST API на FastAPI с поддержкой Kubernetes, Admin Panel (Appsmith) и полной микросервисной архитектурой</li>
+                        <li><strong>VulneraAI Client</strong> — лёгкий клиент только для Kali Linux с Python backend и React frontend, выполняет реальные команды на машине</li>
+                        <li><strong>VulneraAI Website</strong> — информационный сайт проекта с документацией и описанием компонентов (этот сайт)</li>
+                    </ul>
+                </div>
 
-                            <rect x="300" y="20" width="800" height="300" rx="8" fill="none" stroke="#333"
-                                stroke-width="1" stroke-dasharray="2,2" opacity="0.3" />
-                            <text x="700" y="15" text-anchor="middle" fill="#888" font-size="12">Ядро системы</text>
-
-                            <rect x="1150" y="20" width="220" height="400" rx="8" fill="none" stroke="#333"
-                                stroke-width="1" stroke-dasharray="2,2" opacity="0.3" />
-                            <text x="1260" y="15" text-anchor="middle" fill="#888" font-size="12">Инструменты и
-                                данные</text>
-
-                            <!-- User Interface -->
-                            <g class="component ui" data-id="ui">
-                                <rect x="40" y="150" width="160" height="120" rx="8" fill="#1a1a1a" stroke="#3b82f6"
-                                    stroke-width="2" />
-                                <text x="120" y="180" text-anchor="middle" fill="#fff" font-size="14"
-                                    font-weight="bold">OpenWeb UI</text>
-                                <text x="120" y="200" text-anchor="middle" fill="#b0b0b0"
-                                    font-size="11">Веб-интерфейс</text>
-                                <text x="120" y="220" text-anchor="middle" fill="#b0b0b0" font-size="10">•
-                                    Настройки</text>
+                <h3 style="margin: 40px 0 20px 0;">Диаграмма архитектуры</h3>
+                <div class="architecture-diagram-container">
+                    <div style="background: #0f172a; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
+                        <svg width="100%" height="600" viewBox="0 0 1400 600" id="mainArchitectureSvg">
+                            <!-- Client Side -->
+                            <g>
+                                <rect x="20" y="20" width="280" height="250" rx="8" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5" opacity="0.3"/>
+                                <text x="160" y="40" text-anchor="middle" fill="#3b82f6" font-size="14" font-weight="bold">🐧 Kali Linux Client</text>
+                                
+                                <!-- Browser/Web UI -->
+                                <rect x="40" y="70" width="240" height="80" rx="6" fill="#1e293b" stroke="#60a5fa" stroke-width="2"/>
+                                <text x="160" y="100" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">React UI (Chat Interface)</text>
+                                <text x="160" y="120" text-anchor="middle" fill="#94a3b8" font-size="11">Port 5173 (Dev) / 80 (Prod)</text>
+                                <text x="160" y="140" text-anchor="middle" fill="#94a3b8" font-size="10">TypeScript + Zustand</text>
+                                
+                                <!-- Backend Agent -->
+                                <rect x="40" y="170" width="240" height="80" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="2"/>
+                                <text x="160" y="200" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">FastAPI Backend</text>
+                                <text x="160" y="220" text-anchor="middle" fill="#94a3b8" font-size="11">Port 8001 | Asyncio</text>
+                                <text x="160" y="240" text-anchor="middle" fill="#94a3b8" font-size="10">Task Executor</text>
                             </g>
 
-                            <!-- Webhook notifications area -->
-                            <g class="webhook-area">
-                                <rect x="240" y="60" width="120" height="80" rx="6" fill="#2a2a2a" stroke="#ec4899"
-                                    stroke-width="1" />
-                                <text x="300" y="85" text-anchor="middle" fill="#ec4899" font-size="10"
-                                    font-weight="bold">Webhook</text>
-                                <text x="300" y="100" text-anchor="middle" fill="#b0b0b0"
-                                    font-size="9">Уведомления</text>
+                            <!-- Network -->
+                            <g>
+                                <line x1="320" y1="150" x2="420" y2="150" stroke="#8b5cf6" stroke-width="3" marker-end="url(#arrowhead)"/>
+                                <text x="370" y="145" text-anchor="middle" fill="#8b5cf6" font-size="11" font-weight="bold">HTTP/REST</text>
                             </g>
 
-                            <!-- VulneraAI Core -->
-                            <g class="component core" data-id="core">
-                                <rect x="320" y="150" width="200" height="120" rx="8" fill="#f59e0b" stroke="#d97706"
-                                    stroke-width="2" />
-                                <text x="420" y="180" text-anchor="middle" fill="#000" font-size="16"
-                                    font-weight="bold">VulneraAI</text>
-                                <text x="420" y="200" text-anchor="middle" fill="#000" font-size="12">(API)</text>
-                                <text x="420" y="220" text-anchor="middle" fill="#000" font-size="10">• Конвейер
-                                    OpenWebUI</text>
-                                <text x="420" y="235" text-anchor="middle" fill="#000" font-size="10">• Webhook
-                                    события</text>
+                            <!-- Server Side -->
+                            <g>
+                                <rect x="440" y="20" width="920" height="250" rx="8" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,5" opacity="0.3"/>
+                                <text x="900" y="40" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="bold">🖥️ VulneraAI Server (K8s Ready)</text>
+                                
+                                <!-- API Gateway -->
+                                <rect x="460" y="70" width="200" height="80" rx="6" fill="#1e293b" stroke="#60a5fa" stroke-width="2"/>
+                                <text x="560" y="100" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">API Gateway</text>
+                                <text x="560" y="120" text-anchor="middle" fill="#94a3b8" font-size="10">FastAPI + Uvicorn</text>
+                                <text x="560" y="135" text-anchor="middle" fill="#94a3b8" font-size="9">Port 8000</text>
+                                
+                                <!-- Services -->
+                                <rect x="700" y="70" width="180" height="80" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="2"/>
+                                <text x="790" y="95" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Core Services</text>
+                                <text x="790" y="115" text-anchor="middle" fill="#94a3b8" font-size="8">Auth • Pentests</text>
+                                <text x="790" y="127" text-anchor="middle" fill="#94a3b8" font-size="8">Subscriptions</text>
+                                <text x="790" y="139" text-anchor="middle" fill="#94a3b8" font-size="8">Webhooks</text>
+                                
+                                <!-- Admin Panel -->
+                                <rect x="920" y="70" width="180" height="80" rx="6" fill="#1e293b" stroke="#ec4899" stroke-width="2"/>
+                                <text x="1010" y="95" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Admin Panel</text>
+                                <text x="1010" y="120" text-anchor="middle" fill="#94a3b8" font-size="10">(Appsmith)</text>
+                                <text x="1010" y="135" text-anchor="middle" fill="#94a3b8" font-size="9">Port 8080</text>
+                                
+                                <!-- Databases & Cache -->
+                                <rect x="460" y="170" width="170" height="80" rx="6" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
+                                <text x="545" y="200" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">PostgreSQL</text>
+                                <text x="545" y="218" text-anchor="middle" fill="#94a3b8" font-size="10">Users, Pentests</text>
+                                <text x="545" y="230" text-anchor="middle" fill="#94a3b8" font-size="9">Port 5432</text>
+                                
+                                <rect x="660" y="170" width="170" height="80" rx="6" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
+                                <text x="745" y="200" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Redis</text>
+                                <text x="745" y="218" text-anchor="middle" fill="#94a3b8" font-size="10">Cache & Sessions</text>
+                                <text x="745" y="230" text-anchor="middle" fill="#94a3b8" font-size="9">Port 6379</text>
+                                
+                                <rect x="860" y="170" width="170" height="80" rx="6" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
+                                <text x="945" y="200" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">RabbitMQ</text>
+                                <text x="945" y="218" text-anchor="middle" fill="#94a3b8" font-size="10">Async Tasks</text>
+                                <text x="945" y="230" text-anchor="middle" fill="#94a3b8" font-size="9">Port 5672</text>
                             </g>
 
-                            <!-- Orchestrator -->
-                            <g class="component orchestrator" data-id="orchestrator">
-                                <rect x="600" y="150" width="220" height="140" rx="8" fill="#8b5cf6" stroke="#7c3aed"
-                                    stroke-width="2" />
-                                <text x="710" y="180" text-anchor="middle" fill="#fff" font-size="14"
-                                    font-weight="bold">Оркестратор</text>
-                                <text x="710" y="200" text-anchor="middle" fill="#c4b5fd" font-size="11">(Менеджер
-                                    процессов)</text>
-                                <text x="710" y="220" text-anchor="middle" fill="#c4b5fd" font-size="9">• Планирование
-                                    задач</text>
-                                <text x="710" y="235" text-anchor="middle" fill="#c4b5fd" font-size="9">• Агрегация
-                                    результатов</text>
-                                <text x="710" y="250" text-anchor="middle" fill="#c4b5fd" font-size="9">• Управление
-                                    очередями</text>
-                                <text x="710" y="265" text-anchor="middle" fill="#c4b5fd" font-size="9">• Мониторинг
-                                    состояния</text>
-                                <text x="710" y="280" text-anchor="middle" fill="#c4b5fd" font-size="9">• Retry
-                                    механизмы</text>
+                            <!-- External Services -->
+                            <g>
+                                <rect x="460" y="320" width="900" height="110" rx="8" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="5,5" opacity="0.3"/>
+                                <text x="910" y="340" text-anchor="middle" fill="#10b981" font-size="13" font-weight="bold">External Integrations</text>
+                                
+                                <rect x="480" y="360" width="180" height="60" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+                                <text x="570" y="385" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">GPT Tunnel</text>
+                                <text x="570" y="405" text-anchor="middle" fill="#94a3b8" font-size="9">AI Processing</text>
+                                
+                                <rect x="700" y="360" width="180" height="60" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+                                <text x="790" y="385" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">Prometheus</text>
+                                <text x="790" y="405" text-anchor="middle" fill="#94a3b8" font-size="9">Monitoring</text>
+                                
+                                <rect x="920" y="360" width="180" height="60" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+                                <text x="1010" y="385" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">Webhooks</text>
+                                <text x="1010" y="405" text-anchor="middle" fill="#94a3b8" font-size="9">Real-time Updates</text>
                             </g>
 
-                            <!-- DataStream -->
-                            <g class="component datastream" data-id="datastream">
-                                <rect x="900" y="60" width="180" height="100" rx="8" fill="#6b7280" stroke="#4b5563"
-                                    stroke-width="2" />
-                                <text x="990" y="90" text-anchor="middle" fill="#fff" font-size="14"
-                                    font-weight="bold">DataStream</text>
-                                <text x="990" y="110" text-anchor="middle" fill="#d1d5db" font-size="11">Контекстные
-                                    данные</text>
-                                <text x="990" y="130" text-anchor="middle" fill="#d1d5db" font-size="9">API</text>
-                                <text x="990" y="145" text-anchor="middle" fill="#d1d5db" font-size="9">Обогащение
-                                    данных</text>
-                            </g>
-
-                            <!-- RAG Module -->
-                            <g class="component rag" data-id="rag">
-                                <rect x="1170" y="150" width="180" height="140" rx="8" fill="#f59e0b" stroke="#d97706"
-                                    stroke-width="2" />
-                                <text x="1260" y="180" text-anchor="middle" fill="#000" font-size="12"
-                                    font-weight="bold">RAG-модуль</text>
-                                <text x="1260" y="200" text-anchor="middle" fill="#000"
-                                    font-size="10">(Retrieval-Augmented</text>
-                                <text x="1260" y="215" text-anchor="middle" fill="#000"
-                                    font-size="10">Generation)</text>
-                                <text x="1260" y="235" text-anchor="middle" fill="#000" font-size="9">• База знаний
-                                    CVE</text>
-                                <text x="1260" y="250" text-anchor="middle" fill="#000" font-size="9">• Контекстный
-                                    поиск</text>
-                                <text x="1260" y="265" text-anchor="middle" fill="#000" font-size="9">•
-                                    Семантическая</text>
-                                <text x="1260" y="280" text-anchor="middle" fill="#000" font-size="9">индексация</text>
-                            </g>
-
-                            <!-- BattleNet -->
-                            <g class="component battlenet" data-id="battlenet">
-                                <rect x="1170" y="350" width="180" height="140" rx="8" fill="#10b981" stroke="#059669"
-                                    stroke-width="2" />
-                                <text x="1260" y="380" text-anchor="middle" fill="#fff" font-size="14"
-                                    font-weight="bold">BattleNet</text>
-                                <text x="1260" y="400" text-anchor="middle" fill="#a7f3d0" font-size="11">(Атакующая
-                                    нейросеть)</text>
-                                <text x="1260" y="420" text-anchor="middle" fill="#a7f3d0" font-size="9">• Генерация
-                                    эксплойтов</text>
-                                <text x="1260" y="435" text-anchor="middle" fill="#a7f3d0" font-size="9">• Адаптивные
-                                    атаки</text>
-                                <text x="1260" y="450" text-anchor="middle" fill="#a7f3d0" font-size="9">• Zero-day
-                                    детекция</text>
-                            </g>
-
-                            <!-- Kali Linux -->
-                            <g class="component kali" data-id="kali">
-                                <rect x="1170" y="520" width="180" height="120" rx="8" fill="#10b981" stroke="#059669"
-                                    stroke-width="2" />
-                                <text x="1260" y="550" text-anchor="middle" fill="#fff" font-size="14"
-                                    font-weight="bold">Kali Linux</text>
-                                <text x="1260" y="570" text-anchor="middle" fill="#a7f3d0"
-                                    font-size="11">(Тестирование</text>
-                                <text x="1260" y="585" text-anchor="middle" fill="#a7f3d0"
-                                    font-size="11">безопасности)</text>
-                                <text x="1260" y="605" text-anchor="middle" fill="#a7f3d0" font-size="9">CLI/API</text>
-                                <text x="1260" y="620" text-anchor="middle" fill="#a7f3d0" font-size="9">Выполнение
-                                    тестов</text>
-                            </g>
-
-                            <!-- Tools and Data -->
-                            <g class="component tools" data-id="tools">
-                                <rect x="900" y="350" width="180" height="140" rx="8" fill="#6b7280" stroke="#4b5563"
-                                    stroke-width="2" />
-                                <text x="990" y="380" text-anchor="middle" fill="#fff" font-size="12"
-                                    font-weight="bold">Инструменты и данные</text>
-                                <text x="990" y="400" text-anchor="middle" fill="#d1d5db" font-size="11">API</text>
-                                <text x="990" y="420" text-anchor="middle" fill="#d1d5db"
-                                    font-size="9">Рекомендации</text>
-                                <text x="990" y="435" text-anchor="middle" fill="#d1d5db" font-size="9">Запрос
-                                    контекста</text>
-                                <text x="990" y="450" text-anchor="middle" fill="#d1d5db" font-size="9">Результаты
-                                    сканирования</text>
-                            </g>
-
-                            <!-- Connection lines with labels -->
-                            <g class="connections">
-                                <!-- REST/HTTPS запросы API -->
-                                <line x1="200" y1="210" x2="320" y2="210" stroke="#3b82f6" stroke-width="3"
-                                    marker-end="url(#arrowhead)" />
-                                <text x="260" y="205" text-anchor="middle" fill="#3b82f6" font-size="10"
-                                    font-weight="bold">REST/HTTPS</text>
-                                <text x="260" y="230" text-anchor="middle" fill="#3b82f6" font-size="9">Запросы
-                                    API</text>
-
-                                <!-- RPC Делегирование задач -->
-                                <line x1="520" y1="210" x2="600" y2="210" stroke="#8b5cf6" stroke-width="3"
-                                    marker-end="url(#arrowhead)" />
-                                <text x="560" y="205" text-anchor="middle" fill="#8b5cf6" font-size="10"
-                                    font-weight="bold">RPC</text>
-                                <text x="560" y="240" text-anchor="middle" fill="#8b5cf6" font-size="9">Делегирование
-                                    задач</text>
-
-                                <!-- API Обогащение данных -->
-                                <line x1="820" y1="180" x2="900" y2="120" stroke="#f59e0b" stroke-width="3"
-                                    marker-end="url(#arrowhead)" />
-                                <text x="860" y="140" text-anchor="middle" fill="#f59e0b" font-size="10"
-                                    font-weight="bold">API</text>
-                                <text x="860" y="155" text-anchor="middle" fill="#f59e0b" font-size="9">Обогащение
-                                    данных</text>
-
-                                <!-- DataStream to RAG -->
-                                <line x1="1080" y1="130" x2="1170" y2="200" stroke="#f59e0b" stroke-width="3"
-                                    marker-end="url(#arrowhead)" />
-                                <text x="1125" y="155" text-anchor="middle" fill="#f59e0b" font-size="10"
-                                    font-weight="bold">API</text>
-                                <text x="1125" y="170" text-anchor="middle" fill="#f59e0b" font-size="9">Контекстные
-                                    данные</text>
-
-                                <!-- Orchestrator to BattleNet -->
-                                <line x1="820" y1="250" x2="1170" y2="400" stroke="#10b981" stroke-width="3"
-                                    marker-end="url(#arrowhead)" />
-                                <text x="950" y="300" text-anchor="middle" fill="#10b981" font-size="10"
-                                    font-weight="bold">API</text>
-                                <text x="950" y="315" text-anchor="middle" fill="#10b981" font-size="9">Запуск
-                                    атак</text>
-
-                                <!-- Webhook уведомления -->
-                                <line x1="320" y1="170" x2="240" y2="120" stroke="#ec4899" stroke-width="3"
-                                    stroke-dasharray="8,4" marker-end="url(#arrowhead)" />
-                                <line x1="240" y1="100" x2="200" y2="170" stroke="#ec4899" stroke-width="3"
-                                    stroke-dasharray="8,4" marker-end="url(#arrowhead)" />
-                                <text x="280" y="140" text-anchor="middle" fill="#ec4899" font-size="10"
-                                    font-weight="bold">Webhook</text>
-                                <text x="180" y="130" text-anchor="middle" fill="#ec4899" font-size="9">Результаты
-                                    атак</text>
-
-                                <!-- BattleNet to Tools -->
-                                <line x1="1170" y1="420" x2="1080" y2="420" stroke="#6b7280" stroke-width="3"
-                                    marker-end="url(#arrowhead)" />
-                                <text x="1125" y="415" text-anchor="middle" fill="#6b7280" font-size="10"
-                                    font-weight="bold">API</text>
-                                <text x="1125" y="440" text-anchor="middle" fill="#6b7280"
-                                    font-size="9">Рекомендации</text>
-
-                                <!-- BattleNet to Kali -->
-                                <line x1="1260" y1="490" x2="1260" y2="520" stroke="#10b981" stroke-width="3"
-                                    marker-end="url(#arrowhead)" />
-                                <text x="1300" y="505" text-anchor="middle" fill="#10b981" font-size="10"
-                                    font-weight="bold">API</text>
-                                <text x="1340" y="520" text-anchor="middle" fill="#10b981" font-size="9">Запрос
-                                    контекста</text>
-
-                                <!-- Tools to Kali -->
-                                <line x1="1080" y1="460" x2="1170" y2="560" stroke="#10b981" stroke-width="3"
-                                    marker-end="url(#arrowhead)" />
-                                <text x="1125" y="500" text-anchor="middle" fill="#10b981" font-size="10"
-                                    font-weight="bold">CLI/API</text>
-                                <text x="1125" y="515" text-anchor="middle" fill="#10b981" font-size="9">Результаты
-                                    сканирования</text>
-
-                                <!-- Direct SSH/API управление -->
-                                <line x1="200" y1="250" x2="1170" y2="580" stroke="#10b981" stroke-width="3"
-                                    stroke-dasharray="8,4" marker-end="url(#arrowhead)" />
-                                <text x="600" y="380" text-anchor="middle" fill="#10b981" font-size="10"
-                                    font-weight="bold">SSH/API</text>
-                                <text x="600" y="395" text-anchor="middle" fill="#10b981" font-size="9">Прямое
-                                    управление</text>
-                            </g>
-
-                            <!-- Arrow markers -->
+                            <!-- Arrow Markers -->
                             <defs>
-                                <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="11" refY="4"
-                                    orient="auto">
-                                    <polygon points="0 0, 12 4, 0 8" fill="#ffffff" />
+                                <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto">
+                                    <polygon points="0 0, 12 4, 0 8" fill="#ffffff"/>
                                 </marker>
                             </defs>
                         </svg>
                     </div>
+                </div>
 
-                    <div class="component-details" id="componentDetails">
-                        <div class="details-placeholder">
-                            <h3>Архитектура VulneraAI</h3>
-                            <p>Система построена на модульной архитектуре с четким разделением ответственности:</p>
-                            <ul>
-                                <li><strong>Интерфейс пользователя</strong> - OpenWebUI для удобного управления</li>
-                                <li><strong>Ядро системы</strong> - API и оркестратор для координации</li>
-                                <li><strong>ИИ-компоненты</strong> - BattleNet и RAG для интеллектуального анализа</li>
-                                <li><strong>Инструменты</strong> - Kali Linux и дополнительные API</li>
-                            </ul>
-                            <p>Нажмите на любой компонент диаграммы для получения подробной информации.</p>
-                        </div>
+                <div class="architecture-description">
+                    <h3>Особенности архитектуры</h3>
+                    <ul>
+                        <li><strong>Микросервисная архитектура</strong> — каждый сервис отвечает за свою функцию</li>
+                        <li><strong>Полная асинхронность</strong> — Python async/await код для высокой производительности</li>
+                        <li><strong>Kubernetes-ready</strong> — готов к развёртыванию в K8s с HPA и health checks</li>
+                        <li><strong>Масштабируемость</strong> — RabbitMQ для очереди задач, Redis для кэширования</li>
+                        <li><strong>Мониторинг</strong> — Prometheus метрики, Grafana dashboards, Sentry tracking</li>
+                        <li><strong>Безопасность</strong> — JWT токены, CORS, rate limiting, валидация данных</li>
+                        <li><strong>Admin Panel</strong> — Appsmith для управления клиентами и API ключами (локальная сеть)</li>
+                        <li><strong>Docker & Compose</strong> — легкое развёртывание и управление</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Components Page -->
+    <main id="components" class="page">
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="page-title">Компоненты системы</h1>
+                <p class="page-subtitle">Подробное описание каждого компонента</p>
+            </div>
+        </section>
+
+        <section class="components-section">
+            <div class="container">
+                <!-- Server Component -->
+                <div class="component-block">
+                    <div class="component-header" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <h3>🖥️ VulneraAI Server</h3>
+                        <p class="status-badge">FastAPI • PostgreSQL • K8s Ready • Admin Panel</p>
+                    </div>
+                    <div class="component-body">
+                        <p><strong>Назначение:</strong> Полнофункциональный REST API сервер для управления пентестами, подписками, аутентификацией и интеграциями. Production-ready с поддержкой Kubernetes.</p>
+                        
+                        <h4>Основные возможности:</h4>
+                        <ul>
+                            <li>REST API с автоматической Swagger документацией</li>
+                            <li>JWT аутентификация с refresh токенами</li>
+                            <li>Управление подписками (демо, стандарт, энтерпрайз)</li>
+                            <li>Управление квотами и лимитами</li>
+                            <li>Webhook интеграции для real-time уведомлений</li>
+                            <li>Экспорт отчётов (JSON, PDF, SARIF)</li>
+                            <li>Мониторинг здоровья (K8s compatible)</li>
+                            <li>Admin Panel (Appsmith) для управления системой</li>
+                        </ul>
+
+                        <h4>Технология:</h4>
+                        <ul>
+                            <li><strong>Framework:</strong> FastAPI 0.109+</li>
+                            <li><strong>Web Server:</strong> Uvicorn</li>
+                            <li><strong>Database:</strong> PostgreSQL 15+ + SQLAlchemy ORM</li>
+                            <li><strong>Cache:</strong> Redis 7+ для сессий и кэширования</li>
+                            <li><strong>Queue:</strong> RabbitMQ 3.13+ для async задач</li>
+                            <li><strong>Контейнеризация:</strong> Docker & Docker Compose</li>
+                            <li><strong>Оркестрация:</strong> Kubernetes с Helm чартами</li>
+                            <li><strong>Мониторинг:</strong> Prometheus + Grafana</li>
+                            <li><strong>Admin Panel:</strong> Appsmith (локальная сеть)</li>
+                        </ul>
+
+                        <h4>API Endpoints (примеры):</h4>
+                        <ul>
+                            <li><code>GET /api/v1/health</code> — проверка здоровья</li>
+                            <li><code>POST /api/v1/auth/login</code> — вход</li>
+                            <li><code>POST /api/v1/pentests</code> — создание пентеста</li>
+                            <li><code>GET /api/v1/pentests/{id}</code> — получение пентеста</li>
+                            <li><code>GET /api/v1/subscriptions/usage</code> — статус подписки</li>
+                        </ul>
+
+                        <h4>Развёртывание:</h4>
+                        <ul>
+                            <li><strong>Docker:</strong> <code>docker-compose up -d</code></li>
+                            <li><strong>Kubernetes:</strong> <code>kubectl apply -k k8s/</code></li>
+                            <li><strong>Quick Start:</strong> <code>bash start-vulneraai.sh</code></li>
+                            <li><strong>Debian 13 + K8s:</strong> Автоматическая установка всего</li>
+                        </ul>
+
+                        <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <strong>📍 Репозиторий:</strong> <a href="https://github.com/Kelll31/VulneraAI_Server" target="_blank" style="color: #60a5fa;">github.com/Kelll31/VulneraAI_Server</a>
+                            <br><strong>📚 README:</strong> <a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/README.md" target="_blank" style="color: #60a5fa;">Полная документация</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Client Component -->
+                <div class="component-block" style="margin-top: 30px;">
+                    <div class="component-header" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <h3>🐧 VulneraAI Client (Kali Linux)</h3>
+                        <p class="status-badge">Python + React • Kali Linux Only • CLI + Web UI</p>
+                    </div>
+                    <div class="component-body">
+                        <p><strong>Назначение:</strong> Лёгкий и мощный клиент только для Kali Linux, работающий с сервером VulneraAI и выполняющий реальные команды на машине. Состоит из Python backend и React frontend.</p>
+                        
+                        <h4>Основные возможности:</h4>
+                        <ul>
+                            <li>React Web UI с интерфейсом чата (как ChatGPT)</li>
+                            <li>FastAPI backend агент с asyncio worker</li>
+                            <li>CLI команды для управления агентом</li>
+                            <li>Реальное выполнение команд на машине</li>
+                            <li>Мониторинг статуса агента в real-time</li>
+                            <li>Отслеживание прогресса тестирования</li>
+                            <li>Управление аккаунтом и проектами</li>
+                            <li>Обязательная проверка Kali Linux (не запустится на другой ОС)</li>
+                        </ul>
+
+                        <h4>Архитектура:</h4>
+                        <ul>
+                            <li><strong>Frontend:</strong> React 18 + TypeScript + Vite + Zustand</li>
+                            <li><strong>Backend:</strong> FastAPI 0.104+ с asyncio</li>
+                            <li><strong>CLI:</strong> Typer + Rich для красивых команд</li>
+                            <li><strong>HTTP Client:</strong> httpx/axios для коммуникации</li>
+                            <li><strong>Port Frontend:</strong> 5173 (dev) / 80 (prod)</li>
+                            <li><strong>Port Backend:</strong> 8001</li>
+                            <li><strong>OS Check:</strong> Обязательна Kali Linux</li>
+                        </ul>
+
+                        <h4>CLI Команды:</h4>
+                        <ul>
+                            <li><code>system-check</code> — проверка системы Kali Linux</li>
+                            <li><code>agent-status</code> — статус агента</li>
+                            <li><code>server-health</code> — проверка соединения</li>
+                            <li><code>server-info</code> — информация о сервере</li>
+                        </ul>
+
+                        <h4>Развёртывание:</h4>
+                        <ul>
+                            <li><strong>На Kali:</strong> <code>make install && make dev</code></li>
+                            <li><strong>Docker:</strong> <code>docker-compose up -d</code> (для Windows с WSL)</li>
+                            <li><strong>Три терминала:</strong> Backend, Frontend, CLI</li>
+                        </ul>
+
+                        <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <strong>📍 Репозиторий:</strong> <a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux" target="_blank" style="color: #60a5fa;">github.com/Kelll31/VulneraAI_Client_Kali_Linux</a>
+                            <br><strong>📚 README:</strong> <a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/blob/main/README.md" target="_blank" style="color: #60a5fa;">Полная документация</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Website Component -->
+                <div class="component-block" style="margin-top: 30px;">
+                    <div class="component-header" style="background: linear-gradient(135deg, #3b82f6, #1e40af);">
+                        <h3>🌐 VulneraAI Website</h3>
+                        <p class="status-badge">Static HTML • GitHub Pages • Responsive</p>
+                    </div>
+                    <div class="component-body">
+                        <p><strong>Назначение:</strong> Информационный сайт проекта VulneraAI с полной документацией, описанием компонентов и контактной информацией. Разворачивается на GitHub Pages.</p>
+                        
+                        <h4>Основные разделы:</h4>
+                        <ul>
+                            <li>Главная страница с обзором проекта</li>
+                            <li>Архитектура системы с интерактивной диаграммой</li>
+                            <li>Описание компонентов (Server / Client / Website)</li>
+                            <li>Техническая документация с ссылками</li>
+                            <li>Контактная информация и GitHub Issues</li>
+                        </ul>
+
+                        <h4>Технология:</h4>
+                        <ul>
+                            <li><strong>HTML5</strong> — семантическая разметка</li>
+                            <li><strong>CSS3</strong> — современные стили с переменными</li>
+                            <li><strong>JavaScript</strong> — навигация и интерактивность</li>
+                            <li><strong>Responsive Design</strong> — адаптивен на всех устройствах</li>
+                            <li><strong>GitHub Pages</strong> — бесплатный хостинг</li>
+                            <li><strong>Dark Mode</strong> — современный тёмный дизайн</li>
+                        </ul>
+
+                        <h4>Структура файлов:</h4>
+                        <ul>
+                            <li><code>index.html</code> — основной файл (этот файл)</li>
+                            <li><code>css/style.css</code> — стили</li>
+                            <li><code>js/app.js</code> — основная логика</li>
+                            <li><code>js/architecture.js</code> — архитектура диаграмма</li>
+                            <li><code>js/docs.js</code> — логика документации</li>
+                        </ul>
+
+                        <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <strong>📍 Репозиторий:</strong> <a href="https://github.com/Kelll31/VulneraAI" target="_blank" style="color: #60a5fa;">github.com/Kelll31/VulneraAI</a>
+                            <br><strong>🌐 Сайт:</strong> <a href="https://vulnerai.io" target="_blank" style="color: #60a5fa;">vulnerai.io</a> (или ваш домен)
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-
     <!-- Documentation Page -->
     <main id="documentation" class="page">
         <section class="page-hero">
             <div class="container">
                 <h1 class="page-title">Техническая документация</h1>
-                <p class="page-subtitle">Руководства по установке, настройке и интеграции VulneraAI</p>
+                <p class="page-subtitle">Полное руководство по установке, конфигурации и использованию</p>
             </div>
         </section>
 
@@ -399,16 +450,97 @@
                 <div class="docs-layout">
                     <nav class="docs-nav">
                         <div class="docs-nav-section">
-                            <h4 class="docs-nav-title">Быстрый старт</h4>
+                            <h4 class="docs-nav-title">🚀 Быстрый старт</h4>
                             <ul class="docs-nav-list">  
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server#%F0%9F%9A%80-%D0%B1%D1%8B%D1%81%D1%82%D1%80%D1%8B%D0%B9-%D1%81%D1%82%D0%B0%D1%80%D1%82" target="_blank">Server Quick Start</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux#%D0%B1%D1%8B%D1%81%D1%82%D1%80%D1%8B%D0%B9-%D1%81%D1%82%D0%B0%D1%80%D1%82-%D0%BD%D0%B0-kali-linux" target="_blank">Client Quick Start</a></li>
                             </ul>
                         </div>
-                    
+                        <div class="docs-nav-section">
+                            <h4 class="docs-nav-title">📦 Установка</h4>
+                            <ul class="docs-nav-list">
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/QUICK_START_DEBIAN.md" target="_blank">Debian Setup</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/DEBIAN_DOCKER_SETUP.md" target="_blank">Docker Setup</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/KUBERNETES_QUICK_START.md" target="_blank">Kubernetes Deploy</a></li>
+                            </ul>
+                        </div>
+                        <div class="docs-nav-section">
+                            <h4 class="docs-nav-title">⚙️ Конфигурация</h4>
+                            <ul class="docs-nav-list">
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/.env.example" target="_blank">.env параметры</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/README.md#%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D1%8F" target="_blank">Server Config</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/blob/main/.env.example" target="_blank">Client Config</a></li>
+                            </ul>
+                        </div>
+                        <div class="docs-nav-section">
+                            <h4 class="docs-nav-title">📚 API & SDK</h4>
+                            <ul class="docs-nav-list">
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/README.md#-%D0%B0%D0%BF%D0%B8-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F" target="_blank">API Endpoints</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/README.md#openapiwagger" target="_blank">Swagger Docs</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/README.md#python-sdk" target="_blank">Python SDK</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/README.md#javascripttypescript-sdk" target="_blank">JS/TS SDK</a></li>
+                            </ul>
+                        </div>
+                        <div class="docs-nav-section">
+                            <h4 class="docs-nav-title">🔗 Интеграции</h4>
+                            <ul class="docs-nav-list">
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/README.md#%F0%9F%86%95-admin-panel" target="_blank">Admin Panel</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/PORTAINER_SETUP.md" target="_blank">Portainer</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/PROMETHEUS_SETUP.md" target="_blank">Prometheus</a></li>
+                            </ul>
+                        </div>
+                        <div class="docs-nav-section">
+                            <h4 class="docs-nav-title">🐛 Помощь</h4>
+                            <ul class="docs-nav-list">
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/README.md#%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC" target="_blank">Troubleshooting</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/issues" target="_blank">Server Issues</a></li>
+                                <li><a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/issues" target="_blank">Client Issues</a></li>
+                            </ul>
+                        </div>
                     </nav>
 
                     <div class="docs-content">
                         <article class="docs-article">
+                            <h3>Архитектура на высоком уровне</h3>
+                            <p>VulneraAI состоит из трёх основных компонентов, которые работают вместе для предоставления полнофункциональной платформы автоматизированного тестирования на проникновение:</p>
                             
+                            <h4>1. VulneraAI Server</h4>
+                            <p>Центральный компонент системы, реализованный на Python с использованием FastAPI. Сервер предоставляет REST API для управления пентестами, подписками, аутентификацией и интеграциями.</p>
+                            <ul>
+                                <li>Полнофункциональный REST API со Swagger документацией</li>
+                                <li>PostgreSQL БД для хранения данных</li>
+                                <li>Redis для кэширования и сессий</li>
+                                <li>RabbitMQ для асинхронных задач</li>
+                                <li>Готовность к Kubernetes развёртыванию</li>
+                                <li>Admin Panel (Appsmith) для управления</li>
+                            </ul>
+
+                            <h4>2. VulneraAI Client</h4>
+                            <p>Клиент для Kali Linux, который подключается к серверу и выполняет реальные команды на машине клиента. Состоит из Python backend и React frontend.</p>
+                            <ul>
+                                <li>Быстрый React UI с интерфейсом чата</li>
+                                <li>FastAPI backend агент с asyncio</li>
+                                <li>CLI команды для управления</li>
+                                <li>Реальное выполнение команд на машине</li>
+                                <li>Real-time мониторинг статуса</li>
+                            </ul>
+
+                            <h4>3. VulneraAI Website</h4>
+                            <p>Информационный сайт проекта (этот сайт), разворачиваемый на GitHub Pages. Содержит документацию и описание компонентов.</p>
+                            
+                            <h3 style="margin-top: 30px;">Первые шаги</h3>
+                            <ol>
+                                <li><strong>Установите VulneraAI Server:</strong> Следуйте инструкциям в <a href="https://github.com/Kelll31/VulneraAI_Server#%F0%9F%9A%80-%D0%B1%D1%8B%D1%81%D1%82%D1%80%D1%8B%D0%B9-%D1%81%D1%82%D0%B0%D1%80%D1%82" target="_blank">README сервера</a></li>
+                                <li><strong>Установите Kali Linux Client</strong> на машину с Kali: <a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/blob/main/README.md" target="_blank">инструкции клиента</a></li>
+                                <li><strong>Откройте в браузере:</strong>
+                                    <ul>
+                                        <li>Server API docs: <code>http://localhost:8000/docs</code></li>
+                                        <li>Client Web UI: <code>http://localhost:5173</code></li>
+                                        <li>Admin Panel: <code>http://localhost:8080</code> (локальная сеть)</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Создайте учётную запись</strong> и начните использовать!</li>
+                            </ol>
                         </article>
                     </div>
                 </div>
@@ -429,62 +561,78 @@
             <div class="container">
                 <div class="contact-grid">
                     <div class="contact-info">
-                        <h3>Техническая поддержка</h3>
+                        <h3>📧 Техническая поддержка</h3>
                         <div class="contact-item">
-                            <strong>Email:</strong>
-                            <a href="mailto:-">-</a>
+                            <strong>GitHub Issues (Server):</strong>
+                            <a href="https://github.com/Kelll31/VulneraAI_Server/issues" target="_blank">VulneraAI_Server/issues</a>
                         </div>
                         <div class="contact-item">
-                            <strong>Техническая документация:</strong>
-                            <a href="#" data-page="documentation">Перейти к документации</a>
-                        </div>
-
-                        <h3>Коммерческие вопросы</h3>
-                        <div class="contact-item">
-                            <strong>Email:</strong>
-                            <a href="mailto:-">-</a>
+                            <strong>GitHub Issues (Client):</strong>
+                            <a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/issues" target="_blank">VulneraAI_Client_Kali_Linux/issues</a>
                         </div>
                         <div class="contact-item">
-                            <strong>Телефон:</strong>
-                            <a href="tel:-">-</a>
+                            <strong>Документация Server:</strong>
+                            <a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/README.md" target="_blank">Перейти к документации</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Документация Client:</strong>
+                            <a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/blob/main/README.md" target="_blank">Перейти к документации</a>
                         </div>
 
-                        <h3>Разработка</h3>
+                        <h3 style="margin-top: 30px;">👨‍💻 Разработка</h3>
                         <div class="contact-item">
-                            <strong>GitHub:</strong>
+                            <strong>GitHub профиль:</strong>
                             <a href="https://github.com/kelll31" target="_blank">github.com/kelll31</a>
                         </div>
                         <div class="contact-item">
-                            <strong>Issue Tracker:</strong>
-                            <a href="https://github.com/kelll31/vulneraai/issues" target="_blank">Сообщить о
-                                проблеме</a>
+                            <strong>GitHub Organization:</strong>
+                            <a href="https://github.com/Kelll31" target="_blank">Все репозитории</a>
+                        </div>
+
+                        <h3 style="margin-top: 30px;">📦 Репозитории проекта</h3>
+                        <div class="contact-item">
+                            <strong>Server:</strong>
+                            <a href="https://github.com/Kelll31/VulneraAI_Server" target="_blank">VulneraAI_Server</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Client:</strong>
+                            <a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux" target="_blank">VulneraAI_Client_Kali_Linux</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Website:</strong>
+                            <a href="https://github.com/Kelll31/VulneraAI" target="_blank">VulneraAI (этот сайт)</a>
                         </div>
                     </div>
 
                     <div class="contact-form-container">
-                        <form class="contact-form">
+                        <form class="contact-form" onsubmit="handleContactForm(event)">
                             <div class="form-group">
-                                <label class="form-label">Имя</label>
-                                <input type="text" class="form-control" required>
+                                <label class="form-label">Имя *</label>
+                                <input type="text" class="form-control" name="name" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" required>
+                                <label class="form-label">Email *</label>
+                                <input type="email" class="form-control" name="email" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Тип запроса</label>
-                                <select class="form-control">
-                                    <option>Техническая поддержка</option>
-                                    <option>Коммерческий запрос</option>
-                                    <option>Интеграция</option>
-                                    <option>Демонстрация</option>
+                                <label class="form-label">Тип запроса *</label>
+                                <select class="form-control" name="type" required>
+                                    <option value="">Выберите...</option>
+                                    <option value="support">Техническая поддержка</option>
+                                    <option value="feature">Предложение функции</option>
+                                    <option value="bug">Сообщение об ошибке</option>
+                                    <option value="partnership">Партнёрство</option>
+                                    <option value="other">Другое</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Сообщение</label>
-                                <textarea class="form-control" rows="4" required></textarea>
+                                <label class="form-label">Сообщение *</label>
+                                <textarea class="form-control" name="message" rows="5" required></textarea>
                             </div>
                             <button type="submit" class="btn btn--primary btn--full-width">Отправить запрос</button>
+                            <p style="text-align: center; font-size: 0.9em; color: var(--color-text-secondary); margin-top: 10px;">
+                                ✅ Лучше всего открыть issue на GitHub для техподдержки
+                            </p>
                         </form>
                     </div>
                 </div>
@@ -498,38 +646,40 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <!-- <span class="logo-icon"></span> -->
                         <span class="logo-text">VulneraAI</span>
                     </div>
                     <p class="footer-description">
-                        Профессиональное решение для автоматизированного пентеста
+                        Автоматизированная платформа для тестирования на проникновение с ИИ
                     </p>
                 </div>
                 <div class="footer-section">
-                    <h4 class="footer-title">Продукт</h4>
+                    <h4 class="footer-title">Компоненты</h4>
                     <ul class="footer-links">
-                        <li><a href="#" class="footer-link" data-page="architecture">Архитектура</a></li>
-                        <li><a href="#" class="footer-link" data-page="documentation">Документация</a></li>
+                        <li><a href="https://github.com/Kelll31/VulneraAI_Server" target="_blank" class="footer-link">Server</a></li>
+                        <li><a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux" target="_blank" class="footer-link">Client (Kali)</a></li>
+                        <li><a href="https://github.com/Kelll31/VulneraAI" target="_blank" class="footer-link">Website</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4 class="footer-title">Поддержка</h4>
+                    <h4 class="footer-title">Ресурсы</h4>
                     <ul class="footer-links">
-                        <li><a href="#" class="footer-link" data-page="contact">Связаться</a></li>
+                        <li><a href="#architecture" class="footer-link" data-page="architecture">Архитектура</a></li>
+                        <li><a href="#components" class="footer-link" data-page="components">Компоненты</a></li>
+                        <li><a href="#documentation" class="footer-link" data-page="documentation">Документация</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Проект</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home" class="footer-link" data-page="home">О проекте</a></li>
+                        <li><a href="#contact" class="footer-link" data-page="contact">Контакты</a></li>
                         <li><a href="https://github.com/kelll31" target="_blank" class="footer-link">GitHub</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-title">Компания</h4>
-                    <ul class="footer-links">
-                        <li><a href="#" class="footer-link">О нас</a></li>
-                        <li><a href="#" class="footer-link">Новости</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p class="footer-copyright">
-                    © 2025 VulneraAI. Все права защищены.
+                    © 2025 VulneraAI. Все права защищены. | MIT License | Updated Dec 2025
                 </p>
             </div>
         </div>
@@ -538,6 +688,13 @@
     <script src="js/architecture.js"></script>
     <script src="js/app.js"></script>
     <script src="js/docs.js"></script>
+    <script>
+        function handleContactForm(event) {
+            event.preventDefault();
+            alert('Спасибо за ваше сообщение! Пожалуйста используйте GitHub Issues для более быстрого ответа.');
+            event.target.reset();
+        }
+    </script>
 </body>
 
 </html>
