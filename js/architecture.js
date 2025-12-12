@@ -1,159 +1,159 @@
-// VulneraAI Architecture Module - Block-Based Interactive Diagram
-// Features: Zoom, Pan, Block Grouping, Modern Design
+// VulneraAI Architecture Module - Simplified Interactive Diagram (No Zoom/Pan)
+// Features: Interactive components and blocks (click to see details), modern architecture reflecting Server + Client + Integrations
 (function () {
     'use strict';
 
-    // Architecture blocks with grouped components
+    // Updated architecture blocks for new architecture
     const ARCHITECTURE_BLOCKS = {
-        userInterface: {
-            title: "Интерфейс пользователя",
+        server: {
+            title: "VulneraAI Server (Backend)",
             position: { x: 40, y: 80 },
-            size: { width: 320, height: 480 },
+            size: { width: 520, height: 480 },
             color: "#1e40af",
-            components: ["ui", "webhook"]
+            components: ["api_gateway", "core_services", "storage", "queue"]
         },
-        systemCore: {
-            title: "Ядро системы",
-            position: { x: 480, y: 80 },
-            size: { width: 750, height: 500 },
+        client: {
+            title: "VulneraAI Client (Kali Linux)",
+            position: { x: 600, y: 80 },
+            size: { width: 420, height: 270 },
+            color: "#047857",
+            components: ["client_ui", "client_backend"]
+        },
+        integrations: {
+            title: "Интеграции и внешние сервисы",
+            position: { x: 600, y: 380 },
+            size: { width: 420, height: 180 },
             color: "#7c2d12",
-            components: ["core", "orchestrator", "datastream"]
-        },
-        toolsAndEngines: {
-            title: "Инструменты и движки",
-            position: { x: 1350, y: 80 },
-            size: { width: 700, height: 600 },
-            color: "#065f46",
-            components: ["rag", "battlenet", "tools", "kali"]
+            components: ["gpt_tunnel", "monitoring", "webhooks"]
         }
     };
 
+    // Updated components for new architecture
     const architectureComponents = {
-        ui: {
-            name: "Интерфейс пользователя",
-            technical_name: "OpenWeb UI",
-            description: "Веб-интерфейс • Настройки • Конфигурация",
-            details: "Современный веб-интерфейс обеспечивает полное управление системой VulneraAI. Включает настройки пентест-заданий, мониторинг выполнения, просмотр результатов и отчетов. Поддерживает интеграцию с внешними системами через REST API.",
-            connections: ["core"],
-            protocols: ["REST/HTTPS", "Webhook"],
-            position: { x: 80, y: 220 },
+        api_gateway: {
+            name: "API Gateway",
+            technical_name: "FastAPI / Uvicorn",
+            description: "REST API слой для клиентов и интеграций",
+            details: "Отвечает за приём и маршрутизацию всех запросов от клиентов. Реализован на FastAPI с Uvicorn в качестве ASGI-сервера. Поддерживает аутентификацию, rate limiting и базовую валидацию входных данных.",
+            connections: ["core_services", "client_backend", "webhooks"],
+            protocols: ["HTTPS/REST", "JSON"],
+            position: { x: 60, y: 120 },
             size: { width: 240, height: 120 },
             color: "#3b82f6",
-            block: "userInterface"
+            block: "server"
         },
-        webhook: {
-            name: "Webhook",
-            technical_name: "Уведомления",
-            description: "Система уведомлений для обратной связи",
-            details: "Обеспечивает асинхронную доставку уведомлений о результатах выполнения задач, статусе системы и важных событиях безопасности. Интегрируется с основными компонентами системы.",
-            connections: ["core", "ui"],
-            protocols: ["Webhook"],
-            position: { x: 80, y: 420 },
+        core_services: {
+            name: "Core Services",
+            technical_name: "Pentests / Auth / Billing",
+            description: "Бизнес-логика: пентесты, аккаунты, подписи",
+            details: "Основной слой бизнес-логики VulneraAI. Управляет жизненным циклом пентестов, учётными записями, тарифами и фоновой обработкой задач. Все операции проходят через чётко определённые сервисные границы.",
+            connections: ["api_gateway", "storage", "queue"],
+            protocols: ["Internal API", "DB Queries"],
+            position: { x: 320, y: 120 },
+            size: { width: 220, height: 140 },
+            color: "#f59e0b",
+            block: "server"
+        },
+        storage: {
+            name: "Хранилище данных",
+            technical_name: "PostgreSQL / Redis",
+            description: "Персистентные и кэширующие хранилища",
+            details: "PostgreSQL хранит долговременные данные: пользователей, проекты, результаты пентестов. Redis используется для кэша, сессий и временных токенов. Это разделение даёт баланс между надёжностью и скоростью.",
+            connections: ["core_services"],
+            protocols: ["SQL", "Key/Value"],
+            position: { x: 60, y: 280 },
+            size: { width: 220, height: 120 },
+            color: "#6366f1",
+            block: "server"
+        },
+        queue: {
+            name: "Очередь задач",
+            technical_name: "RabbitMQ",
+            description: "Асинхронные задания и обработка",
+            details: "Очередь задач используется для фонового выполнения тяжёлых операций: генерация отчётов, запуск сложных проверок, интеграция с внешними системами. Обеспечивает устойчивость и отказоустойчивость.",
+            connections: ["core_services", "client_backend"],
+            protocols: ["AMQP"],
+            position: { x: 300, y: 300 },
             size: { width: 240, height: 120 },
-            color: "#ec4899",
-            block: "userInterface"
-        },
-        core: {
-            name: "VulneraAI Core",
-            technical_name: "API",
-            description: "Конвейер OpenWebUI • Webhook события",
-            details: "Центральное ядро системы, координирующее работу всех компонентов. Включает конвейер OpenWebUI для обработки запросов, систему Webhook уведомлений, центральную логику планирования и выполнения задач пентестинга.",
-            connections: ["orchestrator", "ui", "webhook"],
-            protocols: ["RPC", "REST/HTTPS", "Webhook"],
-            position: { x: 520, y: 220 },
-            size: { width: 260, height: 100 },
-            color: "#f59e0b",
-            block: "systemCore"
-        },
-        orchestrator: {
-            name: "Оркестратор",
-            technical_name: "Менеджер процессов",
-            description: "Планирование задач • Агрегация результатов • Управление очередями • Мониторинг состояния • Retry механизмы",
-            details: "Интеллектуальный менеджер процессов с планированием задач, агрегацией результатов, управлением очередями, мониторингом состояния и механизмами повторов. Обеспечивает эффективное распределение ресурсов и координацию выполнения задач тестирования безопасности.",
-            connections: ["core", "datastream", "battlenet"],
-            protocols: ["RPC", "API"],
-            position: { x: 900, y: 200 },
-            size: { width: 280, height: 130 },
             color: "#8b5cf6",
-            block: "systemCore"
+            block: "server"
         },
-        datastream: {
-            name: "DataStream",
-            technical_name: "Контекстные данные",
-            description: "Обработка данных в реальном времени",
-            details: "Обрабатывает контекстные данные, необходимые для проведения тестирования. Обеспечивает обмен информацией между компонентами системы в режиме реального времени, поддерживает различные форматы данных.",
-            connections: ["orchestrator", "rag"],
-            protocols: ["API"],
-            position: { x: 520, y: 420 },
-            size: { width: 220, height: 120 },
-            color: "#6b7280",
-            block: "systemCore"
-        },
-        rag: {
-            name: "RAG-модуль",
-            technical_name: "Retrieval-Augmented Generation",
-            description: "База знаний CVE • Контекстный поиск • Семантическая индексация",
-            details: "Содержит актуальную базу данных уязвимостей CVE, обеспечивает контекстный поиск информации, семантическую индексацию данных. Использует технологии машинного обучения для анализа и рекомендаций по векторам атак.",
-            connections: ["datastream"],
-            protocols: ["API"],
-            position: { x: 1400, y: 320 },
-            size: { width: 220, height: 120 },
-            color: "#f59e0b",
-            block: "toolsAndEngines"
-        },
-        battlenet: {
-            name: "BattleNet",
-            technical_name: "Атакующая нейросеть",
-            description: "Генерация эксплойтов • Адаптивные атаки • Zero-day детекция",
-            details: "Специализированная нейронная сеть для генерации эксплойтов, проведения адаптивных атак и детекции zero-day уязвимостей. Использует глубокое обучение для анализа целевых систем и автоматической разработки стратегий атак.",
-            connections: ["orchestrator", "tools", "kali"],
-            protocols: ["API", "CLI/API"],
-            position: { x: 1800, y: 200 },
-            size: { width: 200, height: 140 },
+        client_ui: {
+            name: "Client Web UI",
+            technical_name: "React 18 / TypeScript",
+            description: "Веб-интерфейс на Kali Linux",
+            details: "Фронтенд клиента, работающий в браузере на машине Kali Linux. Предоставляет чат-подобный интерфейс, управление задачами и визуализацию результатов. Общается с локальным backend и центральным сервером.",
+            connections: ["client_backend"],
+            protocols: ["HTTP", "Web UI"],
+            position: { x: 620, y: 120 },
+            size: { width: 190, height: 120 },
             color: "#10b981",
-            block: "toolsAndEngines"
+            block: "client"
         },
-        tools: {
-            name: "Инструменты и данные",
-            technical_name: "API Tools",
-            description: "Рекомендации • Запрос контекста • Результаты сканирования",
-            details: "Набор вспомогательных API и инструментов для расширения функциональности системы. Включает рекомендации по векторам атак, запросы контекстной информации, результаты сканирования внешних систем.",
-            connections: ["battlenet", "kali"],
-            protocols: ["API"],
-            position: { x: 1400, y: 520 },
-            size: { width: 220, height: 120 },
-            color: "#6b7280",
-            block: "toolsAndEngines"
+        client_backend: {
+            name: "Client Backend",
+            technical_name: "FastAPI Agent",
+            description: "Агент на Kali Linux для выполнения команд",
+            details: "Локальный агент на FastAPI, который запускается на Kali Linux. Принимает команды от центрального сервера и UI, выполняет реальные инструменты Kali и отправляет результаты обратно.",
+            connections: ["client_ui", "api_gateway", "queue"],
+            protocols: ["HTTP", "CLI"],
+            position: { x: 830, y: 120 },
+            size: { width: 170, height: 140 },
+            color: "#22c55e",
+            block: "client"
         },
-        kali: {
-            name: "Kali Linux",
-            technical_name: "Тестирование безопасности",
-            description: "CLI/API • Выполнение тестов",
-            details: "Интегрированная среда Kali Linux с полным набором инструментов для тестирования на проникновение. Предоставляет CLI/API интерфейс для выполнения тестов, автоматизации сценариев и интеграции с внешними инструментами.",
-            connections: ["battlenet", "ui", "tools"],
-            protocols: ["CLI/API", "SSH/API"],
-            position: { x: 1800, y: 520 },
-            size: { width: 200, height: 100 },
-            color: "#10b981",
-            block: "toolsAndEngines"
+        gpt_tunnel: {
+            name: "GPT Tunnel",
+            technical_name: "AI Processing",
+            description: "Интеграция с ИИ для анализа и генерации",
+            details: "Отдельный сервис/прокси для безопасного использования LLM/AI. Используется для анализа результатов, генерации рекомендаций, построения эксплойтов и других задач, где требуется мощный ИИ.",
+            connections: ["core_services"],
+            protocols: ["HTTPS", "API"],
+            position: { x: 620, y: 420 },
+            size: { width: 200, height: 110 },
+            color: "#f97316",
+            block: "integrations"
+        },
+        monitoring: {
+            name: "Мониторинг",
+            technical_name: "Metrics / Logs",
+            description: "Метрики и логирование системы",
+            details: "Подсистема мониторинга собирает технические метрики и логи для анализа производительности и стабильности. Используется для alerting и отладки в продакшне.",
+            connections: ["core_services", "client_backend"],
+            protocols: ["Metrics", "Logs"],
+            position: { x: 830, y: 420 },
+            size: { width: 190, height: 100 },
+            color: "#e5e7eb",
+            block: "integrations"
+        },
+        webhooks: {
+            name: "Webhooks",
+            technical_name: "Уведомления",
+            description: "Обратные вызовы для интеграций",
+            details: "Webhook-уведомления позволяют интегрировать VulneraAI с внешними системами: тикет-трекеры, SIEM, корпоративные порталы. Отправляют события о статусе пентестов и важных результатах.",
+            connections: ["api_gateway"],
+            protocols: ["HTTP"],
+            position: { x: 620, y: 540 },
+            size: { width: 400, height: 80 },
+            color: "#ec4899",
+            block: "integrations"
         }
     };
 
-    // Enhanced connection definitions
+    // Simplified connection definitions (no zoom/pan specific logic needed)
     const connections = [
-        { from: "ui", to: "core", type: "REST/HTTPS", label: "Запросы API", color: "#3b82f6" },
-        { from: "core", to: "orchestrator", type: "RPC", label: "Делегирование задач", color: "#8b5cf6" },
-        { from: "orchestrator", to: "datastream", type: "API", label: "Обогащение данных", color: "#f59e0b" },
-        { from: "datastream", to: "rag", type: "API", label: "Контекстные данные", color: "#f59e0b" },
-        { from: "orchestrator", to: "battlenet", type: "API", label: "Запуск атак", color: "#10b981" },
-        { from: "core", to: "webhook", type: "Webhook", label: "Результаты атак", color: "#ec4899", dashed: true },
-        { from: "webhook", to: "ui", type: "Webhook", label: "Уведомления", color: "#ec4899", dashed: true },
-        { from: "battlenet", to: "tools", type: "API", label: "Рекомендации", color: "#6b7280" },
-        { from: "battlenet", to: "kali", type: "CLI/API", label: "Выполнение тестов", color: "#10b981" },
-        { from: "tools", to: "kali", type: "API", label: "Результаты сканирования", color: "#10b981" }
+        { from: "client_ui", to: "client_backend", type: "HTTP", label: "UI → Agent", color: "#22c55e" },
+        { from: "client_backend", to: "api_gateway", type: "HTTPS", label: "Agent ↔ Server API", color: "#3b82f6" },
+        { from: "api_gateway", to: "core_services", type: "Internal", label: "Бизнес-логика", color: "#f59e0b" },
+        { from: "core_services", to: "storage", type: "DB", label: "Persist Data", color: "#6366f1" },
+        { from: "core_services", to: "queue", type: "AMQP", label: "Background Jobs", color: "#8b5cf6" },
+        { from: "core_services", to: "gpt_tunnel", type: "HTTPS", label: "AI Processing", color: "#f97316" },
+        { from: "core_services", to: "webhooks", type: "HTTP", label: "Notifications", color: "#ec4899" },
+        { from: "core_services", to: "monitoring", type: "Metrics", label: "Metrics/Logs", color: "#e5e7eb" },
+        { from: "client_backend", to: "monitoring", type: "Metrics", label: "Client Metrics", color: "#e5e7eb" },
+        { from: "queue", to: "client_backend", type: "Tasks", label: "Exec Tasks", color: "#8b5cf6" }
     ];
 
-    // Advanced Architecture Manager with Block Support
     class ArchitectureManager {
         constructor() {
             this.components = architectureComponents;
@@ -163,69 +163,49 @@
             this.selectedBlock = null;
             this.detailsContainer = null;
             this.svgElement = null;
-            this.zoomGroup = null;
-            this.isDragging = false;
-            this.dragStart = { x: 0, y: 0 };
-            this.currentTransform = { x: 0, y: 0, scale: 1 };
-            this.minZoom = 0.2;
-            this.maxZoom = 4;
         }
 
-        // Initialize the enhanced diagram
         initialize() {
-            console.log('Architecture: Initializing advanced block-based diagram...');
             this.detailsContainer = document.getElementById('componentDetails');
             if (!this.detailsContainer) {
                 console.warn('Architecture: Details container not found');
                 return;
             }
-            this.createEnhancedSVGDiagram();
-            this.setupZoomAndPan();
+
+            this.createSVGDiagram();
             this.setupInteractions();
             this.showDefaultInfo();
-            this.addEnhancedControls();
         }
 
-        // Create enhanced SVG with blocks
-        createEnhancedSVGDiagram() {
+        createSVGDiagram() {
             const diagramContainer = document.querySelector('.architecture-diagram');
             if (!diagramContainer) return;
 
             diagramContainer.innerHTML = '';
 
-            // Create SVG with larger viewBox for blocks
             this.svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             this.svgElement.setAttribute('width', '100%');
-            this.svgElement.setAttribute('height', '100%');
-            this.svgElement.setAttribute('viewBox', '0 0 2200 800');
-            this.svgElement.setAttribute('id', 'architectureSvg');
-            this.svgElement.style.background = 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.02) 0%, transparent 70%)';
-            this.svgElement.style.cursor = 'grab';
+            this.svgElement.setAttribute('height', '600');
+            this.svgElement.setAttribute('viewBox', '0 0 1100 650');
+            this.svgElement.style.background = '#020617';
 
-            // Create definitions
-            const defs = this.createEnhancedDefs();
+            const defs = this.createDefs();
             this.svgElement.appendChild(defs);
 
-            // Create zoom group
-            this.zoomGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            this.zoomGroup.setAttribute('class', 'zoom-group');
-            this.svgElement.appendChild(this.zoomGroup);
+            const rootGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            rootGroup.setAttribute('class', 'root-group');
+            this.svgElement.appendChild(rootGroup);
 
-            // Draw blocks first
-            this.drawBlocks();
-            // Draw connections
-            this.drawConnections();
-            // Draw components
-            this.drawComponents();
+            this.drawBlocks(rootGroup);
+            this.drawConnections(rootGroup);
+            this.drawComponents(rootGroup);
 
             diagramContainer.appendChild(this.svgElement);
         }
 
-        // Create enhanced definitions (gradients, patterns, markers)
-        createEnhancedDefs() {
+        createDefs() {
             const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
 
-            // Create gradients for each component
             Object.keys(this.components).forEach(id => {
                 const component = this.components[id];
                 const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
@@ -250,7 +230,6 @@
                 defs.appendChild(gradient);
             });
 
-            // Create block gradients
             Object.keys(this.blocks).forEach(blockId => {
                 const block = this.blocks[blockId];
                 const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
@@ -263,12 +242,12 @@
                 const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
                 stop1.setAttribute('offset', '0%');
                 stop1.setAttribute('stop-color', block.color);
-                stop1.setAttribute('stop-opacity', '0.03');
+                stop1.setAttribute('stop-opacity', '0.05');
 
                 const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
                 stop2.setAttribute('offset', '100%');
                 stop2.setAttribute('stop-color', block.color);
-                stop2.setAttribute('stop-opacity', '0.08');
+                stop2.setAttribute('stop-opacity', '0.12');
 
                 gradient.appendChild(stop1);
                 gradient.appendChild(stop2);
@@ -278,18 +257,16 @@
             return defs;
         }
 
-        // Draw architectural blocks
-        drawBlocks() {
+        drawBlocks(rootGroup) {
             const blocksGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             blocksGroup.setAttribute('class', 'blocks');
 
             Object.keys(this.blocks).forEach(blockId => {
                 const block = this.blocks[blockId];
                 const blockGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                blockGroup.setAttribute('class', `block block-${blockId}`);
+                blockGroup.setAttribute('class', 'block');
                 blockGroup.setAttribute('data-block-id', blockId);
 
-                // Block background with gradient
                 const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
                 rect.setAttribute('x', block.position.x);
                 rect.setAttribute('y', block.position.y);
@@ -302,7 +279,6 @@
                 rect.setAttribute('stroke-dasharray', '10,5');
                 rect.setAttribute('opacity', '0.6');
 
-                // Block title
                 const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 title.setAttribute('x', block.position.x + block.size.width / 2);
                 title.setAttribute('y', block.position.y + 30);
@@ -310,7 +286,6 @@
                 title.setAttribute('fill', block.color);
                 title.setAttribute('font-size', '16');
                 title.setAttribute('font-weight', 'bold');
-                title.setAttribute('opacity', '0.9');
                 title.textContent = block.title;
 
                 blockGroup.appendChild(rect);
@@ -318,31 +293,25 @@
                 blocksGroup.appendChild(blockGroup);
             });
 
-            this.zoomGroup.appendChild(blocksGroup);
+            rootGroup.appendChild(blocksGroup);
         }
 
-        // Draw enhanced connections with curved paths
-        drawConnections() {
+        drawConnections(rootGroup) {
             const connectionsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             connectionsGroup.setAttribute('class', 'connections');
 
-            this.connections.forEach((conn, index) => {
+            this.connections.forEach(conn => {
                 const fromComp = this.components[conn.from];
                 const toComp = this.components[conn.to];
                 if (!fromComp || !toComp) return;
 
-                // Calculate connection points
                 const fromPoint = this.getConnectionPoint(fromComp, toComp);
                 const toPoint = this.getConnectionPoint(toComp, fromComp);
 
-                // Create curved path
                 const path = this.createCurvedPath(fromPoint, toPoint);
                 path.setAttribute('stroke', conn.color);
-                path.setAttribute('stroke-width', '3');
+                path.setAttribute('stroke-width', '2.5');
                 path.setAttribute('fill', 'none');
-                if (conn.dashed) {
-                    path.setAttribute('stroke-dasharray', '12,6');
-                }
                 path.setAttribute('class', 'connection-line');
                 path.setAttribute('data-from', conn.from);
                 path.setAttribute('data-to', conn.to);
@@ -350,24 +319,21 @@
 
                 connectionsGroup.appendChild(path);
 
-                // Add enhanced connection label
                 const midPoint = this.getPathMidpoint(fromPoint, toPoint);
                 const labelGroup = this.createConnectionLabel(conn, midPoint);
                 connectionsGroup.appendChild(labelGroup);
             });
 
-            this.zoomGroup.appendChild(connectionsGroup);
+            rootGroup.appendChild(connectionsGroup);
         }
 
-        // Create curved path between points
         createCurvedPath(from, to) {
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
-            // Calculate control points for smooth curve
             const dx = to.x - from.x;
             const dy = to.y - from.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            const controlOffset = Math.min(distance * 0.3, 100);
+            const controlOffset = Math.min(distance * 0.3, 90);
 
             const cp1x = from.x + (dx > 0 ? controlOffset : -controlOffset);
             const cp1y = from.y;
@@ -380,44 +346,39 @@
             return path;
         }
 
-        // Get midpoint of curved path
         getPathMidpoint(from, to) {
             return { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
         }
 
-        // Create enhanced connection label
         createConnectionLabel(conn, midPoint) {
             const labelGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             labelGroup.setAttribute('class', 'connection-label');
 
-            // Label background
             const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            labelBg.setAttribute('x', midPoint.x - 50);
-            labelBg.setAttribute('y', midPoint.y - 20);
-            labelBg.setAttribute('width', '100');
-            labelBg.setAttribute('height', '40');
-            labelBg.setAttribute('fill', '#1a1a1a');
+            labelBg.setAttribute('x', midPoint.x - 45);
+            labelBg.setAttribute('y', midPoint.y - 18);
+            labelBg.setAttribute('width', '90');
+            labelBg.setAttribute('height', '36');
+            labelBg.setAttribute('fill', '#020617');
             labelBg.setAttribute('stroke', conn.color);
             labelBg.setAttribute('stroke-width', '1');
             labelBg.setAttribute('rx', '6');
             labelBg.setAttribute('opacity', '0.95');
 
-            // Protocol text
             const protocolText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             protocolText.setAttribute('x', midPoint.x);
-            protocolText.setAttribute('y', midPoint.y - 5);
+            protocolText.setAttribute('y', midPoint.y - 2);
             protocolText.setAttribute('text-anchor', 'middle');
             protocolText.setAttribute('fill', conn.color);
-            protocolText.setAttribute('font-size', '11');
+            protocolText.setAttribute('font-size', '10');
             protocolText.setAttribute('font-weight', 'bold');
             protocolText.textContent = conn.type;
 
-            // Description text
             const descText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             descText.setAttribute('x', midPoint.x);
             descText.setAttribute('y', midPoint.y + 10);
             descText.setAttribute('text-anchor', 'middle');
-            descText.setAttribute('fill', '#b0b0b0');
+            descText.setAttribute('fill', '#9ca3af');
             descText.setAttribute('font-size', '9');
             descText.textContent = conn.label;
 
@@ -428,32 +389,27 @@
             return labelGroup;
         }
 
-        // Draw enhanced components
-        drawComponents() {
+        drawComponents(rootGroup) {
             Object.keys(this.components).forEach(id => {
                 const component = this.components[id];
-                this.drawEnhancedComponent(id, component);
+                this.drawComponent(rootGroup, id, component);
             });
         }
 
-        // Draw individual enhanced component
-        drawEnhancedComponent(id, component) {
-            const componentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            componentGroup.setAttribute('class', 'component');
-            componentGroup.setAttribute('data-id', id);
-            componentGroup.style.cursor = 'pointer';
+        drawComponent(rootGroup, id, component) {
+            const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            group.setAttribute('class', 'component');
+            group.setAttribute('data-id', id);
+            group.style.cursor = 'pointer';
 
-            // Component shadow
             const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            shadow.setAttribute('x', component.position.x + 4);
-            shadow.setAttribute('y', component.position.y + 4);
+            shadow.setAttribute('x', component.position.x + 3);
+            shadow.setAttribute('y', component.position.y + 3);
             shadow.setAttribute('width', component.size.width);
             shadow.setAttribute('height', component.size.height);
             shadow.setAttribute('rx', '12');
-            shadow.setAttribute('fill', 'rgba(0,0,0,0.2)');
-            shadow.setAttribute('class', 'component-shadow');
+            shadow.setAttribute('fill', 'rgba(0,0,0,0.25)');
 
-            // Main rectangle with enhanced styling
             const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
             rect.setAttribute('x', component.position.x);
             rect.setAttribute('y', component.position.y);
@@ -463,9 +419,7 @@
             rect.setAttribute('fill', `url(#gradient-${id})`);
             rect.setAttribute('stroke', component.color);
             rect.setAttribute('stroke-width', '2');
-            rect.setAttribute('class', 'component-rect');
 
-            // Inner border for depth
             const innerRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
             innerRect.setAttribute('x', component.position.x + 2);
             innerRect.setAttribute('y', component.position.y + 2);
@@ -473,86 +427,78 @@
             innerRect.setAttribute('height', component.size.height - 4);
             innerRect.setAttribute('rx', '10');
             innerRect.setAttribute('fill', 'none');
-            innerRect.setAttribute('stroke', 'rgba(255,255,255,0.2)');
+            innerRect.setAttribute('stroke', 'rgba(255,255,255,0.25)');
             innerRect.setAttribute('stroke-width', '1');
 
-            componentGroup.appendChild(shadow);
-            componentGroup.appendChild(rect);
-            componentGroup.appendChild(innerRect);
+            group.appendChild(shadow);
+            group.appendChild(rect);
+            group.appendChild(innerRect);
 
-            // Component text with better layout
-            this.addEnhancedComponentText(componentGroup, component);
-
-            this.zoomGroup.appendChild(componentGroup);
+            this.addComponentText(group, component);
+            rootGroup.appendChild(group);
         }
 
-        // Add enhanced component text with better typography
-        addEnhancedComponentText(group, component) {
+        addComponentText(group, component) {
             const centerX = component.position.x + component.size.width / 2;
-            const startY = component.position.y + 30;
+            const startY = component.position.y + 26;
 
-            // Main title
             const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             title.setAttribute('x', centerX);
             title.setAttribute('y', startY);
             title.setAttribute('text-anchor', 'middle');
             title.setAttribute('fill', '#ffffff');
-            title.setAttribute('font-size', '15');
+            title.setAttribute('font-size', '13');
             title.setAttribute('font-weight', 'bold');
             title.textContent = component.name;
 
-            // Technical name
             const techName = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             techName.setAttribute('x', centerX);
-            techName.setAttribute('y', startY + 20);
+            techName.setAttribute('y', startY + 16);
             techName.setAttribute('text-anchor', 'middle');
             techName.setAttribute('fill', 'rgba(255,255,255,0.8)');
-            techName.setAttribute('font-size', '11');
+            techName.setAttribute('font-size', '10');
             techName.setAttribute('font-style', 'italic');
             techName.textContent = `(${component.technical_name})`;
 
             group.appendChild(title);
             group.appendChild(techName);
 
-            // Description text with word wrapping
             const description = component.description;
             const maxCharsPerLine = Math.floor((component.size.width - 20) / 6);
             const words = description.split(' ');
             let currentLine = '';
-            let yOffset = startY + 45;
+            let yOffset = startY + 36;
 
             words.forEach(word => {
                 if ((currentLine + word).length > maxCharsPerLine && currentLine) {
-                    const descLine = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    descLine.setAttribute('x', centerX);
-                    descLine.setAttribute('y', yOffset);
-                    descLine.setAttribute('text-anchor', 'middle');
-                    descLine.setAttribute('fill', 'rgba(255,255,255,0.7)');
-                    descLine.setAttribute('font-size', '10');
-                    descLine.textContent = currentLine.trim();
-                    group.appendChild(descLine);
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    line.setAttribute('x', centerX);
+                    line.setAttribute('y', yOffset);
+                    line.setAttribute('text-anchor', 'middle');
+                    line.setAttribute('fill', 'rgba(255,255,255,0.75)');
+                    line.setAttribute('font-size', '9');
+                    line.textContent = currentLine.trim();
+                    group.appendChild(line);
 
                     currentLine = word + ' ';
-                    yOffset += 15;
+                    yOffset += 13;
                 } else {
                     currentLine += word + ' ';
                 }
             });
 
-            // Add remaining text
             if (currentLine.trim()) {
-                const descLine = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                descLine.setAttribute('x', centerX);
-                descLine.setAttribute('y', yOffset);
-                descLine.setAttribute('text-anchor', 'middle');
-                descLine.setAttribute('fill', 'rgba(255,255,255,0.7)');
-                descLine.setAttribute('font-size', '10');
-                descLine.textContent = currentLine.trim();
-                group.appendChild(descLine);
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                line.setAttribute('x', centerX);
+                line.setAttribute('y', yOffset);
+                line.setAttribute('text-anchor', 'middle');
+                line.setAttribute('fill', 'rgba(255,255,255,0.75)');
+                line.setAttribute('font-size', '9');
+                line.textContent = currentLine.trim();
+                group.appendChild(line);
             }
         }
 
-        // Enhanced connection point calculation
         getConnectionPoint(fromComp, toComp) {
             const fromCenter = {
                 x: fromComp.position.x + fromComp.size.width / 2,
@@ -563,7 +509,6 @@
                 y: toComp.position.y + toComp.size.height / 2
             };
 
-            // Calculate edge point with better precision
             const dx = toCenter.x - fromCenter.x;
             const dy = toCenter.y - fromCenter.y;
             const angle = Math.atan2(dy, dx);
@@ -574,138 +519,42 @@
             let edgeX, edgeY;
 
             if (Math.abs(dx) > Math.abs(dy)) {
-                // Connection is more horizontal
                 edgeX = fromCenter.x + (dx > 0 ? halfWidth : -halfWidth);
-                edgeY = fromCenter.y + (dx > 0 ? halfHeight : -halfHeight) * Math.tan(angle);
+                edgeY = fromCenter.y + (halfHeight * Math.tan(angle));
             } else {
-                // Connection is more vertical
-                edgeX = fromCenter.x + (dy > 0 ? halfWidth : -halfWidth) / Math.tan(angle);
+                edgeX = fromCenter.x + (halfWidth / Math.tan(angle));
                 edgeY = fromCenter.y + (dy > 0 ? halfHeight : -halfHeight);
             }
 
             return { x: edgeX, y: edgeY };
         }
 
-        // Setup enhanced zoom and pan
-        setupZoomAndPan() {
-            if (!this.svgElement || !this.zoomGroup) return;
-
-            // Mouse wheel zoom
-            this.svgElement.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                const delta = e.deltaY < 0 ? 1.15 : 0.87;
-                this.zoom(delta, e.clientX, e.clientY);
-            });
-
-            // Enhanced drag behavior
-            let dragStart = null;
-            this.svgElement.addEventListener('mousedown', (e) => {
-                if (e.target.closest('.component') || e.target.closest('.block')) return;
-                this.isDragging = true;
-                dragStart = { x: e.clientX, y: e.clientY };
-                this.svgElement.style.cursor = 'grabbing';
-                e.preventDefault();
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (!this.isDragging || !dragStart) return;
-                const dx = e.clientX - dragStart.x;
-                const dy = e.clientY - dragStart.y;
-                this.currentTransform.x += dx;
-                this.currentTransform.y += dy;
-                this.updateTransform();
-                dragStart = { x: e.clientX, y: e.clientY };
-            });
-
-            document.addEventListener('mouseup', () => {
-                this.isDragging = false;
-                this.svgElement.style.cursor = 'grab';
-                dragStart = null;
-            });
-
-            // Touch support
-            this.setupTouchSupport();
-        }
-
-        // Setup touch support for mobile
-        setupTouchSupport() {
-            let touchStart = null;
-            this.svgElement.addEventListener('touchstart', (e) => {
-                if (e.touches.length === 1) {
-                    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-                }
-            });
-
-            this.svgElement.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                if (e.touches.length === 1 && touchStart) {
-                    const dx = e.touches[0].clientX - touchStart.x;
-                    const dy = e.touches[0].clientY - touchStart.y;
-                    this.currentTransform.x += dx;
-                    this.currentTransform.y += dy;
-                    this.updateTransform();
-                    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-                }
-            });
-
-            this.svgElement.addEventListener('touchend', () => {
-                touchStart = null;
-            });
-        }
-
-        // Enhanced zoom function
-        zoom(factor, centerX, centerY) {
-            const newScale = Math.max(this.minZoom, Math.min(this.maxZoom, this.currentTransform.scale * factor));
-            if (newScale === this.currentTransform.scale) return;
-
-            const rect = this.svgElement.getBoundingClientRect();
-            const x = centerX - rect.left;
-            const y = centerY - rect.top;
-
-            const scaleFactor = newScale / this.currentTransform.scale;
-
-            this.currentTransform.x = x - scaleFactor * (x - this.currentTransform.x);
-            this.currentTransform.y = y - scaleFactor * (y - this.currentTransform.y);
-            this.currentTransform.scale = newScale;
-
-            this.updateTransform();
-        }
-
-        // Update SVG transform
-        updateTransform() {
-            if (this.zoomGroup) {
-                this.zoomGroup.setAttribute('transform',
-                    `translate(${this.currentTransform.x}, ${this.currentTransform.y}) scale(${this.currentTransform.scale})`
-                );
-            }
-        }
-
-        // Setup enhanced interactions
         setupInteractions() {
-            // Component interactions
+            if (!this.svgElement) return;
+
             this.svgElement.addEventListener('click', (e) => {
                 const component = e.target.closest('.component');
                 const block = e.target.closest('.block');
 
                 if (component) {
                     e.stopPropagation();
-                    const componentId = component.getAttribute('data-id');
-                    this.selectComponent(componentId);
+                    const id = component.getAttribute('data-id');
+                    this.selectComponent(id);
                 } else if (block) {
                     e.stopPropagation();
-                    const blockId = block.getAttribute('data-block-id');
-                    this.selectBlock(blockId);
+                    const id = block.getAttribute('data-block-id');
+                    this.selectBlock(id);
                 } else {
                     this.deselectAll();
+                    this.showDefaultInfo();
                 }
             });
 
-            // Enhanced hover effects
             this.svgElement.addEventListener('mouseover', (e) => {
                 const component = e.target.closest('.component');
                 const connection = e.target.closest('.connection-line');
 
-                if (component && !this.isDragging) {
+                if (component) {
                     this.highlightComponent(component);
                 } else if (connection) {
                     this.highlightConnection(connection);
@@ -724,7 +573,6 @@
             });
         }
 
-        // Select and highlight component
         selectComponent(componentId) {
             this.deselectAll();
             const component = document.querySelector(`[data-id="${componentId}"]`);
@@ -736,7 +584,6 @@
             }
         }
 
-        // Select and highlight block
         selectBlock(blockId) {
             this.deselectAll();
             const block = document.querySelector(`[data-block-id="${blockId}"]`);
@@ -747,7 +594,6 @@
             }
         }
 
-        // Show enhanced component details
         showComponentDetails(componentId) {
             const data = this.components[componentId];
             if (!data || !this.detailsContainer) return;
@@ -797,7 +643,6 @@
             `;
         }
 
-        // Show block details
         showBlockDetails(blockId) {
             const blockData = this.blocks[blockId];
             if (!blockData || !this.detailsContainer) return;
@@ -825,7 +670,6 @@
             `;
         }
 
-        // Show default information
         showDefaultInfo() {
             if (!this.detailsContainer) return;
 
@@ -833,53 +677,24 @@
                 <div class="default-info">
                     <div class="default-info-header">
                         <div class="default-info-title">Архитектура VulneraAI</div>
-                        <div class="default-info-subtitle">Интерактивная блочная диаграмма системы</div>
+                        <div class="default-info-subtitle">Server + Kali Client + Integrations</div>
                     </div>
                     
                     <div class="default-info-content">
                         <div class="default-info-description">
-                            <h4>Интерактивная блочная диаграмма системы с возможностями:</h4>
+                            <h4>Интерактивная диаграмма:</h4>
                             <ul>
-                                <li>🔍 Масштабирование (колесо мыши)</li>
-                                <li>🖱️ Перемещение (перетаскивание)</li>
-                                <li>📱 Сенсорная поддержка</li>
-                                <li>🎯 Детальная информация о компонентах</li>
+                                <li>🖱️ Нажмите на компонент для подробного описания</li>
+                                <li>📦 Нажмите на блок (Server / Client / Integrations) для обзора</li>
+                                <li>🧠 Видно как Client на Kali связан с сервером и ИИ</li>
                             </ul>
-                            <p><em>*Нажмите на блок или компонент для получения подробной информации.*</em></p>
+                            <p><em>*Диаграмма отражает актуальную архитектуру VulneraAI: FastAPI сервер, Kali клиент и внешние интеграции.*</em></p>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        // Add enhanced controls
-        addEnhancedControls() {
-            const controlsContainer = document.createElement('div');
-            controlsContainer.className = 'architecture-controls';
-            controlsContainer.innerHTML = `
-                <button class="control-btn zoom-in" title="Приблизить">+</button>
-                <button class="control-btn zoom-out" title="Отдалить">−</button>
-                <button class="control-btn reset-zoom" title="Сбросить масштаб">⌂</button>
-            `;
-
-            const diagramContainer = document.querySelector('.architecture-diagram');
-            if (diagramContainer) {
-                diagramContainer.appendChild(controlsContainer);
-
-                // Add event listeners
-                controlsContainer.querySelector('.zoom-in').addEventListener('click', () => this.zoom(1.2, window.innerWidth / 2, window.innerHeight / 2));
-                controlsContainer.querySelector('.zoom-out').addEventListener('click', () => this.zoom(0.8, window.innerWidth / 2, window.innerHeight / 2));
-                controlsContainer.querySelector('.reset-zoom').addEventListener('click', () => this.resetZoom());
-            }
-        }
-
-        // Reset zoom to default
-        resetZoom() {
-            this.currentTransform = { x: 0, y: 0, scale: 1 };
-            this.updateTransform();
-        }
-
-        // Deselect all elements
         deselectAll() {
             document.querySelectorAll('.selected').forEach(elem => {
                 elem.classList.remove('selected');
@@ -888,32 +703,27 @@
             this.selectedBlock = null;
         }
 
-        // Highlight component
         highlightComponent(component) {
-            component.style.filter = 'brightness(1.2)';
+            component.style.filter = 'brightness(1.15)';
         }
 
-        // Unhighlight component
         unhighlightComponent(component) {
             component.style.filter = '';
         }
 
-        // Highlight connection
         highlightConnection(connection) {
-            connection.style.strokeWidth = '5';
+            connection.style.strokeWidth = '4';
             connection.style.opacity = '1';
         }
 
-        // Unhighlight connection
         unhighlightConnection(connection) {
-            connection.style.strokeWidth = '3';
+            connection.style.strokeWidth = '2.5';
             connection.style.opacity = '0.8';
         }
 
-        // Highlight related connections
         highlightRelatedConnections(componentId) {
-            const connections = document.querySelectorAll('.connection-line');
-            connections.forEach(conn => {
+            const conns = document.querySelectorAll('.connection-line');
+            conns.forEach(conn => {
                 const from = conn.getAttribute('data-from');
                 const to = conn.getAttribute('data-to');
                 if (from === componentId || to === componentId) {
@@ -923,155 +733,9 @@
         }
     }
 
-    // ============================================
-    // TOC CLOSE BUTTON FUNCTIONALITY
-    // ============================================
-
-    // Функция для добавления кнопки закрытия в TOC
-    function addCloseButtonToToc() {
-        const toc = document.querySelector('.article-toc.show-for-article');
-        if (!toc) return;
-
-        // Проверяем, если кнопка уже добавлена
-        if (toc.querySelector('.toc-close-button')) return;
-
-        // Создаем кнопку закрытия
-        const closeButton = document.createElement('button');
-        closeButton.className = 'toc-close-button';
-        closeButton.type = 'button';
-        closeButton.setAttribute('aria-label', 'Закрыть содержание');
-        closeButton.setAttribute('title', 'Закрыть содержание');
-        closeButton.innerHTML = '&times;'; // HTML entity для крестика
-
-        // Применяем стили к кнопке
-        Object.assign(closeButton.style, {
-            position: 'absolute',
-            top: '8px',
-            right: '8px',
-            width: '24px',
-            height: '24px',
-            background: 'transparent',
-            border: 'none',
-            color: '#9ca3af',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            zIndex: '102',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '4px',
-            transition: 'all 0.2s ease'
-        });
-
-        // Обработчик наведения для эффекта hover
-        closeButton.addEventListener('mouseenter', function () {
-            this.style.color = '#ffffff';
-            this.style.backgroundColor = 'rgba(239, 68, 68, 0.8)';
-        });
-
-        closeButton.addEventListener('mouseleave', function () {
-            this.style.color = '#9ca3af';
-            this.style.backgroundColor = 'transparent';
-        });
-
-        // Основной обработчик клика - закрывает TOC
-        closeButton.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            // Убираем класс для скрытия TOC
-            toc.classList.remove('show-for-article');
-
-            console.log('TOC закрыт пользователем');
-        });
-
-        // Убеждаемся, что TOC имеет относительное позиционирование
-        if (getComputedStyle(toc).position === 'static') {
-            toc.style.position = 'relative';
-        }
-
-        // Добавляем кнопку в TOC
-        toc.appendChild(closeButton);
-
-        console.log('Кнопка закрытия TOC добавлена');
-    }
-
-    // Автоматическое добавление кнопки при различных событиях
-    function initializeTocCloseButton() {
-        // Добавляем кнопку при загрузке страницы
-        document.addEventListener('DOMContentLoaded', function () {
-            setTimeout(addCloseButtonToToc, 200);
-        });
-
-        // Добавляем кнопку при изменении хэша (навигация)
-        window.addEventListener('hashchange', function () {
-            setTimeout(addCloseButtonToToc, 150);
-        });
-
-        // Наблюдаем за изменениями в DOM
-        const observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
-                if (mutation.type === 'attributes' &&
-                    mutation.attributeName === 'class' &&
-                    mutation.target.classList.contains('show-for-article')) {
-                    setTimeout(addCloseButtonToToc, 50);
-                }
-            });
-        });
-
-        // Наблюдаем за всеми элементами article-toc
-        setTimeout(() => {
-            const tocElements = document.querySelectorAll('.article-toc');
-            tocElements.forEach(function (element) {
-                observer.observe(element, {
-                    attributes: true,
-                    attributeFilter: ['class']
-                });
-            });
-        }, 100);
-
-        // Также наблюдаем за добавлением новых TOC элементов
-        const bodyObserver = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
-                mutation.addedNodes.forEach(function (node) {
-                    if (node.nodeType === 1 && node.classList &&
-                        node.classList.contains('article-toc')) {
-                        observer.observe(node, {
-                            attributes: true,
-                            attributeFilter: ['class']
-                        });
-                        if (node.classList.contains('show-for-article')) {
-                            setTimeout(addCloseButtonToToc, 50);
-                        }
-                    }
-                });
-            });
-        });
-
-        bodyObserver.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-    }
-
-    // Инициализация всех систем
     document.addEventListener('DOMContentLoaded', () => {
-        // Initialize architecture diagram
         const architectureManager = new ArchitectureManager();
         architectureManager.initialize();
-
-        // Initialize TOC close button system
-        initializeTocCloseButton();
-
-        // Make architecture manager globally available
         window.VulneraAIArchitecture = architectureManager;
-
-        console.log('VulneraAI Architecture Module loaded successfully');
     });
-
-    // Экспорт функций в глобальную область
-    window.addCloseButtonToToc = addCloseButtonToToc;
-    window.ArchitectureManager = ArchitectureManager;
-
 })();
