@@ -24,7 +24,8 @@
                     <a href="#home" class="nav-link active" data-page="home">Главная</a>
                     <a href="#architecture" class="nav-link" data-page="architecture">Архитектура</a>
                     <a href="#documentation" class="nav-link" data-page="documentation">Документация</a>
-                    <a href="#contact" class="nav-link" data-page="contact">Контакты</a>
+                    <a href="https://shtormlabs.ru" class="nav-link" target="_blank" rel="noopener noreferrer">Наш
+                        сайт</a>
                 </div>
             </div>
         </div>
@@ -53,8 +54,8 @@
                         <button class="btn btn--primary btn--lg" data-page="architecture">
                             Обзор архитектуры
                         </button>
-                        <button class="btn btn--outline btn--lg" data-page="components">
-                            Компоненты системы
+                        <button class="btn btn--outline btn--lg" data-page="documentation">
+                            Документация
                         </button>
                     </div>
                 </div>
@@ -79,8 +80,8 @@
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔍</div>
-                        <h3 class="feature-title">Детекция unknown уязвимостей</h3>
-                        <p class="feature-description">ML-алгоритмы обнаруживают zero-day и нестандартные векторы атак
+                        <h3 class="feature-title">Детекция 0-day уязвимостей</h3>
+                        <p class="feature-description">ML-алгоритмы обнаруживают 0-day и нестандартные векторы атак
                         </p>
                     </div>
                     <div class="feature-card">
@@ -289,107 +290,59 @@
         </section>
     </main>
 
-    <!-- Contact Page -->
-    <main id="contact" class="page">
-        <section class="page-hero">
-            <div class="container">
-                <h1 class="page-title">Свяжитесь с нами</h1>
-                <p class="page-subtitle">Поддержка и сотрудничество</p>
-            </div>
-        </section>
-
-        <section class="contact-section">
-            <div class="container">
-                <div class="contact-grid">
-                    <div class="contact-info">
-                        <h3>📞 О проекте</h3>
-                        <div class="contact-item">
-                            <strong>Наш сайт:</strong>
-                            <a href="https://shtormlabs.ru" target="_blank">shtormlabs.ru</a>
-                        </div>
-                        <div class="contact-item">
-                            <strong>Наши контакты:</strong>
-                            <a href="https://shtormlabs.ru/contact.html" target="_blank">Контакты ШтормЛабс</a>
-                        </div>
-                    </div>
-
-                    <div class="contact-form-container">
-                        <form class="contact-form" onsubmit="handleContactForm(event)">
-                            <div class="form-group">
-                                <label class="form-label">Имя *</label>
-                                <input type="text" class="form-control" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Email *</label>
-                                <input type="email" class="form-control" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Тип запроса *</label>
-                                <select class="form-control" name="type" required>
-                                    <option value="">Выберите...</option>
-                                    <option value="support">Техническая поддержка</option>
-                                    <option value="feature">Предложение функции</option>
-                                    <option value="bug">Сообщение об ошибке</option>
-                                    <option value="partnership">Партнёрство</option>
-                                    <option value="other">Другое</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Сообщение *</label>
-                                <textarea class="form-control" name="message" rows="5" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn--primary btn--full-width">Отправить запрос</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <span class="logo-text">VulneraAI</span>
+        <div class="footer-wrapper">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section footer-section--primary">
+                        <div class="footer-logo">
+                            <span class="footer-logo-text">VulneraAI</span>
+                        </div>
+                        <p class="footer-description">
+                            Автоматизированная платформа для тестирования на проникновение с использованием ИИ
+                        </p>
+                        <div class="footer-social">
+                            <a href="https://t.me/Shtorm_Labs" target="_blank" rel="noopener noreferrer"
+                                class="social-link" title="Telegram">Telegram</a>
+                            <a href="https://shtormlabs.ru" target="_blank" rel="noopener noreferrer"
+                                class="social-link" title="ШтормЛабс">ШтормЛабс</a>
+                        </div>
                     </div>
-                    <p class="footer-description">
-                        Автоматизированная платформа для тестирования на проникновение с ИИ
+
+                    <div class="footer-section">
+                        <h4 class="footer-title">Платформа</h4>
+                        <ul class="footer-links">
+                            <li><a href="#home" class="footer-link" data-page="home">Главная</a></li>
+                            <li><a href="#architecture" class="footer-link" data-page="architecture">Архитектура</a>
+                            </li>
+                            <li><a href="#documentation" class="footer-link" data-page="documentation">Документация</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4 class="footer-title">Информация</h4>
+                        <ul class="footer-links">
+                            <li><a href="https://shtormlabs.ru/company.html" target="_blank" rel="noopener noreferrer"
+                                    class="footer-link">О компании</a></li>
+                            <li><a href="https://github.com/Kelll31" target="_blank" rel="noopener noreferrer"
+                                    class="footer-link">GitHub</a></li>
+                            <li><a href="#documentation" target="_blank" rel="noopener noreferrer"
+                                    class="footer-link">API Документация</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p class="footer-copyright">
+                        © 2025 VulneraAI. Все права защищены.
+                    </p>
+                    <p class="footer-company">
+                        Разработано компанией <a href="https://shtormlabs.ru" target="_blank" rel="noopener noreferrer"
+                            class="footer-link-highlight">ШтормЛабс</a>
                     </p>
                 </div>
-                <div class="footer-section">
-                    <h4 class="footer-title">Компоненты</h4>
-                    <ul class="footer-links">
-                        <li><a href="https://github.com/Kelll31/VulneraAI_Server" target="_blank"
-                                class="footer-link">Server</a></li>
-                        <li><a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux" target="_blank"
-                                class="footer-link">Client (Kali)</a></li>
-                        <li><a href="https://github.com/Kelll31/VulneraAI" target="_blank"
-                                class="footer-link">Website</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-title">Ресурсы</h4>
-                    <ul class="footer-links">
-                        <li><a href="#architecture" class="footer-link" data-page="architecture">Архитектура</a></li>
-                        <li><a href="#components" class="footer-link" data-page="components">Компоненты</a></li>
-                        <li><a href="#documentation" class="footer-link" data-page="documentation">Документация</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-title">Проект</h4>
-                    <ul class="footer-links">
-                        <li><a href="#home" class="footer-link" data-page="home">О проекте</a></li>
-                        <li><a href="#contact" class="footer-link" data-page="contact">Контакты</a></li>
-                        <li><a href="https://shtormlabs.ru" target="_blank" class="footer-link">ШтормЛабс</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p class="footer-copyright">
-                    © 2025 VulneraAI. Все права защищены. | MIT License | ШтормЛабс
-                </p>
             </div>
         </div>
     </footer>
@@ -397,13 +350,6 @@
     <script src="js/architecture.js"></script>
     <script src="js/app.js"></script>
     <script src="js/docs.js"></script>
-    <script>
-        function handleContactForm(event) {
-            event.preventDefault();
-            alert('Спасибо за ваше сообщение!');
-            event.target.reset();
-        }
-    </script>
     <style>
         /* Tech Stack Cards - Redesigned Styles */
         .tech-stack-section {
