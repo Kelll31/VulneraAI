@@ -102,29 +102,80 @@
             </div>
         </section>
 
-        <!-- Tech Stack -->
-        <section class="section" style="background: linear-gradient(180deg, rgba(15,23,42,0.5) 0%, rgba(30,41,59,0.5) 100%);">
+        <!-- Tech Stack Section - Redesigned -->
+        <section class="section tech-stack-section">
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">Технологический стек</h2>
                     <p class="section-subtitle">Современные и надёжные технологии</p>
                 </div>
-                <div class="tech-grid">
-                    <div class="tech-item">
-                        <h4>🖥️ Backend Server</h4>
-                        <p>FastAPI • Python 3.11+ • PostgreSQL • Redis • RabbitMQ</p>
+                <div class="tech-cards-grid">
+                    <!-- Backend Server -->
+                    <div class="tech-card">
+                        <div class="tech-card-header">
+                            <div class="tech-icon">🖥️</div>
+                            <h3>Бэкэнд Сервер</h3>
+                        </div>
+                        <div class="tech-card-body">
+                            <ul class="tech-list">
+                                <li><span class="tech-label">Framework</span> FastAPI</li>
+                                <li><span class="tech-label">Language</span> Python 3.11+</li>
+                                <li><span class="tech-label">Database</span> PostgreSQL</li>
+                                <li><span class="tech-label">Cache</span> Redis</li>
+                                <li><span class="tech-label">Queue</span> RabbitMQ</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="tech-item">
-                        <h4>🐉 Kali Linux Client</h4>
-                        <p>Python 3.11+ • React 18 • TypeScript • Vite • FastAPI</p>
+
+                    <!-- Kali Client -->
+                    <div class="tech-card">
+                        <div class="tech-card-header">
+                            <div class="tech-icon">🐉</div>
+                            <h3>Kali Linux Клиент</h3>
+                        </div>
+                        <div class="tech-card-body">
+                            <ul class="tech-list">
+                                <li><span class="tech-label">Frontend</span> React 18</li>
+                                <li><span class="tech-label">Language</span> TypeScript</li>
+                                <li><span class="tech-label">Backend</span> FastAPI</li>
+                                <li><span class="tech-label">CLI</span> Typer + Rich</li>
+                                <li><span class="tech-label">Bundler</span> Vite</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="tech-item">
-                        <h4>🌐 Website</h4>
-                        <p>HTML5 • CSS3 • JavaScript • GitHub Pages</p>
+
+                    <!-- Website -->
+                    <div class="tech-card">
+                        <div class="tech-card-header">
+                            <div class="tech-icon">🌐</div>
+                            <h3>Вебсайт</h3>
+                        </div>
+                        <div class="tech-card-body">
+                            <ul class="tech-list">
+                                <li><span class="tech-label">Markup</span> HTML5</li>
+                                <li><span class="tech-label">Styling</span> CSS3</li>
+                                <li><span class="tech-label">Interactivity</span> JavaScript</li>
+                                <li><span class="tech-label">Design</span> Responsive</li>
+                                <li><span class="tech-label">Hosting</span> GitHub Pages</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="tech-item">
-                        <h4>🚀 Масштабирование</h4>
-                        <p>Docker • Docker Compose • Kubernetes • Async/Await</p>
+
+                    <!-- Scalability -->
+                    <div class="tech-card">
+                        <div class="tech-card-header">
+                            <div class="tech-icon">🚀</div>
+                            <h3>Масштабирование</h3>
+                        </div>
+                        <div class="tech-card-body">
+                            <ul class="tech-list">
+                                <li><span class="tech-label">Containerization</span> Docker</li>
+                                <li><span class="tech-label">Orchestration</span> Kubernetes</li>
+                                <li><span class="tech-label">Composition</span> Docker Compose</li>
+                                <li><span class="tech-label">Async</span> Async/Await</li>
+                                <li><span class="tech-label">Concurrency</span> AsyncIO</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -294,7 +345,7 @@
                             <li>Архитектура системы с интерактивной диаграммой</li>
                             <li>Описание компонентов (Server / Client / Website)</li>
                             <li>Техническая документация со ссылками</li>
-                            <li>Контактная информация и GitHub Issues</li>
+                            <li>Контактная информация</li>
                         </ul>
 
                         <h4>Технология:</h4>
@@ -367,13 +418,6 @@
                                 <li><a href="https://github.com/Kelll31/VulneraAI_Server#openapiwagger" target="_blank">Swagger Docs</a></li>
                             </ul>
                         </div>
-                        <div class="docs-nav-section">
-                            <h4 class="docs-nav-title">🐛 Помощь</h4>
-                            <ul class="docs-nav-list">
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/issues" target="_blank">Server Issues</a></li>
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/issues" target="_blank">Client Issues</a></li>
-                            </ul>
-                        </div>
                     </nav>
 
                     <div class="docs-content">
@@ -411,12 +455,12 @@
         </section>
     </main>
 
-    <!-- Contact Page -->
+    <!-- Contact Page - Updated -->
     <main id="contact" class="page">
         <section class="page-hero">
             <div class="container">
                 <h1 class="page-title">Свяжитесь с нами</h1>
-                <p class="page-subtitle">Техническая поддержка и сотрудничество</p>
+                <p class="page-subtitle">Поддержка и сотрудничество</p>
             </div>
         </section>
 
@@ -424,37 +468,31 @@
             <div class="container">
                 <div class="contact-grid">
                     <div class="contact-info">
-                        <h3>📞 Техническая поддержка</h3>
+                        <h3>📞 О проекте</h3>
                         <div class="contact-item">
-                            <strong>GitHub Issues (Server):</strong>
-                            <a href="https://github.com/Kelll31/VulneraAI_Server/issues" target="_blank">VulneraAI_Server/issues</a>
+                            <strong>📍 Автор:</strong>
+                            <a href="https://github.com/kelll31" target="_blank">Kelll31 @ GitHub</a>
                         </div>
                         <div class="contact-item">
-                            <strong>GitHub Issues (Client):</strong>
-                            <a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/issues" target="_blank">VulneraAI_Client_Kali_Linux/issues</a>
-                        </div>
-
-                        <h3 style="margin-top: 30px;">👨‍💻 Разработка</h3>
-                        <div class="contact-item">
-                            <strong>GitHub профиль:</strong>
-                            <a href="https://github.com/kelll31" target="_blank">github.com/kelll31</a>
+                            <strong>💾 Народная лаборатория:</strong>
+                            <a href="https://shtormlabs.ru" target="_blank">shtormlabs.ru</a>
                         </div>
                         <div class="contact-item">
-                            <strong>GitHub Organization:</strong>
-                            <a href="https://github.com/Kelll31" target="_blank">Все репозитории</a>
+                            <strong>📧 Найти контакты:</strong>
+                            <a href="https://shtormlabs.ru" target="_blank">Контакты ШтормЛабс</a>
                         </div>
 
-                        <h3 style="margin-top: 30px;">📦 Репозитории проекта</h3>
+                        <h3 style="margin-top: 30px;">📤 Открытые коды</h3>
                         <div class="contact-item">
-                            <strong>Server:</strong>
+                            <strong>📚 Server:</strong>
                             <a href="https://github.com/Kelll31/VulneraAI_Server" target="_blank">VulneraAI_Server</a>
                         </div>
                         <div class="contact-item">
-                            <strong>Client:</strong>
+                            <strong>📚 Client:</strong>
                             <a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux" target="_blank">VulneraAI_Client_Kali_Linux</a>
                         </div>
                         <div class="contact-item">
-                            <strong>Website:</strong>
+                            <strong>📚 Website:</strong>
                             <a href="https://github.com/Kelll31/VulneraAI" target="_blank">VulneraAI (этот сайт)</a>
                         </div>
                     </div>
@@ -485,9 +523,6 @@
                                 <textarea class="form-control" name="message" rows="5" required></textarea>
                             </div>
                             <button type="submit" class="btn btn--primary btn--full-width">Отправить запрос</button>
-                            <p style="text-align: center; font-size: 0.9em; color: var(--color-text-secondary); margin-top: 10px;">
-                                ✅ Лучше всего открыть issue на GitHub для техподдержки
-                            </p>
                         </form>
                     </div>
                 </div>
@@ -528,13 +563,13 @@
                     <ul class="footer-links">
                         <li><a href="#home" class="footer-link" data-page="home">О проекте</a></li>
                         <li><a href="#contact" class="footer-link" data-page="contact">Контакты</a></li>
-                        <li><a href="https://github.com/kelll31" target="_blank" class="footer-link">GitHub</a></li>
+                        <li><a href="https://shtormlabs.ru" target="_blank" class="footer-link">ШтормЛабс</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p class="footer-copyright">
-                    © 2025 VulneraAI. Все права защищены. | MIT License | Updated Dec 2025
+                    © 2025 VulneraAI. Все права защищены. | MIT License | ШтормЛабс
                 </p>
             </div>
         </div>
@@ -546,10 +581,88 @@
     <script>
         function handleContactForm(event) {
             event.preventDefault();
-            alert('Спасибо за ваше сообщение! Пожалуйста используйте GitHub Issues для более быстрого ответа.');
+            alert('Спасибо за ваше сообщение!');
             event.target.reset();
         }
     </script>
+    <style>
+        /* Tech Stack Cards - Redesigned Styles */
+        .tech-stack-section {
+            background: linear-gradient(180deg, rgba(15,23,42,0.5) 0%, rgba(30,41,59,0.5) 100%);
+        }
+
+        .tech-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .tech-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(34, 211, 238, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tech-card:hover {
+            border-color: rgba(59, 130, 246, 0.6);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(34, 211, 238, 0.15));
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.2);
+        }
+
+        .tech-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 16px;
+        }
+
+        .tech-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .tech-card-header h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .tech-card-body {
+            flex-grow: 1;
+        }
+
+        .tech-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tech-list li {
+            display: flex;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--color-text-secondary);
+        }
+
+        .tech-label {
+            display: inline-block;
+            min-width: 70px;
+            font-weight: 500;
+            color: var(--color-primary);
+        }
+    </style>
 </body>
 
 </html>
