@@ -126,6 +126,9 @@
         // Активируем флаг документации
         isDocsActive = true;
 
+        // Управляем футером
+        controlFooterVisibility('documentation');
+
         // Если нет хэша документации, ставим базовый
         if (!window.location.hash || !window.location.hash.includes('/')) {
             window.history.replaceState(null, null, '#documentation');
@@ -141,11 +144,15 @@
         // Показываем страницу
         showPage(pageName);
 
+        // Управляем футером в зависимости от страницы
+        controlFooterVisibility(pageName);
+
         // Обновляем хэш если нужно
         if (updateHash && window.location.hash.slice(1) !== pageName) {
             window.history.pushState(null, null, `#${pageName}`);
         }
     }
+
 
     function showPage(pageName) {
         // Hide all pages
@@ -256,6 +263,35 @@
         });
     }
 
+
+    // ============================================
+    // FOOTER VISIBILITY CONTROL
+    // ============================================
+
+    function controlFooterVisibility(pageName) {
+        const footer = document.querySelector('.footer');
+
+        if (!footer) {
+            console.warn('VulneraAI: Footer element not found');
+            return;
+        }
+
+        // Страницы, на которых футер скрывается
+        const pagesWithoutFooter = ['architecture', 'documentation'];
+
+        if (pagesWithoutFooter.includes(pageName)) {
+            console.log('VulneraAI: Hiding footer for page:', pageName);
+            footer.style.display = 'none';
+            footer.classList.add('footer--hidden');
+            document.body.classList.add('no-footer');
+        } else {
+            console.log('VulneraAI: Showing footer for page:', pageName);
+            footer.style.display = 'block';
+            footer.classList.remove('footer--hidden');
+            document.body.classList.remove('no-footer');
+        }
+    }
+    
     // ============================================
     // PERSISTENT DYNAMIC AI BACKGROUND
     // ============================================
