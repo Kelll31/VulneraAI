@@ -186,13 +186,8 @@
 
         <section class="architecture-section">
             <div class="container">
-                <div id="architecture-container"
-                    style="position: relative; width: 100%; background: #0f172a; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
-                    <svg id="architectureDiagram" width="100%" height="600" viewBox="0 0 1400 600"
-                        style="display: block; margin: 0 auto;">
-                        <!-- Placeholder - заполняется через architecture.js -->
-                    </svg>
-                </div>
+                <div class="architecture-diagram"></div>
+                <div id="componentDetails"></div>
 
                 <div class="architecture-description">
                     <h3>Структура системы</h3>
@@ -287,7 +282,7 @@
                         <p><strong>Назначение:</strong> Лёгкий и мощный клиент только для Kali Linux, работающий с
                             сервером VulneraAI и выполняющий реальные команды на машине. Состоит из Python backend и
                             React frontend.</p>
-
+                        
                         <h4>Основные возможности:</h4>
                         <ul>
                             <li>React Web UI с интерфейсом чата (как ChatGPT)</li>
@@ -343,7 +338,7 @@
                     <div class="component-body">
                         <p><strong>Назначение:</strong> Информационный сайт проекта VulneraAI с полной документацией,
                             описанием компонентов и контактной информацией. Развёртывается на GitHub Pages.</p>
-
+                        
                         <h4>Основные разделы:</h4>
                         <ul>
                             <li>Главная страница с обзором проекта</li>
@@ -684,6 +679,11 @@
             min-width: 70px;
             font-weight: 500;
             color: var(--color-primary);
+        }
+
+        /* Architecture details container basic style (diagram-specific styles are in architecture.js CSS) */
+        #componentDetails {
+            margin-top: 20px;
         }
     </style>
 </body>
