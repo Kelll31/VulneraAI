@@ -57,6 +57,7 @@
         initializeFromCurrentState();
     }
 
+
     function initializeFromCurrentState() {
         const hash = window.location.hash.slice(1);
 
@@ -126,7 +127,7 @@
         // Активируем флаг документации
         isDocsActive = true;
 
-        // Управляем футером
+        // Управляем футером - ПОКАЗЫВАЕМ для documentation
         controlFooterVisibility('documentation');
 
         // Если нет хэша документации, ставим базовый
@@ -276,8 +277,9 @@
             return;
         }
 
-        // Страницы, на которых футер скрывается
-        const pagesWithoutFooter = ['architecture', 'documentation'];
+        // ТОЛЬКО на странице архитектуры футер скрывается
+        // На documentation и других страницах - показываем
+        const pagesWithoutFooter = ['architecture'];
 
         if (pagesWithoutFooter.includes(pageName)) {
             console.log('VulneraAI: Hiding footer for page:', pageName);
@@ -291,7 +293,7 @@
             document.body.classList.remove('no-footer');
         }
     }
-    
+
     // ============================================
     // PERSISTENT DYNAMIC AI BACKGROUND
     // ============================================

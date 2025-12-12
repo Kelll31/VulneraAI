@@ -62,7 +62,6 @@
                 { source: 'core_services', target: 'external_apis', protocol: 'REST', bidirectional: false },
                 { source: 'core_services', target: 'report_gen', protocol: 'Data', bidirectional: false },
                 { source: 'core_services', target: 'monitoring', protocol: 'Metrics', bidirectional: false },
-                { source: 'client_backend', target: 'monitoring', protocol: 'Logs', bidirectional: false },
             ];
         }
 
@@ -563,14 +562,14 @@
                     <p style="margin: 0 0 20px 0; color: #e2e8f0; font-size: 15px; line-height: 1.7;">${details.description}</p>
                     
                     <div style="background: rgba(0,0,0,0.3); padding: 18px; border-radius: 10px; margin-bottom: 16px;">
-                        <h4 style="margin: 0 0 14px 0; color: #cbd5e1; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">⚙️ Основные функции</h4>
+                        <h4 style="margin: 0 0 14px 0; color: #cbd5e1; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Основные функции</h4>
                         <ul style="margin: 0; padding-left: 24px; color: #cbd5e1; font-size: 14px; line-height: 2;">
                             ${details.features.map(f => `<li>${f}</li>`).join('')}
                         </ul>
                     </div>
                     
                     <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
-                        <h4 style="margin: 0 0 12px 0; color: #cbd5e1; font-size: 13px;">🔗 Связи с другими компонентами</h4>
+                        <h4 style="margin: 0 0 12px 0; color: #cbd5e1; font-size: 13px;">Связи с другими компонентами</h4>
                         <div style="color: #94a3b8; font-size: 13px; line-height: 1.8;">
                             ${connections.incoming.length > 0 ? `
                                 <div style="margin-bottom: 8px;">
@@ -672,7 +671,7 @@
                         font-size: 28px;
                         font-weight: bold;
                         margin-bottom: 16px;
-                    ">🎯 VulneraAI Architecture</div>
+                    ">VulneraAI Architecture</div>
                     
                     <p style="margin: 0 0 24px 0; color: #94a3b8; font-size: 16px; line-height: 1.6;">
                         Интерактивная схема с автоматическим позиционированием<br>
@@ -723,60 +722,146 @@
         getComponentDetails(id) {
             const allDetails = {
                 'api_gateway': {
-                    description: 'Центральная точка входа для всех REST API запросов от клиентов и внешних систем. Обрабатывает аутентификацию, авторизацию, rate limiting и маршрутизацию к бизнес-логике.',
-                    features: ['FastAPI framework с async/await', 'JWT токены для аутентификации', 'Rate limiting через Redis', 'OpenAPI документация', 'CORS и security headers']
+                    description: 'REST API шлюз на FastAPI для маршрутизации всех запросов от клиентов. Обеспечивает JWT аутентификацию, валидацию данных через Pydantic и документирование через OpenAPI.',
+                    features: [
+                        'FastAPI 0.104+ асинхронный framework',
+                        'JWT токены PyJWT для безопасности',
+                        'Pydantic V2 для валидации данных',
+                        'Uvicorn ASGI сервер',
+                        'Auto-generated OpenAPI документация',
+                        'CORS middleware для cross-origin запросов'
+                    ]
                 },
                 'core_services': {
-                    description: 'Ядро системы VulneraAI, содержащее всю бизнес-логику управления пентестами, проектами, учётными записями и координацией работы агентов.',
-                    features: ['Микросервисная архитектура', 'Управление пентестами', 'User и project management', 'Domain-Driven Design', 'Event sourcing для аудита']
+                    description: 'Бизнес-логика VulneraAI. Управление пентестами, проектами, сканированиями. Координирует взаимодействие между API и агентом на Kali Linux.',
+                    features: [
+                        'Service Layer паттерн для разделения логики',
+                        'Database ORM SQLAlchemy V2 для моделирования',
+                        'Асинхронные операции через async/await',
+                        'Dependency Injection через FastAPI Depends',
+                        'Repository паттерн для доступа к БД',
+                        'Бизнес-логика управления пентестами'
+                    ]
                 },
                 'storage': {
-                    description: 'Двухуровневая система хранения: PostgreSQL для долгосрочных данных и Redis для кэша, сессий и временных данных.',
-                    features: ['PostgreSQL 15+ с репликацией', 'Redis 7+ для кэша', 'Connection pooling', 'Автоматические бэкапы', 'Query optimization']
+                    description: 'PostgreSQL для персистентного хранения результатов пентестов, проектов, пользователей. Кэширование через Redis опционально.',
+                    features: [
+                        'PostgreSQL 14+ с поддержкой JSONB типов',
+                        'SQLAlchemy ORM для работы с БД',
+                        'Alembic для миграций базы данных',
+                        'Нормализованная схема для пентестов',
+                        'Индексирование критических полей',
+                        'Connection pooling через psycopg3'
+                    ]
                 },
                 'queue': {
-                    description: 'Система очередей сообщений для асинхронной обработки тяжёлых задач: запуск сканов, генерация отчётов, обработка данных.',
-                    features: ['RabbitMQ message broker', 'Celery workers', 'Priority queues', 'Retry механизмы', 'Dead letter queues']
+                    description: 'Celery с RabbitMQ/Redis для асинхронной обработки длительных операций: запуск сканов, генерация отчётов, обработка результатов.',
+                    features: [
+                        'Celery для распределённых задач',
+                        'RabbitMQ или Redis в качестве broker',
+                        'Retry механизмы для отказоустойчивости',
+                        'Task monitoring и логирование',
+                        'Асинхронное выполнение сканирований',
+                        'Priority queue для критичных задач'
+                    ]
                 },
                 'auth': {
-                    description: 'Сервис аутентификации и авторизации, управляющий доступом пользователей к системе и её ресурсам.',
-                    features: ['JWT и OAuth 2.0', 'Role-based access control', 'Multi-factor authentication', 'Session management', 'Password policies']
+                    description: 'JWT-based аутентификация на FastAPI. Управление пользователями, ролями доступа, безопасное хранение паролей с bcrypt.',
+                    features: [
+                        'PyJWT для генерации и проверки токенов',
+                        'Passlib и bcrypt для хеширования паролей',
+                        'Пользователи и роли доступа (User, Admin)',
+                        'Refresh tokens для продления сессии',
+                        'Rate limiting на защищённых endpoints',
+                        'Audit logs для отслеживания действий'
+                    ]
                 },
                 'client_ui': {
-                    description: 'Современный веб-интерфейс с чат-подобным UX для управления пентестами и взаимодействия с AI-ассистентом.',
-                    features: ['React 18 + TypeScript', 'Material-UI / Tailwind', 'Real-time WebSocket updates', 'Code syntax highlighting', 'Responsive design']
+                    description: 'React фронтенд с TypeScript. Интерфейс для управления пентестами, просмотра результатов и взаимодействия с AI.',
+                    features: [
+                        'React 18 с TypeScript поддержкой',
+                        'Tailwind CSS для стилизации',
+                        'Axios для HTTP запросов к API',
+                        'WebSocket для real-time обновлений',
+                        'State management Redux или Zustand',
+                        'Responsive дизайн для всех устройств'
+                    ]
                 },
                 'client_backend': {
-                    description: 'Локальный агент на Kali Linux, который выполняет команды сканирования и отправляет результаты на сервер.',
-                    features: ['FastAPI lightweight agent', 'Безопасное выполнение команд', 'Process management', 'Output parsing', 'Result streaming']
+                    description: 'Python агент на Kali Linux. Выполняет команды сканирования инструментов, отправляет результаты на сервер, управляет процессами.',
+                    features: [
+                        'Python 3.11+ с asyncio поддержкой',
+                        'Requests/httpx для API коммуникации',
+                        'Socket.io для real-time обмена данными',
+                        'Subprocess управление инструментами Kali',
+                        'Structured logging через Python logging',
+                        'SSL сертификаты для безопасной передачи'
+                    ]
                 },
                 'cli_tools': {
-                    description: 'Интеграция с полным набором инструментов Kali Linux: Nmap, Metasploit, Burp Suite, Nikto, SQLMap и другими.',
-                    features: ['Native integration с 50+ tools', 'Command templating', 'Output normalization', 'Error handling', 'Version compatibility']
+                    description: 'Интеграция с инструментами Kali Linux для сканирования: Nmap, Metasploit, Burp Suite, Nikto, SQLMap, Hydra, Gobuster.',
+                    features: [
+                        'Nmap для сканирования портов и сервисов',
+                        'Metasploit для поиска и эксплуатации',
+                        'Nikto для сканирования веб-приложений',
+                        'SQLMap для тестирования SQL injection',
+                        'Hydra для brute-force атак',
+                        'Gobuster для перебора директорий и DNS'
+                    ]
                 },
                 'monitoring': {
-                    description: 'Комплексная система мониторинга для отслеживания состояния всех компонентов и метрик производительности.',
-                    features: ['Prometheus metrics', 'Grafana dashboards', 'Alert manager', 'Custom metrics', 'Distributed tracing']
+                    description: 'Prometheus для мониторинга здоровья системы, метрик производительности API, задач Celery. Alerting через Alertmanager.',
+                    features: [
+                        'Prometheus метрики для request/latency',
+                        'Grafana дашборды для визуализации',
+                        'Alertmanager для критичных оповещений',
+                        'Метрики выполнения Celery задач',
+                        'Мониторинг соединений БД и queries',
+                        'Custom бизнес-метрики'
+                    ]
                 },
                 'webhooks': {
-                    description: 'Система webhook-уведомлений для интеграции с Slack, Discord, Jira, PagerDuty и другими платформами.',
-                    features: ['Event-driven architecture', 'Webhook templates', 'Retry logic с backoff', 'Signature verification', 'Payload customization']
+                    description: 'Event-driven система для уведомлений при завершении сканирования. Интеграция со Slack, Discord, email.',
+                    features: [
+                        'Webhook callbacks для событий',
+                        'Slack интеграция с форматированными сообщениями',
+                        'Discord интеграция с embed-ами',
+                        'Email уведомления с результатами',
+                        'Telegram bot опционально',
+                        'Retry logic для надёжной доставки'
+                    ]
                 },
                 'external_apis': {
-                    description: 'Интеграция с threat intelligence API: Shodan, VirusTotal, CVE databases, MITRE ATT&CK.',
-                    features: ['Multi-provider support (10+ API)', 'API key management', 'Response caching', 'Rate limit handling', 'Data enrichment']
+                    description: 'Интеграция с внешними threat intelligence сервисами: VirusTotal, Shodan, HaveIBeenPwned, CVE/NVD databases.',
+                    features: [
+                        'VirusTotal для анализа файлов',
+                        'Shodan для информации об IP адресах',
+                        'HaveIBeenPwned для проверки утечек паролей',
+                        'NVD/CVE databases для уязвимостей',
+                        'API key management и rate limiting',
+                        'Кэширование responses через Redis'
+                    ]
                 },
                 'report_gen': {
-                    description: 'Генератор профессиональных отчётов в PDF, HTML, JSON, DOCX с кастомизируемыми шаблонами.',
-                    features: ['Template engine (Jinja2)', 'PDF generation', 'Chart rendering', 'Executive summaries', 'Multi-language support']
+                    description: 'Генератор профессиональных отчётов в PDF/HTML/DOCX. Включает выводы, рекомендации и детальное описание уязвимостей.',
+                    features: [
+                        'Jinja2 для HTML шаблонов отчётов',
+                        'WeasyPrint для конвертации PDF',
+                        'Charts.js для визуализации данных',
+                        'Python-docx для DOCX экспорта',
+                        'Кастомизируемые шаблоны под клиента',
+                        'Multi-language поддержка отчётов'
+                    ]
                 }
             };
 
             return allDetails[id] || {
                 description: 'Компонент системы VulneraAI для автоматизированного пентестинга.',
-                features: ['Подробная информация скоро будет добавлена']
+                features: ['Подробная информация будет добавлена']
             };
         }
+
+
     }
 
     // CSS
@@ -796,7 +881,7 @@
         const architecture = new VulneraAIArchitecture();
         architecture.initialize();
 
-        console.log('%c🎯 VulneraAI Architecture Loaded', 'color: #3b82f6; font-size: 16px; font-weight: bold;');
+        console.log('%cVulneraAI Architecture Loaded', 'color: #3b82f6; font-size: 16px; font-weight: bold;');
         console.log('%cNodes:', 'color: #10b981; font-weight: bold;', architecture.nodes.length);
         console.log('%cEdges:', 'color: #f97316; font-weight: bold;', architecture.edges.length);
     });
