@@ -42,7 +42,6 @@
                 { id: 'cli_tools', name: 'CLI Tools', tech: 'Kali Suite', group: 'client', color: '#059669', size: 0.8 },
 
                 // INTEGRATION BLOCK
-                { id: 'gpt_tunnel', name: 'GPT Tunnel', tech: 'AI Processing', group: 'integration', color: '#f97316', size: 1.0 },
                 { id: 'monitoring', name: 'Monitoring', tech: 'Prometheus', group: 'integration', color: '#94a3b8', size: 0.9 },
                 { id: 'webhooks', name: 'Webhooks', tech: 'Events', group: 'integration', color: '#ec4899', size: 0.9 },
                 { id: 'external_apis', name: 'External APIs', tech: 'Shodan/VT', group: 'integration', color: '#fb923c', size: 0.8 },
@@ -59,7 +58,6 @@
                 { source: 'core_services', target: 'storage', protocol: 'SQL', bidirectional: true },
                 { source: 'core_services', target: 'queue', protocol: 'AMQP', bidirectional: true },
                 { source: 'queue', target: 'client_backend', protocol: 'Tasks', bidirectional: false },
-                { source: 'core_services', target: 'gpt_tunnel', protocol: 'API', bidirectional: true },
                 { source: 'core_services', target: 'webhooks', protocol: 'Events', bidirectional: false },
                 { source: 'core_services', target: 'external_apis', protocol: 'REST', bidirectional: false },
                 { source: 'core_services', target: 'report_gen', protocol: 'Data', bidirectional: false },
@@ -755,10 +753,6 @@
                 'cli_tools': {
                     description: 'Интеграция с полным набором инструментов Kali Linux: Nmap, Metasploit, Burp Suite, Nikto, SQLMap и другими.',
                     features: ['Native integration с 50+ tools', 'Command templating', 'Output normalization', 'Error handling', 'Version compatibility']
-                },
-                'gpt_tunnel': {
-                    description: 'Безопасный прокси для интеграции с LLM (GPT-4, Claude) для анализа результатов и генерации рекомендаций.',
-                    features: ['OpenAI и Anthropic API', 'Prompt engineering', 'Response caching', 'Cost optimization', 'Rate limiting']
                 },
                 'monitoring': {
                     description: 'Комплексная система мониторинга для отслеживания состояния всех компонентов и метрик производительности.',
