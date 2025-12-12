@@ -176,42 +176,26 @@
 
     <!-- Architecture Page -->
     <main id="architecture" class="page">
-        <section class="page-hero">
-            <div class="container">
-                <h1 class="page-title">Полная архитектура системы</h1>
-                <p class="page-subtitle">Интерактивная диаграмма компонентов и связей</p>
-            </div>
-        </section>
 
         <section class="architecture-section">
-            <div class="container">
-                <div class="architecture-diagram"></div>
-                <div id="componentDetails"></div>
+            <div class="architecture-fullscreen">
+                <!-- Левая сторона - диаграмма -->
+                <div class="diagram-wrapper">
+                    <div class="architecture-diagram"></div>
+                </div>
 
-                <div class="architecture-description">
-                    <h3>Структура системы</h3>
-                    <ul>
-                        <li><strong>VulneraAI Server</strong> — централизованный REST API (FastAPI) для управления
-                            пентестами, подписками и аутентификацией</li>
-                        <li><strong>VulneraAI Client</strong> — клиент для Kali Linux (Python backend + React frontend)
-                            с CLI командами</li>
-                        <li><strong>Интеграции</strong> — GPT Tunnel для ИИ обработки, Prometheus для мониторинга,
-                            Webhooks для real-time обновлений</li>
-                    </ul>
-
-                    <h3 style="margin-top: 30px;">Особенности архитектуры</h3>
-                    <ul>
-                        <li><strong>Микросервисная</strong> — каждый сервис отвечает за свою функцию</li>
-                        <li><strong>Асинхронная</strong> — Python async/await для высокой производительности</li>
-                        <li><strong>Масштабируемая</strong> — RabbitMQ для очереди задач, Redis для кэширования</li>
-                        <li><strong>Безопасная</strong> — JWT токены, CORS, rate limiting, валидация данных</li>
-                        <li><strong>Контейнеризованная</strong> — Docker & Compose для лёгкого развёртывания</li>
-                        <li><strong>Kubernetes-ready</strong> — готова к развёртыванию в K8s с HPA и health checks</li>
-                    </ul>
+                <!-- Правая сторона - информационная панель -->
+                <div class="details-sidebar">
+                    <div class="sidebar-header">
+                        <h3>Информация о компонентах</h3>
+                        <button class="close-sidebar-btn" aria-label="Закрыть панель">✕</button>
+                    </div>
+                    <div id="componentDetails" class="details-content"></div>
                 </div>
             </div>
         </section>
     </main>
+
 
     <!-- Documentation Page -->
     <main id="documentation" class="page">
@@ -305,7 +289,7 @@
         </section>
     </main>
 
-    <!-- Contact Page - Updated -->
+    <!-- Contact Page -->
     <main id="contact" class="page">
         <section class="page-hero">
             <div class="container">
@@ -320,31 +304,12 @@
                     <div class="contact-info">
                         <h3>📞 О проекте</h3>
                         <div class="contact-item">
-                            <strong>📍 Автор:</strong>
-                            <a href="https://github.com/kelll31" target="_blank">Kelll31 @ GitHub</a>
-                        </div>
-                        <div class="contact-item">
-                            <strong>💾 Народная лаборатория:</strong>
+                            <strong>Наш сайт:</strong>
                             <a href="https://shtormlabs.ru" target="_blank">shtormlabs.ru</a>
                         </div>
                         <div class="contact-item">
-                            <strong>📧 Найти контакты:</strong>
-                            <a href="https://shtormlabs.ru" target="_blank">Контакты ШтормЛабс</a>
-                        </div>
-
-                        <h3 style="margin-top: 30px;">📤 Открытые коды</h3>
-                        <div class="contact-item">
-                            <strong>📚 Server:</strong>
-                            <a href="https://github.com/Kelll31/VulneraAI_Server" target="_blank">VulneraAI_Server</a>
-                        </div>
-                        <div class="contact-item">
-                            <strong>📚 Client:</strong>
-                            <a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux"
-                                target="_blank">VulneraAI_Client_Kali_Linux</a>
-                        </div>
-                        <div class="contact-item">
-                            <strong>📚 Website:</strong>
-                            <a href="https://github.com/Kelll31/VulneraAI" target="_blank">VulneraAI (этот сайт)</a>
+                            <strong>Наши контакты:</strong>
+                            <a href="https://shtormlabs.ru/contact.html" target="_blank">Контакты ШтормЛабс</a>
                         </div>
                     </div>
 

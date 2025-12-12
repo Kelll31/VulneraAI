@@ -1,238 +1,104 @@
-// VulneraAI Architecture Module - Simplified Interactive Diagram (No Zoom/Pan)
-// Features: Interactive components and blocks (click to see details), proper spacing between elements
+// VulneraAI Architecture Diagram - Improved Spacing & Bidirectional Arrows
 (function () {
     'use strict';
 
-    // Updated architecture blocks with proper spacing
-    const ARCHITECTURE_BLOCKS = {
-        server: {
-            title: "VulneraAI Server (Backend)",
-            position: { x: 20, y: 60 },
-            size: { width: 460, height: 440 },
-            color: "#1e40af",
-            components: ["api_gateway", "core_services", "storage", "queue"]
-        },
-        client: {
-            title: "VulneraAI Client (Kali Linux)",
-            position: { x: 520, y: 60 },
-            size: { width: 340, height: 200 },
-            color: "#047857",
-            components: ["client_ui", "client_backend"]
-        },
-        integrations: {
-            title: "Интеграции и внешние сервисы",
-            position: { x: 520, y: 300 },
-            size: { width: 340, height: 200 },
-            color: "#7c2d12",
-            components: ["gpt_tunnel", "monitoring", "webhooks"]
-        }
-    };
-
-    // Updated components with proper spacing
-    const architectureComponents = {
-        api_gateway: {
-            name: "API Gateway",
-            technical_name: "FastAPI / Uvicorn",
-            description: "REST API слой для клиентов и интеграций",
-            details: "Отвечает за прием и маршрутизацию всех запросов от клиентов и интеграций. Реализован на FastAPI с Uvicorn в качестве ASGI-сервера. Поддерживает аутентификацию, rate limiting и базовую валидацию входных данных.",
-            connections: ["core_services", "client_backend", "webhooks"],
-            protocols: ["HTTPS/REST", "JSON"],
-            position: { x: 35, y: 90 },
-            size: { width: 180, height: 90 },
-            color: "#3b82f6",
-            block: "server"
-        },
-        core_services: {
-            name: "Core Services",
-            technical_name: "Pentests / Auth / Billing",
-            description: "Бизнес-логика: пентесты, аккаунты, подписи",
-            details: "Основной слой бизнес-логики VulneraAI. Управляет жизненным циклом пентестов, учётными записями, тарифами и фоновой обработкой задач. Все операции проходят через чётко определённые сервисные границы.",
-            connections: ["api_gateway", "storage", "queue"],
-            protocols: ["Internal API", "DB Queries"],
-            position: { x: 245, y: 90 },
-            size: { width: 200, height: 90 },
-            color: "#f59e0b",
-            block: "server"
-        },
-        storage: {
-            name: "Хранилище данных",
-            technical_name: "PostgreSQL / Redis",
-            description: "Персистентные и кэширующие хранилища",
-            details: "PostgreSQL хранит долгосрочные данные: пользователей, проекты, результаты пентестов. Redis используется для кэша, сессий и временных токенов. Это разделение дает баланс между надежностью и скоростью.",
-            connections: ["core_services"],
-            protocols: ["SQL", "Key/Value"],
-            position: { x: 35, y: 220 },
-            size: { width: 180, height: 90 },
-            color: "#6366f1",
-            block: "server"
-        },
-        queue: {
-            name: "Очередь задач",
-            technical_name: "RabbitMQ",
-            description: "Асинхронные задания и обработка",
-            details: "Очередь задач используется для фонового выполнения тяжелых операций: генерация отчетов, запуск сложных проверок, интеграция с внешними системами. Обеспечивает устойчивость и отказоустойчивость.",
-            connections: ["core_services", "client_backend"],
-            protocols: ["AMQP"],
-            position: { x: 245, y: 220 },
-            size: { width: 200, height: 90 },
-            color: "#8b5cf6",
-            block: "server"
-        },
-        client_ui: {
-            name: "Client Web UI",
-            technical_name: "React 18 / TypeScript",
-            description: "Веб-интерфейс на Kali Linux",
-            details: "Фронтенд клиента, работающий в браузере на машине Kali Linux. Предоставляет чат-подобный интерфейс, управление задачами и визуализацию результатов. Общается с локальным backend и центральным сервером.",
-            connections: ["client_backend"],
-            protocols: ["HTTP", "WebSocket"],
-            position: { x: 540, y: 90 },
-            size: { width: 150, height: 90 },
-            color: "#10b981",
-            block: "client"
-        },
-        client_backend: {
-            name: "Client Backend Agent",
-            technical_name: "FastAPI Agent",
-            description: "Агент на Kali Linux для выполнения команд",
-            details: "Локальный агент на FastAPI, запускаемый на Kali Linux. Принимает команды от центрального сервера и UI, выполняет реальные инструменты Kali и отправляет результаты обратно.",
-            connections: ["client_ui", "api_gateway", "queue"],
-            protocols: ["HTTP", "CLI"],
-            position: { x: 710, y: 90 },
-            size: { width: 140, height: 90 },
-            color: "#22c55e",
-            block: "client"
-        },
-        gpt_tunnel: {
-            name: "GPT Tunnel",
-            technical_name: "AI Processing",
-            description: "Интеграция с ИИ для анализа и генерации",
-            details: "Отдельный сервис/прокси для безопасного использования LLM/AI. Используется для анализа результатов, генерации рекомендаций, построения эксплойтов и других задач, где требуется мощный ИИ.",
-            connections: ["core_services"],
-            protocols: ["HTTPS", "API"],
-            position: { x: 540, y: 320 },
-            size: { width: 150, height: 85 },
-            color: "#f97316",
-            block: "integrations"
-        },
-        monitoring: {
-            name: "Мониторинг",
-            technical_name: "Metrics / Logs",
-            description: "Метрики и логирование системы",
-            details: "Подсистема мониторинга собирает технические метрики и логи для анализа производительности и стабильности. Используется для alerting и отладки в продакшене.",
-            connections: ["core_services", "client_backend"],
-            protocols: ["Metrics", "Logs"],
-            position: { x: 710, y: 320 },
-            size: { width: 140, height: 85 },
-            color: "#e5e7eb",
-            block: "integrations"
-        },
-        webhooks: {
-            name: "Webhooks",
-            technical_name: "Уведомления",
-            description: "Обратные вызовы для интеграций",
-            details: "Webhook-уведомления позволяют интегрировать VulneraAI с внешними системами: тикет-трекеры, SIEM, корпоративные порталы. Отправляют события о статусе пентестов и важных результатах.",
-            connections: ["api_gateway"],
-            protocols: ["HTTP"],
-            position: { x: 540, y: 425 },
-            size: { width: 310, height: 60 },
-            color: "#ec4899",
-            block: "integrations"
-        }
-    };
-
-    const connections = [
-        { from: "client_ui", to: "client_backend", type: "HTTP", label: "UI → Agent", color: "#22c55e" },
-        { from: "client_backend", to: "api_gateway", type: "HTTPS", label: "Agent ↔ Server", color: "#3b82f6" },
-        { from: "api_gateway", to: "core_services", type: "Internal", label: "Route", color: "#f59e0b" },
-        { from: "core_services", to: "storage", type: "DB", label: "Persist", color: "#6366f1" },
-        { from: "core_services", to: "queue", type: "AMQP", label: "Queue", color: "#8b5cf6" },
-        { from: "core_services", to: "gpt_tunnel", type: "HTTPS", label: "AI", color: "#f97316" },
-        { from: "core_services", to: "webhooks", type: "HTTP", label: "Events", color: "#ec4899" },
-        { from: "core_services", to: "monitoring", type: "Metrics", label: "Observe", color: "#e5e7eb" },
-        { from: "client_backend", to: "monitoring", type: "Metrics", label: "Metrics", color: "#e5e7eb" },
-        { from: "queue", to: "client_backend", type: "Tasks", label: "Tasks", color: "#8b5cf6" }
-    ];
-
-    class ArchitectureManager {
+    class VulneraAIArchitecture {
         constructor() {
-            this.components = architectureComponents;
-            this.blocks = ARCHITECTURE_BLOCKS;
-            this.connections = connections;
-            this.selectedComponent = null;
-            this.selectedBlock = null;
-            this.detailsContainer = null;
-            this.svgElement = null;
+            this.nodes = [];
+            this.edges = [];
+            this.selectedNode = null;
+            this.hoveredNode = null;
+            this.svg = null;
+            this.detailsPanel = null;
+            this.width = 1400;  // Увеличена ширина
+            this.height = 650;  // Увеличена высота
+            this.nodeRadius = 55;
         }
 
         initialize() {
-            this.detailsContainer = document.getElementById('componentDetails');
-            if (!this.detailsContainer) {
-                console.warn('Architecture: Details container not found');
-                return;
-            }
+            this.detailsPanel = document.getElementById('componentDetails');
+            if (!this.detailsPanel) return;
 
-            this.createSVGDiagram();
-            this.setupInteractions();
-            this.showDefaultInfo();
+            this.defineCompleteArchitecture();
+            this.createDiagram();
+            this.setupForceSimulation();
+            this.render();
+            this.showWelcome();
+            this.setupGlobalEvents();
         }
 
-        createSVGDiagram() {
-            const diagramContainer = document.querySelector('.architecture-diagram');
-            if (!diagramContainer) return;
+        defineCompleteArchitecture() {
+            this.nodes = [
+                // SERVER BLOCK
+                { id: 'api_gateway', name: 'API Gateway', tech: 'FastAPI/Uvicorn', group: 'server', color: '#3b82f6', size: 1.0 },
+                { id: 'core_services', name: 'Core Services', tech: 'Business Logic', group: 'server', color: '#f59e0b', size: 1.2 },
+                { id: 'storage', name: 'Storage', tech: 'PostgreSQL/Redis', group: 'server', color: '#6366f1', size: 1.0 },
+                { id: 'queue', name: 'Queue', tech: 'RabbitMQ', group: 'server', color: '#8b5cf6', size: 0.9 },
+                { id: 'auth', name: 'Auth Service', tech: 'JWT/OAuth', group: 'server', color: '#0ea5e9', size: 0.8 },
 
-            diagramContainer.innerHTML = '';
+                // CLIENT BLOCK
+                { id: 'client_ui', name: 'Web UI', tech: 'React 18', group: 'client', color: '#10b981', size: 1.0 },
+                { id: 'client_backend', name: 'Agent', tech: 'FastAPI', group: 'client', color: '#22c55e', size: 1.0 },
+                { id: 'cli_tools', name: 'CLI Tools', tech: 'Kali Suite', group: 'client', color: '#059669', size: 0.8 },
 
-            this.svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            this.svgElement.setAttribute('width', '100%');
-            this.svgElement.setAttribute('height', '600');
-            this.svgElement.setAttribute('viewBox', '0 0 1000 600');
-            this.svgElement.style.background = '#020617';
+                // INTEGRATION BLOCK
+                { id: 'gpt_tunnel', name: 'GPT Tunnel', tech: 'AI Processing', group: 'integration', color: '#f97316', size: 1.0 },
+                { id: 'monitoring', name: 'Monitoring', tech: 'Prometheus', group: 'integration', color: '#94a3b8', size: 0.9 },
+                { id: 'webhooks', name: 'Webhooks', tech: 'Events', group: 'integration', color: '#ec4899', size: 0.9 },
+                { id: 'external_apis', name: 'External APIs', tech: 'Shodan/VT', group: 'integration', color: '#fb923c', size: 0.8 },
+                { id: 'report_gen', name: 'Reports', tech: 'PDF/JSON', group: 'integration', color: '#a855f7', size: 0.8 },
+            ];
 
-            const defs = this.createDefs();
-            this.svgElement.appendChild(defs);
+            // Связи с указанием двухсторонних
+            this.edges = [
+                { source: 'client_ui', target: 'client_backend', protocol: 'HTTP', bidirectional: true },
+                { source: 'client_backend', target: 'cli_tools', protocol: 'CLI', bidirectional: false },
+                { source: 'client_backend', target: 'api_gateway', protocol: 'HTTPS', bidirectional: true },
+                { source: 'api_gateway', target: 'auth', protocol: 'JWT', bidirectional: false },
+                { source: 'api_gateway', target: 'core_services', protocol: 'Internal', bidirectional: true },
+                { source: 'core_services', target: 'storage', protocol: 'SQL', bidirectional: true },
+                { source: 'core_services', target: 'queue', protocol: 'AMQP', bidirectional: true },
+                { source: 'queue', target: 'client_backend', protocol: 'Tasks', bidirectional: false },
+                { source: 'core_services', target: 'gpt_tunnel', protocol: 'API', bidirectional: true },
+                { source: 'core_services', target: 'webhooks', protocol: 'Events', bidirectional: false },
+                { source: 'core_services', target: 'external_apis', protocol: 'REST', bidirectional: false },
+                { source: 'core_services', target: 'report_gen', protocol: 'Data', bidirectional: false },
+                { source: 'core_services', target: 'monitoring', protocol: 'Metrics', bidirectional: false },
+                { source: 'client_backend', target: 'monitoring', protocol: 'Logs', bidirectional: false },
+            ];
+        }
 
-            const rootGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            rootGroup.setAttribute('class', 'root-group');
-            this.svgElement.appendChild(rootGroup);
+        createDiagram() {
+            const container = document.querySelector('.architecture-diagram');
+            if (!container) return;
 
-            this.drawBlocks(rootGroup);
-            this.drawConnections(rootGroup);
-            this.drawComponents(rootGroup);
+            container.innerHTML = '';
 
-            diagramContainer.appendChild(this.svgElement);
+            this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            this.svg.setAttribute('width', '100%');
+            this.svg.setAttribute('height', '650');
+            this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
+            this.svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            this.svg.style.background = 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
+            this.svg.style.borderRadius = '12px';
+
+            this.createDefs();
+            container.appendChild(this.svg);
         }
 
         createDefs() {
             const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
 
-            Object.keys(this.components).forEach(id => {
-                const component = this.components[id];
+            // Градиенты
+            const gradients = [
+                { id: 'serverGrad', colors: ['#1e40af', '#3b82f6'] },
+                { id: 'clientGrad', colors: ['#047857', '#10b981'] },
+                { id: 'integrationGrad', colors: ['#c2410c', '#f97316'] }
+            ];
+
+            gradients.forEach(grad => {
                 const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-                gradient.setAttribute('id', `gradient-${id}`);
-                gradient.setAttribute('x1', '0%');
-                gradient.setAttribute('y1', '0%');
-                gradient.setAttribute('x2', '0%');
-                gradient.setAttribute('y2', '100%');
-
-                const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-                stop1.setAttribute('offset', '0%');
-                stop1.setAttribute('stop-color', component.color);
-                stop1.setAttribute('stop-opacity', '0.95');
-
-                const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-                stop2.setAttribute('offset', '100%');
-                stop2.setAttribute('stop-color', component.color);
-                stop2.setAttribute('stop-opacity', '0.7');
-
-                gradient.appendChild(stop1);
-                gradient.appendChild(stop2);
-                defs.appendChild(gradient);
-            });
-
-            Object.keys(this.blocks).forEach(blockId => {
-                const block = this.blocks[blockId];
-                const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-                gradient.setAttribute('id', `block-gradient-${blockId}`);
+                gradient.setAttribute('id', grad.id);
                 gradient.setAttribute('x1', '0%');
                 gradient.setAttribute('y1', '0%');
                 gradient.setAttribute('x2', '100%');
@@ -240,501 +106,704 @@
 
                 const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
                 stop1.setAttribute('offset', '0%');
-                stop1.setAttribute('stop-color', block.color);
-                stop1.setAttribute('stop-opacity', '0.05');
+                stop1.setAttribute('stop-color', grad.colors[0]);
 
                 const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
                 stop2.setAttribute('offset', '100%');
-                stop2.setAttribute('stop-color', block.color);
-                stop2.setAttribute('stop-opacity', '0.12');
+                stop2.setAttribute('stop-color', grad.colors[1]);
 
                 gradient.appendChild(stop1);
                 gradient.appendChild(stop2);
                 defs.appendChild(gradient);
             });
 
-            return defs;
+            // Фильтр свечения
+            const glow = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+            glow.setAttribute('id', 'glow');
+            glow.setAttribute('x', '-50%');
+            glow.setAttribute('y', '-50%');
+            glow.setAttribute('width', '200%');
+            glow.setAttribute('height', '200%');
+            glow.innerHTML = `
+                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            `;
+            defs.appendChild(glow);
+
+            // Маркеры стрелок (обычные и двухсторонние)
+            const markers = [
+                { id: 'arrow-normal', color: '#64748b' },
+                { id: 'arrow-active', color: '#3b82f6' },
+                { id: 'arrow-bidirectional', color: '#10b981' }
+            ];
+
+            markers.forEach(m => {
+                const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+                marker.setAttribute('id', m.id);
+                marker.setAttribute('markerWidth', '10');
+                marker.setAttribute('markerHeight', '10');
+                marker.setAttribute('refX', '9');
+                marker.setAttribute('refY', '3');
+                marker.setAttribute('orient', 'auto');
+                const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                polygon.setAttribute('points', '0 0, 10 3, 0 6');
+                polygon.setAttribute('fill', m.color);
+                marker.appendChild(polygon);
+                defs.appendChild(marker);
+            });
+
+            this.svg.appendChild(defs);
         }
 
-        drawBlocks(rootGroup) {
-            const blocksGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            blocksGroup.setAttribute('class', 'blocks');
+        setupForceSimulation() {
+            // Увеличенные расстояния между группами
+            const groupCenters = {
+                server: { x: 280, y: 330 },      // Левая группа
+                client: { x: 700, y: 280 },      // Центральная группа (больше отступ)
+                integration: { x: 1120, y: 340 } // Правая группа (больше отступ)
+            };
 
-            Object.keys(this.blocks).forEach(blockId => {
-                const block = this.blocks[blockId];
-                const blockGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                blockGroup.setAttribute('class', 'block');
-                blockGroup.setAttribute('data-block-id', blockId);
+            this.nodes.forEach(node => {
+                const center = groupCenters[node.group];
+                node.x = center.x + (Math.random() - 0.5) * 100;
+                node.y = center.y + (Math.random() - 0.5) * 100;
+            });
 
+            this.runPhysicsSimulation();
+        }
+
+        runPhysicsSimulation() {
+            const iterations = 300;
+            const baseAlpha = 0.5;
+
+            for (let iteration = 0; iteration < iterations; iteration++) {
+                const alpha = baseAlpha * (1 - iteration / iterations);
+
+                // Отталкивание - увеличенный коэффициент
+                for (let i = 0; i < this.nodes.length; i++) {
+                    for (let j = i + 1; j < this.nodes.length; j++) {
+                        const n1 = this.nodes[i];
+                        const n2 = this.nodes[j];
+
+                        const dx = n2.x - n1.x;
+                        const dy = n2.y - n1.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+
+                        const minDist = (n1.size + n2.size) * this.nodeRadius * 2.5; // Увеличено
+
+                        if (distance < minDist) {
+                            const force = alpha * (minDist - distance) / distance * 0.6;
+                            const fx = dx * force;
+                            const fy = dy * force;
+
+                            n1.x -= fx;
+                            n1.y -= fy;
+                            n2.x += fx;
+                            n2.y += fy;
+                        }
+                    }
+                }
+
+                // Притяжение по связям
+                this.edges.forEach(edge => {
+                    const source = this.nodes.find(n => n.id === edge.source);
+                    const target = this.nodes.find(n => n.id === edge.target);
+
+                    if (source && target) {
+                        const dx = target.x - source.x;
+                        const dy = target.y - source.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+
+                        const idealDistance = 220; // Увеличено
+                        const force = alpha * (distance - idealDistance) / distance * 0.15;
+
+                        const fx = dx * force;
+                        const fy = dy * force;
+
+                        source.x += fx;
+                        source.y += fy;
+                        target.x -= fx;
+                        target.y -= fy;
+                    }
+                });
+
+                // Группировка
+                const groups = { server: [], client: [], integration: [] };
+                this.nodes.forEach(n => groups[n.group].push(n));
+
+                Object.keys(groups).forEach(groupName => {
+                    const groupNodes = groups[groupName];
+                    if (groupNodes.length === 0) return;
+
+                    const centerX = groupNodes.reduce((sum, n) => sum + n.x, 0) / groupNodes.length;
+                    const centerY = groupNodes.reduce((sum, n) => sum + n.y, 0) / groupNodes.length;
+
+                    groupNodes.forEach(n => {
+                        const dx = centerX - n.x;
+                        const dy = centerY - n.y;
+                        n.x += dx * alpha * 0.1;
+                        n.y += dy * alpha * 0.1;
+                    });
+                });
+
+                // Границы
+                this.nodes.forEach(n => {
+                    const margin = this.nodeRadius * n.size + 30;
+                    n.x = Math.max(margin, Math.min(this.width - margin, n.x));
+                    n.y = Math.max(margin + 50, Math.min(this.height - margin - 50, n.y));
+                });
+            }
+        }
+
+        render() {
+            this.drawGroupBoundaries();
+            this.drawAllNodes();
+            this.drawLegend();
+            this.drawTitle();
+        }
+
+        drawGroupBoundaries() {
+            const groups = {
+                server: { nodes: [], color: '#3b82f6', name: 'Server', gradient: 'serverGrad' },
+                client: { nodes: [], color: '#10b981', name: 'Client', gradient: 'clientGrad' },
+                integration: { nodes: [], color: '#f97316', name: 'Integrations', gradient: 'integrationGrad' }
+            };
+
+            this.nodes.forEach(n => groups[n.group].nodes.push(n));
+
+            Object.keys(groups).forEach(key => {
+                const group = groups[key];
+                if (group.nodes.length === 0) return;
+
+                const xs = group.nodes.map(n => n.x);
+                const ys = group.nodes.map(n => n.y);
+                const padding = 80; // Увеличен padding
+
+                const minX = Math.min(...xs) - padding;
+                const maxX = Math.max(...xs) + padding;
+                const minY = Math.min(...ys) - padding;
+                const maxY = Math.max(...ys) + padding;
+
+                // Фон
+                const bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                bgRect.setAttribute('x', minX);
+                bgRect.setAttribute('y', minY);
+                bgRect.setAttribute('width', maxX - minX);
+                bgRect.setAttribute('height', maxY - minY);
+                bgRect.setAttribute('rx', '20');
+                bgRect.setAttribute('fill', `url(#${group.gradient})`);
+                bgRect.setAttribute('opacity', '0.05');
+                this.svg.appendChild(bgRect);
+
+                // Граница
                 const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                rect.setAttribute('x', block.position.x);
-                rect.setAttribute('y', block.position.y);
-                rect.setAttribute('width', block.size.width);
-                rect.setAttribute('height', block.size.height);
-                rect.setAttribute('rx', '12');
-                rect.setAttribute('fill', `url(#block-gradient-${blockId})`);
-                rect.setAttribute('stroke', block.color);
+                rect.setAttribute('x', minX);
+                rect.setAttribute('y', minY);
+                rect.setAttribute('width', maxX - minX);
+                rect.setAttribute('height', maxY - minY);
+                rect.setAttribute('rx', '20');
+                rect.setAttribute('fill', 'none');
+                rect.setAttribute('stroke', group.color);
                 rect.setAttribute('stroke-width', '2');
-                rect.setAttribute('stroke-dasharray', '8,4');
-                rect.setAttribute('opacity', '0.5');
+                rect.setAttribute('stroke-dasharray', '10,5');
+                rect.setAttribute('opacity', '0.4');
+                this.svg.appendChild(rect);
 
-                const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                title.setAttribute('x', block.position.x + block.size.width / 2);
-                title.setAttribute('y', block.position.y + 25);
-                title.setAttribute('text-anchor', 'middle');
-                title.setAttribute('fill', block.color);
-                title.setAttribute('font-size', '14');
-                title.setAttribute('font-weight', 'bold');
-                title.textContent = block.title;
+                // Заголовок
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', minX + 20);
+                text.setAttribute('y', minY + 25);
+                text.setAttribute('fill', group.color);
+                text.setAttribute('font-size', '15');
+                text.setAttribute('font-weight', 'bold');
+                text.setAttribute('filter', 'url(#glow)');
+                text.textContent = group.name;
+                this.svg.appendChild(text);
 
-                blockGroup.appendChild(rect);
-                blockGroup.appendChild(title);
-                blocksGroup.appendChild(blockGroup);
-            });
-
-            rootGroup.appendChild(blocksGroup);
-        }
-
-        drawConnections(rootGroup) {
-            const connectionsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            connectionsGroup.setAttribute('class', 'connections');
-
-            this.connections.forEach(conn => {
-                const fromComp = this.components[conn.from];
-                const toComp = this.components[conn.to];
-                if (!fromComp || !toComp) return;
-
-                const fromPoint = this.getConnectionPoint(fromComp, toComp);
-                const toPoint = this.getConnectionPoint(toComp, fromComp);
-
-                const path = this.createCurvedPath(fromPoint, toPoint);
-                path.setAttribute('stroke', conn.color);
-                path.setAttribute('stroke-width', '2');
-                path.setAttribute('fill', 'none');
-                path.setAttribute('class', 'connection-line');
-                path.setAttribute('data-from', conn.from);
-                path.setAttribute('data-to', conn.to);
-                path.setAttribute('opacity', '0.7');
-
-                connectionsGroup.appendChild(path);
-
-                const midPoint = this.getPathMidpoint(fromPoint, toPoint);
-                const labelGroup = this.createConnectionLabel(conn, midPoint);
-                connectionsGroup.appendChild(labelGroup);
-            });
-
-            rootGroup.appendChild(connectionsGroup);
-        }
-
-        createCurvedPath(from, to) {
-            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-
-            const dx = to.x - from.x;
-            const dy = to.y - from.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const controlOffset = Math.min(distance * 0.25, 60);
-
-            const cp1x = from.x + (dx > 0 ? controlOffset : -controlOffset);
-            const cp1y = from.y;
-            const cp2x = to.x - (dx > 0 ? controlOffset : -controlOffset);
-            const cp2y = to.y;
-
-            const pathData = `M ${from.x} ${from.y} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${to.x} ${to.y}`;
-            path.setAttribute('d', pathData);
-
-            return path;
-        }
-
-        getPathMidpoint(from, to) {
-            return { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
-        }
-
-        createConnectionLabel(conn, midPoint) {
-            const labelGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            labelGroup.setAttribute('class', 'connection-label');
-
-            const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            labelBg.setAttribute('x', midPoint.x - 40);
-            labelBg.setAttribute('y', midPoint.y - 16);
-            labelBg.setAttribute('width', '80');
-            labelBg.setAttribute('height', '28');
-            labelBg.setAttribute('fill', '#020617');
-            labelBg.setAttribute('stroke', conn.color);
-            labelBg.setAttribute('stroke-width', '1');
-            labelBg.setAttribute('rx', '4');
-            labelBg.setAttribute('opacity', '0.9');
-
-            const protocolText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            protocolText.setAttribute('x', midPoint.x);
-            protocolText.setAttribute('y', midPoint.y - 2);
-            protocolText.setAttribute('text-anchor', 'middle');
-            protocolText.setAttribute('fill', conn.color);
-            protocolText.setAttribute('font-size', '9');
-            protocolText.setAttribute('font-weight', 'bold');
-            protocolText.textContent = conn.type;
-
-            const descText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            descText.setAttribute('x', midPoint.x);
-            descText.setAttribute('y', midPoint.y + 8);
-            descText.setAttribute('text-anchor', 'middle');
-            descText.setAttribute('fill', '#9ca3af');
-            descText.setAttribute('font-size', '8');
-            descText.textContent = conn.label;
-
-            labelGroup.appendChild(labelBg);
-            labelGroup.appendChild(protocolText);
-            labelGroup.appendChild(descText);
-
-            return labelGroup;
-        }
-
-        drawComponents(rootGroup) {
-            Object.keys(this.components).forEach(id => {
-                const component = this.components[id];
-                this.drawComponent(rootGroup, id, component);
+                // Счётчик
+                const count = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                count.setAttribute('x', maxX - 20);
+                count.setAttribute('y', minY + 25);
+                count.setAttribute('text-anchor', 'end');
+                count.setAttribute('fill', group.color);
+                count.setAttribute('font-size', '12');
+                count.setAttribute('opacity', '0.6');
+                count.textContent = `${group.nodes.length} components`;
+                this.svg.appendChild(count);
             });
         }
 
-        drawComponent(rootGroup, id, component) {
-            const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            group.setAttribute('class', 'component');
-            group.setAttribute('data-id', id);
-            group.style.cursor = 'pointer';
-
-            const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            shadow.setAttribute('x', component.position.x + 2);
-            shadow.setAttribute('y', component.position.y + 2);
-            shadow.setAttribute('width', component.size.width);
-            shadow.setAttribute('height', component.size.height);
-            shadow.setAttribute('rx', '8');
-            shadow.setAttribute('fill', 'rgba(0,0,0,0.3)');
-
-            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            rect.setAttribute('x', component.position.x);
-            rect.setAttribute('y', component.position.y);
-            rect.setAttribute('width', component.size.width);
-            rect.setAttribute('height', component.size.height);
-            rect.setAttribute('rx', '8');
-            rect.setAttribute('fill', `url(#gradient-${id})`);
-            rect.setAttribute('stroke', component.color);
-            rect.setAttribute('stroke-width', '2');
-
-            const innerRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            innerRect.setAttribute('x', component.position.x + 1.5);
-            innerRect.setAttribute('y', component.position.y + 1.5);
-            innerRect.setAttribute('width', component.size.width - 3);
-            innerRect.setAttribute('height', component.size.height - 3);
-            innerRect.setAttribute('rx', '6.5');
-            innerRect.setAttribute('fill', 'none');
-            innerRect.setAttribute('stroke', 'rgba(255,255,255,0.2)');
-            innerRect.setAttribute('stroke-width', '0.5');
-
-            group.appendChild(shadow);
-            group.appendChild(rect);
-            group.appendChild(innerRect);
-
-            this.addComponentText(group, component);
-            rootGroup.appendChild(group);
+        drawAllNodes() {
+            this.nodes.forEach(node => this.drawNode(node));
         }
 
-        addComponentText(group, component) {
-            const centerX = component.position.x + component.size.width / 2;
-            const startY = component.position.y + 22;
+        drawNode(node) {
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.setAttribute('class', 'node');
+            g.setAttribute('data-id', node.id);
+            g.style.cursor = 'pointer';
 
+            const radius = this.nodeRadius * node.size;
+
+            // Внешнее кольцо
+            const outerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            outerCircle.setAttribute('cx', node.x);
+            outerCircle.setAttribute('cy', node.y);
+            outerCircle.setAttribute('r', radius + 3);
+            outerCircle.setAttribute('fill', 'none');
+            outerCircle.setAttribute('stroke', node.color);
+            outerCircle.setAttribute('stroke-width', '1');
+            outerCircle.setAttribute('opacity', '0.3');
+            g.appendChild(outerCircle);
+
+            // Основной круг
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', node.x);
+            circle.setAttribute('cy', node.y);
+            circle.setAttribute('r', radius);
+            circle.setAttribute('fill', node.color);
+            circle.setAttribute('opacity', '0.85');
+            circle.setAttribute('stroke', 'rgba(255,255,255,0.3)');
+            circle.setAttribute('stroke-width', '2');
+            g.appendChild(circle);
+
+            // Название
             const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            title.setAttribute('x', centerX);
-            title.setAttribute('y', startY);
+            title.setAttribute('x', node.x);
+            title.setAttribute('y', node.y - 8);
             title.setAttribute('text-anchor', 'middle');
             title.setAttribute('fill', '#ffffff');
-            title.setAttribute('font-size', '12');
+            title.setAttribute('font-size', '14');
             title.setAttribute('font-weight', 'bold');
-            title.textContent = component.name;
+            title.setAttribute('pointer-events', 'none');
+            title.textContent = node.name;
+            g.appendChild(title);
 
-            const techName = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            techName.setAttribute('x', centerX);
-            techName.setAttribute('y', startY + 14);
-            techName.setAttribute('text-anchor', 'middle');
-            techName.setAttribute('fill', 'rgba(255,255,255,0.75)');
-            techName.setAttribute('font-size', '9');
-            techName.setAttribute('font-style', 'italic');
-            techName.textContent = `(${component.technical_name})`;
+            // Технология
+            const tech = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            tech.setAttribute('x', node.x);
+            tech.setAttribute('y', node.y + 8);
+            tech.setAttribute('text-anchor', 'middle');
+            tech.setAttribute('fill', 'rgba(255,255,255,0.7)');
+            tech.setAttribute('font-size', '11');
+            tech.setAttribute('pointer-events', 'none');
+            tech.textContent = node.tech;
+            g.appendChild(tech);
 
-            group.appendChild(title);
-            group.appendChild(techName);
-
-            const description = component.description;
-            const maxCharsPerLine = Math.floor((component.size.width - 12) / 5.5);
-            const words = description.split(' ');
-            let currentLine = '';
-            let yOffset = startY + 30;
-
-            words.forEach(word => {
-                if ((currentLine + word).length > maxCharsPerLine && currentLine) {
-                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    line.setAttribute('x', centerX);
-                    line.setAttribute('y', yOffset);
-                    line.setAttribute('text-anchor', 'middle');
-                    line.setAttribute('fill', 'rgba(255,255,255,0.7)');
-                    line.setAttribute('font-size', '8');
-                    line.textContent = currentLine.trim();
-                    group.appendChild(line);
-
-                    currentLine = word + ' ';
-                    yOffset += 11;
-                } else {
-                    currentLine += word + ' ';
-                }
+            // События
+            g.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.selectNode(node);
             });
 
-            if (currentLine.trim()) {
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                line.setAttribute('x', centerX);
-                line.setAttribute('y', yOffset);
-                line.setAttribute('text-anchor', 'middle');
-                line.setAttribute('fill', 'rgba(255,255,255,0.7)');
-                line.setAttribute('font-size', '8');
-                line.textContent = currentLine.trim();
-                group.appendChild(line);
-            }
+            g.addEventListener('mouseenter', () => {
+                circle.setAttribute('opacity', '1');
+                circle.setAttribute('stroke', '#ffffff');
+                circle.setAttribute('stroke-width', '3');
+                circle.setAttribute('filter', 'url(#glow)');
+                outerCircle.setAttribute('opacity', '0.6');
+                this.showConnections(node);
+            });
+
+            g.addEventListener('mouseleave', () => {
+                if (this.selectedNode !== node) {
+                    circle.setAttribute('opacity', '0.85');
+                    circle.setAttribute('stroke', 'rgba(255,255,255,0.3)');
+                    circle.setAttribute('stroke-width', '2');
+                    circle.removeAttribute('filter');
+                    outerCircle.setAttribute('opacity', '0.3');
+                }
+                this.hideConnections();
+            });
+
+            this.svg.appendChild(g);
         }
 
-        getConnectionPoint(fromComp, toComp) {
-            const fromCenter = {
-                x: fromComp.position.x + fromComp.size.width / 2,
-                y: fromComp.position.y + fromComp.size.height / 2
-            };
-            const toCenter = {
-                x: toComp.position.x + toComp.size.width / 2,
-                y: toComp.position.y + toComp.size.height / 2
-            };
+        showConnections(node) {
+            const connectedEdges = this.edges.filter(e =>
+                e.source === node.id || e.target === node.id
+            );
 
-            const dx = toCenter.x - fromCenter.x;
-            const dy = toCenter.y - fromCenter.y;
-            const angle = Math.atan2(dy, dx);
+            connectedEdges.forEach(edge => {
+                const source = this.nodes.find(n => n.id === edge.source);
+                const target = this.nodes.find(n => n.id === edge.target);
 
-            const halfWidth = fromComp.size.width / 2;
-            const halfHeight = fromComp.size.height / 2;
+                if (source && target) {
+                    this.drawConnection(source, target, edge, true);
+                }
+            });
+        }
 
-            let edgeX, edgeY;
+        drawConnection(source, target, edge, isActive = false) {
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.setAttribute('class', 'connection-line');
 
-            if (Math.abs(dx) > Math.abs(dy)) {
-                edgeX = fromCenter.x + (dx > 0 ? halfWidth : -halfWidth);
-                edgeY = fromCenter.y + (halfHeight * Math.tan(angle));
+            const dx = target.x - source.x;
+            const dy = target.y - source.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            const sourceRadius = this.nodeRadius * source.size;
+            const targetRadius = this.nodeRadius * target.size;
+
+            const startX = source.x + (dx / distance) * sourceRadius;
+            const startY = source.y + (dy / distance) * sourceRadius;
+            const endX = target.x - (dx / distance) * targetRadius;
+            const endY = target.y - (dy / distance) * targetRadius;
+
+            const midX = (startX + endX) / 2;
+            const midY = (startY + endY) / 2;
+            const perpX = -(dy / distance) * 30;
+            const perpY = (dx / distance) * 30;
+
+            const controlX = midX + perpX;
+            const controlY = midY + perpY;
+
+            // Основная линия
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const d = `M ${startX} ${startY} Q ${controlX} ${controlY} ${endX} ${endY}`;
+            path.setAttribute('d', d);
+
+            // Двухсторонние стрелки - другой цвет
+            if (edge.bidirectional) {
+                path.setAttribute('stroke', isActive ? '#10b981' : '#64748b');
+                path.setAttribute('marker-end', 'url(#arrow-bidirectional)');
+                path.setAttribute('marker-start', 'url(#arrow-bidirectional)');
+                path.setAttribute('stroke-dasharray', '5,3');
             } else {
-                edgeX = fromCenter.x + (halfWidth / Math.tan(angle));
-                edgeY = fromCenter.y + (dy > 0 ? halfHeight : -halfHeight);
+                path.setAttribute('stroke', isActive ? '#3b82f6' : '#64748b');
+                path.setAttribute('marker-end', `url(#arrow-${isActive ? 'active' : 'normal'})`);
             }
 
-            return { x: edgeX, y: edgeY };
+            path.setAttribute('stroke-width', isActive ? '2.5' : '2');
+            path.setAttribute('fill', 'none');
+            path.setAttribute('opacity', isActive ? '0.8' : '0.5');
+            g.appendChild(path);
+
+            // Метка протокола
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', controlX);
+            text.setAttribute('y', controlY - 5);
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('fill', edge.bidirectional ? '#10b981' : (isActive ? '#3b82f6' : '#64748b'));
+            text.setAttribute('font-size', '10');
+            text.setAttribute('font-weight', 'bold');
+            text.textContent = edge.protocol + (edge.bidirectional ? ' ⇄' : '');
+            g.appendChild(text);
+
+            this.svg.insertBefore(g, this.svg.firstChild.nextSibling);
         }
 
-        setupInteractions() {
-            if (!this.svgElement) return;
+        hideConnections() {
+            this.svg.querySelectorAll('.connection-line').forEach(conn => conn.remove());
+        }
 
-            this.svgElement.addEventListener('click', (e) => {
-                const component = e.target.closest('.component');
-                const block = e.target.closest('.block');
+        selectNode(node) {
+            this.selectedNode = node;
 
-                if (component) {
-                    e.stopPropagation();
-                    const id = component.getAttribute('data-id');
-                    this.selectComponent(id);
-                } else if (block) {
-                    e.stopPropagation();
-                    const id = block.getAttribute('data-block-id');
-                    this.selectBlock(id);
+            const nodes = this.svg.querySelectorAll('.node');
+            nodes.forEach(n => {
+                const circle = n.querySelector('circle:nth-child(2)');
+                const outerCircle = n.querySelector('circle:first-child');
+
+                if (n.getAttribute('data-id') === node.id) {
+                    circle.setAttribute('opacity', '1');
+                    circle.setAttribute('stroke', '#ffffff');
+                    circle.setAttribute('stroke-width', '3');
+                    circle.setAttribute('filter', 'url(#glow)');
+                    outerCircle.setAttribute('opacity', '0.6');
                 } else {
-                    this.deselectAll();
-                    this.showDefaultInfo();
+                    circle.setAttribute('opacity', '0.85');
+                    circle.setAttribute('stroke', 'rgba(255,255,255,0.3)');
+                    circle.setAttribute('stroke-width', '2');
+                    circle.removeAttribute('filter');
+                    outerCircle.setAttribute('opacity', '0.3');
                 }
             });
 
-            this.svgElement.addEventListener('mouseover', (e) => {
-                const component = e.target.closest('.component');
-                const connection = e.target.closest('.connection-line');
-
-                if (component) {
-                    this.highlightComponent(component);
-                } else if (connection) {
-                    this.highlightConnection(connection);
-                }
-            });
-
-            this.svgElement.addEventListener('mouseout', (e) => {
-                const component = e.target.closest('.component');
-                const connection = e.target.closest('.connection-line');
-
-                if (component) {
-                    this.unhighlightComponent(component);
-                } else if (connection) {
-                    this.unhighlightConnection(connection);
-                }
-            });
+            this.showNodeDetails(node);
         }
 
-        selectComponent(componentId) {
-            this.deselectAll();
-            const component = document.querySelector(`[data-id="${componentId}"]`);
-            if (component) {
-                component.classList.add('selected');
-                this.selectedComponent = componentId;
-                this.showComponentDetails(componentId);
-                this.highlightRelatedConnections(componentId);
-            }
-        }
+        showNodeDetails(node) {
+            const details = this.getComponentDetails(node.id);
+            const connections = this.getNodeConnections(node);
 
-        selectBlock(blockId) {
-            this.deselectAll();
-            const block = document.querySelector(`[data-block-id="${blockId}"]`);
-            if (block) {
-                block.classList.add('selected');
-                this.selectedBlock = blockId;
-                this.showBlockDetails(blockId);
-            }
-        }
-
-        showComponentDetails(componentId) {
-            const data = this.components[componentId];
-            if (!data || !this.detailsContainer) return;
-
-            const block = this.blocks[data.block];
-            const connectionsHtml = data.connections.map(conn => {
-                const connData = this.components[conn];
-                return `<span class="connection-tag" style="background-color: ${connData ? connData.color : '#666'}40; color: ${connData ? connData.color : '#666'}; border-color: ${connData ? connData.color : '#666'};">${connData ? connData.name : conn}</span>`;
-            }).join('');
-
-            const protocolsHtml = data.protocols.map(protocol =>
-                `<span class="protocol-tag">${protocol}</span>`
-            ).join('');
-
-            this.detailsContainer.innerHTML = `
-                <div class="component-details-header" style="border-left: 4px solid ${data.color};">
-                    <div class="component-name">${data.name}</div>
-                    <div class="component-technical-name">${data.technical_name}</div>
-                </div>
-                
-                <div class="component-details-content">
-                    <div class="component-description">
-                        <h4>Описание</h4>
-                        <p>${data.description}</p>
+            this.detailsPanel.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, ${node.color}22 0%, ${node.color}11 100%);
+                    border-left: 4px solid ${node.color};
+                    border-radius: 12px;
+                    padding: 24px;
+                    animation: slideIn 0.3s ease;
+                ">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="
+                                width: 14px;
+                                height: 14px;
+                                background: ${node.color};
+                                border-radius: 50%;
+                                margin-right: 12px;
+                                box-shadow: 0 0 16px ${node.color};
+                            "></div>
+                            <h3 style="margin: 0; color: #fff; font-size: 22px;">${node.name}</h3>
+                        </div>
+                        <span style="
+                            background: ${node.color}33;
+                            color: ${node.color};
+                            padding: 4px 12px;
+                            border-radius: 12px;
+                            font-size: 11px;
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        ">${node.group}</span>
                     </div>
                     
-                    <div class="component-full-details">
-                        <h4>Подробности</h4>
-                        <p>${data.details}</p>
+                    <p style="margin: 0 0 12px 0; color: #94a3b8; font-size: 14px; font-style: italic;">Технология: ${node.tech}</p>
+                    <p style="margin: 0 0 20px 0; color: #e2e8f0; font-size: 15px; line-height: 1.7;">${details.description}</p>
+                    
+                    <div style="background: rgba(0,0,0,0.3); padding: 18px; border-radius: 10px; margin-bottom: 16px;">
+                        <h4 style="margin: 0 0 14px 0; color: #cbd5e1; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">⚙️ Основные функции</h4>
+                        <ul style="margin: 0; padding-left: 24px; color: #cbd5e1; font-size: 14px; line-height: 2;">
+                            ${details.features.map(f => `<li>${f}</li>`).join('')}
+                        </ul>
                     </div>
                     
-                    <div class="component-connections">
-                        <h4>Подключения</h4>
-                        <div class="connections-list">${connectionsHtml}</div>
-                    </div>
-                    
-                    <div class="component-protocols">
-                        <h4>Протоколы</h4>
-                        <div class="protocols-list">${protocolsHtml}</div>
-                    </div>
-                    
-                    <div class="component-block-info">
-                        <h4>Архитектурный блок</h4>
-                        <div class="block-name" style="color: ${block.color};">${block.title}</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        showBlockDetails(blockId) {
-            const blockData = this.blocks[blockId];
-            if (!blockData || !this.detailsContainer) return;
-
-            const componentsInBlock = blockData.components.map(compId => {
-                const comp = this.components[compId];
-                return `<div class="block-component" style="border-left: 3px solid ${comp.color};">
-                    <div class="block-component-name">${comp.name}</div>
-                    <div class="block-component-description">${comp.description}</div>
-                </div>`;
-            }).join('');
-
-            this.detailsContainer.innerHTML = `
-                <div class="block-details-header" style="border-left: 4px solid ${blockData.color};">
-                    <div class="block-title">${blockData.title}</div>
-                    <div class="block-subtitle">Архитектурный блок системы VulneraAI</div>
-                </div>
-                
-                <div class="block-details-content">
-                    <div class="block-description">
-                        <h4>Компоненты блока</h4>
-                        <div class="block-components-list">${componentsInBlock}</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        showDefaultInfo() {
-            if (!this.detailsContainer) return;
-
-            this.detailsContainer.innerHTML = `
-                <div class="default-info">
-                    <div class="default-info-header">
-                        <div class="default-info-title">Архитектура VulneraAI</div>
-                        <div class="default-info-subtitle">Server + Kali Client + Integrations</div>
-                    </div>
-                    
-                    <div class="default-info-content">
-                        <div class="default-info-description">
-                            <h4>Интерактивная диаграмма:</h4>
-                            <ul>
-                                <li>🖱️ Нажмите на компонент для подробного описания</li>
-                                <li>📦 Нажмите на блок (Server / Client / Integrations) для обзора</li>
-                                <li>🧠 Видно как Client на Kali связан с сервером и ИИ</li>
-                            </ul>
-                            <p><em>*Диаграмма отражает актуальную архитектуру VulneraAI: FastAPI сервер, Kali клиент и внешние интеграции.*</em></p>
+                    <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                        <h4 style="margin: 0 0 12px 0; color: #cbd5e1; font-size: 13px;">🔗 Связи с другими компонентами</h4>
+                        <div style="color: #94a3b8; font-size: 13px; line-height: 1.8;">
+                            ${connections.incoming.length > 0 ? `
+                                <div style="margin-bottom: 8px;">
+                                    <strong style="color: #3b82f6;">← Входящие:</strong><br>
+                                    ${connections.incoming.map(c => `&nbsp;&nbsp;• ${c.name} <span style="color: #64748b;">(${c.protocol}${c.bidirectional ? ' ⇄' : ''})</span>`).join('<br>')}
+                                </div>
+                            ` : ''}
+                            ${connections.outgoing.length > 0 ? `
+                                <div>
+                                    <strong style="color: #10b981;">→ Исходящие:</strong><br>
+                                    ${connections.outgoing.map(c => `&nbsp;&nbsp;• ${c.name} <span style="color: #64748b;">(${c.protocol}${c.bidirectional ? ' ⇄' : ''})</span>`).join('<br>')}
+                                </div>
+                            ` : ''}
                         </div>
                     </div>
+
+                    <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <p style="margin: 0; color: #64748b; font-size: 12px; font-style: italic;">
+                            💡 Наведите курсор на компонент для отображения всех его связей (⇄ = двусторонняя связь)
+                        </p>
+                    </div>
                 </div>
             `;
+        }
+
+        getNodeConnections(node) {
+            const incoming = [];
+            const outgoing = [];
+
+            this.edges.forEach(edge => {
+                if (edge.target === node.id) {
+                    const source = this.nodes.find(n => n.id === edge.source);
+                    if (source) {
+                        incoming.push({ name: source.name, protocol: edge.protocol, bidirectional: edge.bidirectional });
+                    }
+                }
+                if (edge.source === node.id) {
+                    const target = this.nodes.find(n => n.id === edge.target);
+                    if (target) {
+                        outgoing.push({ name: target.name, protocol: edge.protocol, bidirectional: edge.bidirectional });
+                    }
+                }
+            });
+
+            return { incoming, outgoing };
+        }
+
+        drawTitle() {
+            const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            title.setAttribute('x', this.width / 2);
+            title.setAttribute('y', 35);
+            title.setAttribute('text-anchor', 'middle');
+            title.setAttribute('fill', '#ffffff');
+            title.setAttribute('font-size', '20');
+            title.setAttribute('font-weight', 'bold');
+            title.setAttribute('opacity', '0.9');
+            title.textContent = 'VulneraAI System Architecture';
+            this.svg.appendChild(title);
+        }
+
+        drawLegend() {
+            const legendData = [
+                { color: '#3b82f6', label: 'Server Components' },
+                { color: '#10b981', label: 'Client Components' },
+                { color: '#f97316', label: 'Integration Services' }
+            ];
+
+            let x = 120;
+            const y = 610;
+
+            legendData.forEach(item => {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+                circle.setAttribute('r', '8');
+                circle.setAttribute('fill', item.color);
+                circle.setAttribute('opacity', '0.85');
+                this.svg.appendChild(circle);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', x + 16);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('fill', '#94a3b8');
+                text.setAttribute('font-size', '13');
+                text.textContent = item.label;
+                this.svg.appendChild(text);
+
+                x += 380;
+            });
+        }
+
+        showWelcome() {
+            this.detailsPanel.innerHTML = `
+                <div style="padding: 28px; text-align: center;">
+                    <div style="
+                        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        font-size: 28px;
+                        font-weight: bold;
+                        margin-bottom: 16px;
+                    ">🎯 VulneraAI Architecture</div>
+                    
+                    <p style="margin: 0 0 24px 0; color: #94a3b8; font-size: 16px; line-height: 1.6;">
+                        Интерактивная схема с автоматическим позиционированием<br>
+                        и двухсторонними связями между компонентами
+                    </p>
+                    
+                    <div style="background: rgba(59, 130, 246, 0.1); border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 24px; text-align: left;">
+                        <h4 style="margin: 0 0 16px 0; color: #e2e8f0; font-size: 16px;">💡 Возможности:</h4>
+                        <ul style="margin: 0; padding-left: 24px; color: #cbd5e1; font-size: 14px; line-height: 2.2;">
+                            <li><strong>Кликните</strong> на компонент для детальной информации</li>
+                            <li><strong>Наведите курсор</strong> для просмотра связей</li>
+                            <li><strong>⇄ Двухсторонние связи</strong> показаны пунктиром зелёным цветом</li>
+                            <li><strong>Увеличенные расстояния</strong> между блоками для лучшей читаемости</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 24px; padding: 16px; background: rgba(16, 185, 129, 0.1); border-radius: 8px;">
+                        <p style="margin: 0; color: #10b981; font-size: 13px;">
+                            ✨ Компоненты расположены автоматически с увеличенным spacing
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        setupGlobalEvents() {
+            this.svg.addEventListener('click', (e) => {
+                if (e.target === this.svg || e.target.tagName === 'rect') {
+                    this.deselectAll();
+                    this.showWelcome();
+                }
+            });
         }
 
         deselectAll() {
-            document.querySelectorAll('.selected').forEach(elem => {
-                elem.classList.remove('selected');
+            this.selectedNode = null;
+            this.svg.querySelectorAll('.node').forEach(n => {
+                const circle = n.querySelector('circle:nth-child(2)');
+                const outerCircle = n.querySelector('circle:first-child');
+                circle.setAttribute('opacity', '0.85');
+                circle.setAttribute('stroke', 'rgba(255,255,255,0.3)');
+                circle.setAttribute('stroke-width', '2');
+                circle.removeAttribute('filter');
+                outerCircle.setAttribute('opacity', '0.3');
             });
-            this.selectedComponent = null;
-            this.selectedBlock = null;
         }
 
-        highlightComponent(component) {
-            component.style.filter = 'brightness(1.1)';
-        }
-
-        unhighlightComponent(component) {
-            component.style.filter = '';
-        }
-
-        highlightConnection(connection) {
-            connection.style.strokeWidth = '3.5';
-            connection.style.opacity = '1';
-        }
-
-        unhighlightConnection(connection) {
-            connection.style.strokeWidth = '2';
-            connection.style.opacity = '0.7';
-        }
-
-        highlightRelatedConnections(componentId) {
-            const conns = document.querySelectorAll('.connection-line');
-            conns.forEach(conn => {
-                const from = conn.getAttribute('data-from');
-                const to = conn.getAttribute('data-to');
-                if (from === componentId || to === componentId) {
-                    this.highlightConnection(conn);
+        getComponentDetails(id) {
+            const allDetails = {
+                'api_gateway': {
+                    description: 'Центральная точка входа для всех REST API запросов от клиентов и внешних систем. Обрабатывает аутентификацию, авторизацию, rate limiting и маршрутизацию к бизнес-логике.',
+                    features: ['FastAPI framework с async/await', 'JWT токены для аутентификации', 'Rate limiting через Redis', 'OpenAPI документация', 'CORS и security headers']
+                },
+                'core_services': {
+                    description: 'Ядро системы VulneraAI, содержащее всю бизнес-логику управления пентестами, проектами, учётными записями и координацией работы агентов.',
+                    features: ['Микросервисная архитектура', 'Управление пентестами', 'User и project management', 'Domain-Driven Design', 'Event sourcing для аудита']
+                },
+                'storage': {
+                    description: 'Двухуровневая система хранения: PostgreSQL для долгосрочных данных и Redis для кэша, сессий и временных данных.',
+                    features: ['PostgreSQL 15+ с репликацией', 'Redis 7+ для кэша', 'Connection pooling', 'Автоматические бэкапы', 'Query optimization']
+                },
+                'queue': {
+                    description: 'Система очередей сообщений для асинхронной обработки тяжёлых задач: запуск сканов, генерация отчётов, обработка данных.',
+                    features: ['RabbitMQ message broker', 'Celery workers', 'Priority queues', 'Retry механизмы', 'Dead letter queues']
+                },
+                'auth': {
+                    description: 'Сервис аутентификации и авторизации, управляющий доступом пользователей к системе и её ресурсам.',
+                    features: ['JWT и OAuth 2.0', 'Role-based access control', 'Multi-factor authentication', 'Session management', 'Password policies']
+                },
+                'client_ui': {
+                    description: 'Современный веб-интерфейс с чат-подобным UX для управления пентестами и взаимодействия с AI-ассистентом.',
+                    features: ['React 18 + TypeScript', 'Material-UI / Tailwind', 'Real-time WebSocket updates', 'Code syntax highlighting', 'Responsive design']
+                },
+                'client_backend': {
+                    description: 'Локальный агент на Kali Linux, который выполняет команды сканирования и отправляет результаты на сервер.',
+                    features: ['FastAPI lightweight agent', 'Безопасное выполнение команд', 'Process management', 'Output parsing', 'Result streaming']
+                },
+                'cli_tools': {
+                    description: 'Интеграция с полным набором инструментов Kali Linux: Nmap, Metasploit, Burp Suite, Nikto, SQLMap и другими.',
+                    features: ['Native integration с 50+ tools', 'Command templating', 'Output normalization', 'Error handling', 'Version compatibility']
+                },
+                'gpt_tunnel': {
+                    description: 'Безопасный прокси для интеграции с LLM (GPT-4, Claude) для анализа результатов и генерации рекомендаций.',
+                    features: ['OpenAI и Anthropic API', 'Prompt engineering', 'Response caching', 'Cost optimization', 'Rate limiting']
+                },
+                'monitoring': {
+                    description: 'Комплексная система мониторинга для отслеживания состояния всех компонентов и метрик производительности.',
+                    features: ['Prometheus metrics', 'Grafana dashboards', 'Alert manager', 'Custom metrics', 'Distributed tracing']
+                },
+                'webhooks': {
+                    description: 'Система webhook-уведомлений для интеграции с Slack, Discord, Jira, PagerDuty и другими платформами.',
+                    features: ['Event-driven architecture', 'Webhook templates', 'Retry logic с backoff', 'Signature verification', 'Payload customization']
+                },
+                'external_apis': {
+                    description: 'Интеграция с threat intelligence API: Shodan, VirusTotal, CVE databases, MITRE ATT&CK.',
+                    features: ['Multi-provider support (10+ API)', 'API key management', 'Response caching', 'Rate limit handling', 'Data enrichment']
+                },
+                'report_gen': {
+                    description: 'Генератор профессиональных отчётов в PDF, HTML, JSON, DOCX с кастомизируемыми шаблонами.',
+                    features: ['Template engine (Jinja2)', 'PDF generation', 'Chart rendering', 'Executive summaries', 'Multi-language support']
                 }
-            });
+            };
+
+            return allDetails[id] || {
+                description: 'Компонент системы VulneraAI для автоматизированного пентестинга.',
+                features: ['Подробная информация скоро будет добавлена']
+            };
         }
     }
 
+    // CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .node { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .connection-line { transition: all 0.2s ease; }
+    `;
+    document.head.appendChild(style);
+
+    // Инициализация
     document.addEventListener('DOMContentLoaded', () => {
-        const architectureManager = new ArchitectureManager();
-        architectureManager.initialize();
-        window.VulneraAIArchitecture = architectureManager;
+        const architecture = new VulneraAIArchitecture();
+        architecture.initialize();
+
+        console.log('%c🎯 VulneraAI Architecture Loaded', 'color: #3b82f6; font-size: 16px; font-weight: bold;');
+        console.log('%cNodes:', 'color: #10b981; font-weight: bold;', architecture.nodes.length);
+        console.log('%cEdges:', 'color: #f97316; font-weight: bold;', architecture.edges.length);
     });
 })();
