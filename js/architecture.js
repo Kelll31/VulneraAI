@@ -1,44 +1,44 @@
 // VulneraAI Architecture Module - Simplified Interactive Diagram (No Zoom/Pan)
-// Features: Interactive components and blocks (click to see details), modern architecture reflecting Server + Client + Integrations
+// Features: Interactive components and blocks (click to see details), proper spacing between elements
 (function () {
     'use strict';
 
-    // Updated architecture blocks for new architecture
+    // Updated architecture blocks with better spacing
     const ARCHITECTURE_BLOCKS = {
         server: {
             title: "VulneraAI Server (Backend)",
-            position: { x: 40, y: 80 },
-            size: { width: 520, height: 480 },
+            position: { x: 30, y: 70 },
+            size: { width: 480, height: 420 },
             color: "#1e40af",
             components: ["api_gateway", "core_services", "storage", "queue"]
         },
         client: {
             title: "VulneraAI Client (Kali Linux)",
-            position: { x: 600, y: 80 },
-            size: { width: 420, height: 270 },
+            position: { x: 550, y: 70 },
+            size: { width: 380, height: 220 },
             color: "#047857",
             components: ["client_ui", "client_backend"]
         },
         integrations: {
             title: "Интеграции и внешние сервисы",
-            position: { x: 600, y: 380 },
-            size: { width: 420, height: 180 },
+            position: { x: 550, y: 320 },
+            size: { width: 380, height: 170 },
             color: "#7c2d12",
             components: ["gpt_tunnel", "monitoring", "webhooks"]
         }
     };
 
-    // Updated components for new architecture
+    // Updated components with proper spacing
     const architectureComponents = {
         api_gateway: {
             name: "API Gateway",
             technical_name: "FastAPI / Uvicorn",
             description: "REST API слой для клиентов и интеграций",
-            details: "Отвечает за приём и маршрутизацию всех запросов от клиентов. Реализован на FastAPI с Uvicorn в качестве ASGI-сервера. Поддерживает аутентификацию, rate limiting и базовую валидацию входных данных.",
+            details: "Отвечает за прием и маршрутизацию всех запросов от клиентов и интеграций. Реализован на FastAPI с Uvicorn в качестве ASGI-сервера. Поддерживает аутентификацию, rate limiting и базовую валидацию входных данных.",
             connections: ["core_services", "client_backend", "webhooks"],
             protocols: ["HTTPS/REST", "JSON"],
-            position: { x: 60, y: 120 },
-            size: { width: 240, height: 120 },
+            position: { x: 50, y: 100 },
+            size: { width: 200, height: 100 },
             color: "#3b82f6",
             block: "server"
         },
@@ -49,8 +49,8 @@
             details: "Основной слой бизнес-логики VulneraAI. Управляет жизненным циклом пентестов, учётными записями, тарифами и фоновой обработкой задач. Все операции проходят через чётко определённые сервисные границы.",
             connections: ["api_gateway", "storage", "queue"],
             protocols: ["Internal API", "DB Queries"],
-            position: { x: 320, y: 120 },
-            size: { width: 220, height: 140 },
+            position: { x: 280, y: 100 },
+            size: { width: 200, height: 100 },
             color: "#f59e0b",
             block: "server"
         },
@@ -58,11 +58,11 @@
             name: "Хранилище данных",
             technical_name: "PostgreSQL / Redis",
             description: "Персистентные и кэширующие хранилища",
-            details: "PostgreSQL хранит долговременные данные: пользователей, проекты, результаты пентестов. Redis используется для кэша, сессий и временных токенов. Это разделение даёт баланс между надёжностью и скоростью.",
+            details: "PostgreSQL хранит долгосрочные данные: пользователей, проекты, результаты пентестов. Redis используется для кэша, сессий и временных токенов. Это разделение дает баланс между надежностью и скоростью.",
             connections: ["core_services"],
             protocols: ["SQL", "Key/Value"],
-            position: { x: 60, y: 280 },
-            size: { width: 220, height: 120 },
+            position: { x: 50, y: 240 },
+            size: { width: 200, height: 100 },
             color: "#6366f1",
             block: "server"
         },
@@ -70,11 +70,11 @@
             name: "Очередь задач",
             technical_name: "RabbitMQ",
             description: "Асинхронные задания и обработка",
-            details: "Очередь задач используется для фонового выполнения тяжёлых операций: генерация отчётов, запуск сложных проверок, интеграция с внешними системами. Обеспечивает устойчивость и отказоустойчивость.",
+            details: "Очередь задач используется для фонового выполнения тяжелых операций: генерация отчетов, запуск сложных проверок, интеграция с внешними системами. Обеспечивает устойчивость и отказоустойчивость.",
             connections: ["core_services", "client_backend"],
             protocols: ["AMQP"],
-            position: { x: 300, y: 300 },
-            size: { width: 240, height: 120 },
+            position: { x: 280, y: 240 },
+            size: { width: 200, height: 100 },
             color: "#8b5cf6",
             block: "server"
         },
@@ -84,21 +84,21 @@
             description: "Веб-интерфейс на Kali Linux",
             details: "Фронтенд клиента, работающий в браузере на машине Kali Linux. Предоставляет чат-подобный интерфейс, управление задачами и визуализацию результатов. Общается с локальным backend и центральным сервером.",
             connections: ["client_backend"],
-            protocols: ["HTTP", "Web UI"],
-            position: { x: 620, y: 120 },
-            size: { width: 190, height: 120 },
+            protocols: ["HTTP", "WebSocket"],
+            position: { x: 570, y: 100 },
+            size: { width: 160, height: 100 },
             color: "#10b981",
             block: "client"
         },
         client_backend: {
-            name: "Client Backend",
+            name: "Client Backend Agent",
             technical_name: "FastAPI Agent",
             description: "Агент на Kali Linux для выполнения команд",
-            details: "Локальный агент на FastAPI, который запускается на Kali Linux. Принимает команды от центрального сервера и UI, выполняет реальные инструменты Kali и отправляет результаты обратно.",
+            details: "Локальный агент на FastAPI, запускаемый на Kali Linux. Принимает команды от центрального сервера и UI, выполняет реальные инструменты Kali и отправляет результаты обратно.",
             connections: ["client_ui", "api_gateway", "queue"],
             protocols: ["HTTP", "CLI"],
-            position: { x: 830, y: 120 },
-            size: { width: 170, height: 140 },
+            position: { x: 760, y: 100 },
+            size: { width: 160, height: 100 },
             color: "#22c55e",
             block: "client"
         },
@@ -109,8 +109,8 @@
             details: "Отдельный сервис/прокси для безопасного использования LLM/AI. Используется для анализа результатов, генерации рекомендаций, построения эксплойтов и других задач, где требуется мощный ИИ.",
             connections: ["core_services"],
             protocols: ["HTTPS", "API"],
-            position: { x: 620, y: 420 },
-            size: { width: 200, height: 110 },
+            position: { x: 570, y: 340 },
+            size: { width: 170, height: 90 },
             color: "#f97316",
             block: "integrations"
         },
@@ -118,11 +118,11 @@
             name: "Мониторинг",
             technical_name: "Metrics / Logs",
             description: "Метрики и логирование системы",
-            details: "Подсистема мониторинга собирает технические метрики и логи для анализа производительности и стабильности. Используется для alerting и отладки в продакшне.",
+            details: "Подсистема мониторинга собирает технические метрики и логи для анализа производительности и стабильности. Используется для alerting и отладки в продакшене.",
             connections: ["core_services", "client_backend"],
             protocols: ["Metrics", "Logs"],
-            position: { x: 830, y: 420 },
-            size: { width: 190, height: 100 },
+            position: { x: 760, y: 340 },
+            size: { width: 160, height: 90 },
             color: "#e5e7eb",
             block: "integrations"
         },
@@ -133,25 +133,25 @@
             details: "Webhook-уведомления позволяют интегрировать VulneraAI с внешними системами: тикет-трекеры, SIEM, корпоративные порталы. Отправляют события о статусе пентестов и важных результатах.",
             connections: ["api_gateway"],
             protocols: ["HTTP"],
-            position: { x: 620, y: 540 },
-            size: { width: 400, height: 80 },
+            position: { x: 570, y: 450 },
+            size: { width: 350, height: 60 },
             color: "#ec4899",
             block: "integrations"
         }
     };
 
-    // Simplified connection definitions (no zoom/pan specific logic needed)
+    // Simplified connection definitions
     const connections = [
         { from: "client_ui", to: "client_backend", type: "HTTP", label: "UI → Agent", color: "#22c55e" },
-        { from: "client_backend", to: "api_gateway", type: "HTTPS", label: "Agent ↔ Server API", color: "#3b82f6" },
-        { from: "api_gateway", to: "core_services", type: "Internal", label: "Бизнес-логика", color: "#f59e0b" },
-        { from: "core_services", to: "storage", type: "DB", label: "Persist Data", color: "#6366f1" },
-        { from: "core_services", to: "queue", type: "AMQP", label: "Background Jobs", color: "#8b5cf6" },
-        { from: "core_services", to: "gpt_tunnel", type: "HTTPS", label: "AI Processing", color: "#f97316" },
-        { from: "core_services", to: "webhooks", type: "HTTP", label: "Notifications", color: "#ec4899" },
-        { from: "core_services", to: "monitoring", type: "Metrics", label: "Metrics/Logs", color: "#e5e7eb" },
-        { from: "client_backend", to: "monitoring", type: "Metrics", label: "Client Metrics", color: "#e5e7eb" },
-        { from: "queue", to: "client_backend", type: "Tasks", label: "Exec Tasks", color: "#8b5cf6" }
+        { from: "client_backend", to: "api_gateway", type: "HTTPS", label: "Agent ↔ Server", color: "#3b82f6" },
+        { from: "api_gateway", to: "core_services", type: "Internal", label: "Route", color: "#f59e0b" },
+        { from: "core_services", to: "storage", type: "DB", label: "Persist", color: "#6366f1" },
+        { from: "core_services", to: "queue", type: "AMQP", label: "Queue", color: "#8b5cf6" },
+        { from: "core_services", to: "gpt_tunnel", type: "HTTPS", label: "AI", color: "#f97316" },
+        { from: "core_services", to: "webhooks", type: "HTTP", label: "Events", color: "#ec4899" },
+        { from: "core_services", to: "monitoring", type: "Metrics", label: "Observe", color: "#e5e7eb" },
+        { from: "client_backend", to: "monitoring", type: "Metrics", label: "Metrics", color: "#e5e7eb" },
+        { from: "queue", to: "client_backend", type: "Tasks", label: "Tasks", color: "#8b5cf6" }
     ];
 
     class ArchitectureManager {
@@ -186,7 +186,7 @@
             this.svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             this.svgElement.setAttribute('width', '100%');
             this.svgElement.setAttribute('height', '600');
-            this.svgElement.setAttribute('viewBox', '0 0 1100 650');
+            this.svgElement.setAttribute('viewBox', '0 0 1000 600');
             this.svgElement.style.background = '#020617';
 
             const defs = this.createDefs();
@@ -272,19 +272,19 @@
                 rect.setAttribute('y', block.position.y);
                 rect.setAttribute('width', block.size.width);
                 rect.setAttribute('height', block.size.height);
-                rect.setAttribute('rx', '16');
+                rect.setAttribute('rx', '12');
                 rect.setAttribute('fill', `url(#block-gradient-${blockId})`);
                 rect.setAttribute('stroke', block.color);
                 rect.setAttribute('stroke-width', '2');
-                rect.setAttribute('stroke-dasharray', '10,5');
-                rect.setAttribute('opacity', '0.6');
+                rect.setAttribute('stroke-dasharray', '8,4');
+                rect.setAttribute('opacity', '0.5');
 
                 const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 title.setAttribute('x', block.position.x + block.size.width / 2);
-                title.setAttribute('y', block.position.y + 30);
+                title.setAttribute('y', block.position.y + 25);
                 title.setAttribute('text-anchor', 'middle');
                 title.setAttribute('fill', block.color);
-                title.setAttribute('font-size', '16');
+                title.setAttribute('font-size', '14');
                 title.setAttribute('font-weight', 'bold');
                 title.textContent = block.title;
 
@@ -310,12 +310,12 @@
 
                 const path = this.createCurvedPath(fromPoint, toPoint);
                 path.setAttribute('stroke', conn.color);
-                path.setAttribute('stroke-width', '2.5');
+                path.setAttribute('stroke-width', '2');
                 path.setAttribute('fill', 'none');
                 path.setAttribute('class', 'connection-line');
                 path.setAttribute('data-from', conn.from);
                 path.setAttribute('data-to', conn.to);
-                path.setAttribute('opacity', '0.8');
+                path.setAttribute('opacity', '0.7');
 
                 connectionsGroup.appendChild(path);
 
@@ -333,7 +333,7 @@
             const dx = to.x - from.x;
             const dy = to.y - from.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            const controlOffset = Math.min(distance * 0.3, 90);
+            const controlOffset = Math.min(distance * 0.25, 60);
 
             const cp1x = from.x + (dx > 0 ? controlOffset : -controlOffset);
             const cp1y = from.y;
@@ -355,31 +355,31 @@
             labelGroup.setAttribute('class', 'connection-label');
 
             const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            labelBg.setAttribute('x', midPoint.x - 45);
-            labelBg.setAttribute('y', midPoint.y - 18);
-            labelBg.setAttribute('width', '90');
-            labelBg.setAttribute('height', '36');
+            labelBg.setAttribute('x', midPoint.x - 40);
+            labelBg.setAttribute('y', midPoint.y - 16);
+            labelBg.setAttribute('width', '80');
+            labelBg.setAttribute('height', '28');
             labelBg.setAttribute('fill', '#020617');
             labelBg.setAttribute('stroke', conn.color);
             labelBg.setAttribute('stroke-width', '1');
-            labelBg.setAttribute('rx', '6');
-            labelBg.setAttribute('opacity', '0.95');
+            labelBg.setAttribute('rx', '4');
+            labelBg.setAttribute('opacity', '0.9');
 
             const protocolText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             protocolText.setAttribute('x', midPoint.x);
             protocolText.setAttribute('y', midPoint.y - 2);
             protocolText.setAttribute('text-anchor', 'middle');
             protocolText.setAttribute('fill', conn.color);
-            protocolText.setAttribute('font-size', '10');
+            protocolText.setAttribute('font-size', '9');
             protocolText.setAttribute('font-weight', 'bold');
             protocolText.textContent = conn.type;
 
             const descText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             descText.setAttribute('x', midPoint.x);
-            descText.setAttribute('y', midPoint.y + 10);
+            descText.setAttribute('y', midPoint.y + 8);
             descText.setAttribute('text-anchor', 'middle');
             descText.setAttribute('fill', '#9ca3af');
-            descText.setAttribute('font-size', '9');
+            descText.setAttribute('font-size', '8');
             descText.textContent = conn.label;
 
             labelGroup.appendChild(labelBg);
@@ -403,32 +403,32 @@
             group.style.cursor = 'pointer';
 
             const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            shadow.setAttribute('x', component.position.x + 3);
-            shadow.setAttribute('y', component.position.y + 3);
+            shadow.setAttribute('x', component.position.x + 2);
+            shadow.setAttribute('y', component.position.y + 2);
             shadow.setAttribute('width', component.size.width);
             shadow.setAttribute('height', component.size.height);
-            shadow.setAttribute('rx', '12');
-            shadow.setAttribute('fill', 'rgba(0,0,0,0.25)');
+            shadow.setAttribute('rx', '8');
+            shadow.setAttribute('fill', 'rgba(0,0,0,0.3)');
 
             const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
             rect.setAttribute('x', component.position.x);
             rect.setAttribute('y', component.position.y);
             rect.setAttribute('width', component.size.width);
             rect.setAttribute('height', component.size.height);
-            rect.setAttribute('rx', '12');
+            rect.setAttribute('rx', '8');
             rect.setAttribute('fill', `url(#gradient-${id})`);
             rect.setAttribute('stroke', component.color);
             rect.setAttribute('stroke-width', '2');
 
             const innerRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            innerRect.setAttribute('x', component.position.x + 2);
-            innerRect.setAttribute('y', component.position.y + 2);
-            innerRect.setAttribute('width', component.size.width - 4);
-            innerRect.setAttribute('height', component.size.height - 4);
-            innerRect.setAttribute('rx', '10');
+            innerRect.setAttribute('x', component.position.x + 1.5);
+            innerRect.setAttribute('y', component.position.y + 1.5);
+            innerRect.setAttribute('width', component.size.width - 3);
+            innerRect.setAttribute('height', component.size.height - 3);
+            innerRect.setAttribute('rx', '6.5');
             innerRect.setAttribute('fill', 'none');
-            innerRect.setAttribute('stroke', 'rgba(255,255,255,0.25)');
-            innerRect.setAttribute('stroke-width', '1');
+            innerRect.setAttribute('stroke', 'rgba(255,255,255,0.2)');
+            innerRect.setAttribute('stroke-width', '0.5');
 
             group.appendChild(shadow);
             group.appendChild(rect);
@@ -440,23 +440,23 @@
 
         addComponentText(group, component) {
             const centerX = component.position.x + component.size.width / 2;
-            const startY = component.position.y + 26;
+            const startY = component.position.y + 22;
 
             const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             title.setAttribute('x', centerX);
             title.setAttribute('y', startY);
             title.setAttribute('text-anchor', 'middle');
             title.setAttribute('fill', '#ffffff');
-            title.setAttribute('font-size', '13');
+            title.setAttribute('font-size', '12');
             title.setAttribute('font-weight', 'bold');
             title.textContent = component.name;
 
             const techName = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             techName.setAttribute('x', centerX);
-            techName.setAttribute('y', startY + 16);
+            techName.setAttribute('y', startY + 14);
             techName.setAttribute('text-anchor', 'middle');
-            techName.setAttribute('fill', 'rgba(255,255,255,0.8)');
-            techName.setAttribute('font-size', '10');
+            techName.setAttribute('fill', 'rgba(255,255,255,0.75)');
+            techName.setAttribute('font-size', '9');
             techName.setAttribute('font-style', 'italic');
             techName.textContent = `(${component.technical_name})`;
 
@@ -464,10 +464,10 @@
             group.appendChild(techName);
 
             const description = component.description;
-            const maxCharsPerLine = Math.floor((component.size.width - 20) / 6);
+            const maxCharsPerLine = Math.floor((component.size.width - 12) / 5.5);
             const words = description.split(' ');
             let currentLine = '';
-            let yOffset = startY + 36;
+            let yOffset = startY + 30;
 
             words.forEach(word => {
                 if ((currentLine + word).length > maxCharsPerLine && currentLine) {
@@ -475,13 +475,13 @@
                     line.setAttribute('x', centerX);
                     line.setAttribute('y', yOffset);
                     line.setAttribute('text-anchor', 'middle');
-                    line.setAttribute('fill', 'rgba(255,255,255,0.75)');
-                    line.setAttribute('font-size', '9');
+                    line.setAttribute('fill', 'rgba(255,255,255,0.7)');
+                    line.setAttribute('font-size', '8');
                     line.textContent = currentLine.trim();
                     group.appendChild(line);
 
                     currentLine = word + ' ';
-                    yOffset += 13;
+                    yOffset += 11;
                 } else {
                     currentLine += word + ' ';
                 }
@@ -492,8 +492,8 @@
                 line.setAttribute('x', centerX);
                 line.setAttribute('y', yOffset);
                 line.setAttribute('text-anchor', 'middle');
-                line.setAttribute('fill', 'rgba(255,255,255,0.75)');
-                line.setAttribute('font-size', '9');
+                line.setAttribute('fill', 'rgba(255,255,255,0.7)');
+                line.setAttribute('font-size', '8');
                 line.textContent = currentLine.trim();
                 group.appendChild(line);
             }
@@ -704,7 +704,7 @@
         }
 
         highlightComponent(component) {
-            component.style.filter = 'brightness(1.15)';
+            component.style.filter = 'brightness(1.1)';
         }
 
         unhighlightComponent(component) {
@@ -712,13 +712,13 @@
         }
 
         highlightConnection(connection) {
-            connection.style.strokeWidth = '4';
+            connection.style.strokeWidth = '3.5';
             connection.style.opacity = '1';
         }
 
         unhighlightConnection(connection) {
-            connection.style.strokeWidth = '2.5';
-            connection.style.opacity = '0.8';
+            connection.style.strokeWidth = '2';
+            connection.style.opacity = '0.7';
         }
 
         highlightRelatedConnections(componentId) {
