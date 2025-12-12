@@ -1,11 +1,165 @@
 {
-    "title": "API Documentation",
+    "title": "Полная документация API VulneraAI",
     "id": "api",
     "icon": "🔌",
     "order": 4,
-    "lastUpdated": "2025-09-10",
-    "description": "Полная документация по REST API VulneraAI, построенного на архитектуре OpenWebUI с расширениями для автоматизированного пентестинга",
+    "version": "2.0.0",
+    "lastUpdated": "2025-12-12",
+    "description": "Полная документация по REST API VulneraAI, включая серверные и клиентские компоненты, автоматизированное пентестирование и интеграции с AI-модулями",
     "articles": [
+        {
+            "id": "overview",
+            "title": "Общий обзор API",
+            "description": "Архитектура и основные концепции VulneraAI API",
+            "content": [
+                {
+                    "type": "paragraph",
+                    "text": "VulneraAI предоставляет мощный REST API для полной автоматизации тестирования безопасности, интегрированный с архитектурой OpenWebUI и дополненный специализированными модулями для пентестирования. API разделен на две основные части: **VulneraAI Server** (управление сканированиями, подписками, аутентификацией) и **VulneraAI Client** (выполнение тестов на машине клиента)."
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Архитектура системы"
+                },
+                {
+                    "type": "paragraph",
+                    "text": "VulneraAI использует трехслойную архитектуру:"
+                },
+                {
+                    "type": "list",
+                    "items": [
+                        "**VulneraAI Server** (FastAPI, PostgreSQL, Redis) — управление пользователями, подписками, результатами",
+                        "**VulneraAI Client** (Python, React, FastAPI) — автономный агент на машине клиента для выполнения тестов",
+                        "**AI модули** (BattleNet, RAG, DataStream) — интеллектуальный анализ и генерация эксплойтов"
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Базовые сведения"
+                },
+                {
+                    "type": "table",
+                    "headers": [
+                        "Параметр",
+                        "Значение",
+                        "Описание"
+                    ],
+                    "rows": [
+                        [
+                            "Base URL (Server)",
+                            "https://api.vulneraai.com/v1",
+                            "Основной API сервера"
+                        ],
+                        [
+                            "Base URL (Client)",
+                            "http://127.0.0.1:8001",
+                            "Локальный API клиента"
+                        ],
+                        [
+                            "API Version",
+                            "v1",
+                            "Текущая версия API"
+                        ],
+                        [
+                            "Response Format",
+                            "JSON",
+                            "Все ответы в формате JSON"
+                        ],
+                        [
+                            "Authentication",
+                            "Bearer Token",
+                            "Используется JWT аутентификация"
+                        ],
+                        [
+                            "Rate Limiting",
+                            "Зависит от плана",
+                            "100-10000 запросов/мин"
+                        ]
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Структура запроса"
+                },
+                {
+                    "type": "code",
+                    "language": "bash",
+                    "title": "Типичный API запрос",
+                    "code": "curl -X POST https://api.vulneraai.com/v1/scans \\\n  -H \"Authorization: Bearer sk-vulneraai-1234567890abcdef\" \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json\" \\\n  -H \"User-Agent: VulneraAI-Client/1.0\" \\\n  -d '{\"name\": \"Web App Test\", \"targets\": [{\"type\": \"url\", \"value\": \"https://example.com\"}]}'"
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Структура ответа"
+                },
+                {
+                    "type": "code",
+                    "language": "json",
+                    "title": "Типичный успешный ответ",
+                    "code": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"scan_12345\",\n    \"status\": \"created\",\n    \"created_at\": \"2025-12-12T10:30:00Z\",\n    \"target_count\": 1\n  },\n  \"meta\": {\n    \"request_id\": \"req_abc123\",\n    \"timestamp\": \"2025-12-12T10:30:00Z\",\n    \"api_version\": \"v1\"\n  }\n}"
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Коды ошибок HTTP"
+                },
+                {
+                    "type": "table",
+                    "headers": [
+                        "Код",
+                        "Статус",
+                        "Описание",
+                        "Решение"
+                    ],
+                    "rows": [
+                        [
+                            "200",
+                            "OK",
+                            "Запрос успешен",
+                            "Обработайте результат"
+                        ],
+                        [
+                            "201",
+                            "Created",
+                            "Ресурс создан",
+                            "Используйте ID из ответа"
+                        ],
+                        [
+                            "400",
+                            "Bad Request",
+                            "Неверный формат запроса",
+                            "Проверьте параметры"
+                        ],
+                        [
+                            "401",
+                            "Unauthorized",
+                            "Токен отсутствует или неверный",
+                            "Получите новый токен"
+                        ],
+                        [
+                            "403",
+                            "Forbidden",
+                            "Недостаточные права доступа",
+                            "Проверьте scopes токена"
+                        ],
+                        [
+                            "429",
+                            "Too Many Requests",
+                            "Превышен rate limit",
+                            "Подождите или upgrade план"
+                        ],
+                        [
+                            "500",
+                            "Server Error",
+                            "Ошибка на сервере",
+                            "Повторите позже"
+                        ]
+                    ]
+                }
+            ]
+        },
         {
             "id": "authentication",
             "title": "Аутентификация и авторизация",
@@ -13,22 +167,34 @@
             "content": [
                 {
                     "type": "paragraph",
-                    "text": "VulneraAI API использует Bearer Token аутентификацию, интегрированную с системой управления пользователями OpenWebUI. Все API запросы требуют валидного токена доступа."
+                    "text": "VulneraAI использует Bearer Token аутентификацию на основе JWT токенов, интегрированную с системой управления пользователями OpenWebUI и собственной системой подписок. Все API запросы требуют валидного токена доступа."
                 },
                 {
                     "type": "heading",
                     "level": 2,
-                    "text": "Получение API-токена"
+                    "text": "Получение API-токена через Server API"
                 },
                 {
                     "type": "list",
                     "items": [
-                        "Войдите в веб-интерфейс VulneraAI через OpenWebUI",
-                        "Перейдите в **Настройки → API токены**",
-                        "Нажмите **\"Создать новый токен\"**",
-                        "Укажите название и выберите области доступа (scopes)",
-                        "Скопируйте токен — он отображается только один раз!"
+                        "1. Зарегистрируйтесь на https://vulneraai.com",
+                        "2. Перейдите в **Настройки → API токены** или использую OpenWebUI",
+                        "3. Нажмите **\"Создать новый токен\"** или **\"Generate API Key\"**",
+                        "4. Укажите название и выберите области доступа (scopes)",
+                        "5. Скопируйте токен — он отображается только один раз!",
+                        "6. Сохраните в безопасном месте или переменных окружения"
                     ]
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Аутентификация через REST API"
+                },
+                {
+                    "type": "code",
+                    "language": "bash",
+                    "title": "Получение токена через API (Server)",
+                    "code": "# Регистрация\ncurl -X POST https://api.vulneraai.com/v1/auth/register \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"email\": \"user@example.com\",\n    \"password\": \"secure_password\",\n    \"full_name\": \"John Doe\"\n  }'\n\n# Вход (получение токена)\ncurl -X POST https://api.vulneraai.com/v1/auth/login \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"email\": \"user@example.com\",\n    \"password\": \"secure_password\"\n  }'\n\n# Ответ содержит:\n# {\n#   \"access_token\": \"sk-vulneraai-...\",\n#   \"refresh_token\": \"ref-...\",\n#   \"token_type\": \"bearer\",\n#   \"expires_in\": 900,\n#   \"user\": { \"id\": \"user_123\", \"email\": \"user@example.com\" }\n# }"
                 },
                 {
                     "type": "heading",
@@ -39,7 +205,7 @@
                     "type": "code",
                     "language": "bash",
                     "title": "Пример запроса с аутентификацией",
-                    "code": "curl -H \"Authorization: Bearer sk-vulneraai-1234567890abcdef\" \\\n     -H \"Content-Type: application/json\" \\\n     -H \"Accept: application/json\" \\\n     https://api.vulneraai.com/v1/scans"
+                    "code": "# Получить текущего пользователя\ncurl -H \"Authorization: Bearer sk-vulneraai-1234567890abcdef\" \\\n     -H \"Content-Type: application/json\" \\\n     https://api.vulneraai.com/v1/auth/me\n\n# Обновить токен доступа\ncurl -X POST https://api.vulneraai.com/v1/auth/refresh \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"refresh_token\": \"ref-...\"}'\n\n# Выход (инвалидировать токены)\ncurl -X POST https://api.vulneraai.com/v1/auth/logout \\\n  -H \"Authorization: Bearer sk-vulneraai-...\""
                 },
                 {
                     "type": "heading",
@@ -65,6 +231,11 @@
                             "POST, PUT, DELETE /scans"
                         ],
                         [
+                            "scans:admin",
+                            "Административные функции сканирований",
+                            "PATCH /scans/{id}/admin"
+                        ],
+                        [
                             "ai:battlenet",
                             "Доступ к BattleNet AI модулю",
                             "POST /ai/battlenet/*"
@@ -75,118 +246,123 @@
                             "GET /ai/rag/*"
                         ],
                         [
+                            "ai:datastream",
+                            "Доступ к потоку контекстных данных",
+                            "GET /datastream/*"
+                        ],
+                        [
+                            "subscriptions:read",
+                            "Просмотр подписки и квот",
+                            "GET /subscriptions/current, /usage"
+                        ],
+                        [
+                            "subscriptions:manage",
+                            "Управление подписками",
+                            "POST, PUT /subscriptions/*"
+                        ],
+                        [
                             "webhooks:manage",
                             "Управление webhook уведомлениями",
                             "POST, PUT, DELETE /webhooks"
                         ],
                         [
+                            "integrations:read",
+                            "Просмотр интеграций",
+                            "GET /integrations/*"
+                        ],
+                        [
+                            "integrations:manage",
+                            "Управление интеграциями",
+                            "POST, PUT, DELETE /integrations/*"
+                        ],
+                        [
                             "admin",
-                            "Полный административный доступ",
+                            "Полный административный доступ (Server)",
                             "Все эндпоинты"
                         ]
                     ]
                 },
                 {
-                    "type": "alert",
-                    "variant": "warning",
-                    "text": "🔒 **Безопасность**: Никогда не передавайте API-токены в URL параметрах, GET запросах или логах. Используйте только HTTPS и храните токены в переменных окружения."
-                }
-            ]
-        },
-        {
-            "id": "core-endpoints",
-            "title": "Основные эндпоинты",
-            "description": "Базовые API методы для управления сканированиями",
-            "content": [
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Токены клиента (Client)"
+                },
                 {
                     "type": "paragraph",
-                    "text": "Базовый URL для всех API запросов: `https://api.vulneraai.com/v1`"
+                    "text": "VulneraAI Client использует собственную аутентификацию для общения с Server и выполнения задач:"
+                },
+                {
+                    "type": "code",
+                    "language": "bash",
+                    "title": "Аутентификация Client с Server",
+                    "code": "# Client сначала регистрируется на Server\ncurl -X POST http://127.0.0.1:8001/api/v1/client/register \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"client_id\": \"kali-machine-001\",\n    \"os\": \"Kali Linux\",\n    \"api_key\": \"sk-server-api-key\"\n  }'\n\n# Server возвращает ClientToken для дальнейшего общения\n# {\n#   \"client_token\": \"ct-client-...\",\n#   \"server_url\": \"https://api.vulneraai.com\",\n#   \"refresh_interval\": 300\n# }\n\n# Client использует этот токен для получения задач\ncurl -H \"Authorization: Bearer ct-client-...\" \\\n     http://127.0.0.1:8001/api/v1/agent/tasks"
+                },
+                {
+                    "type": "alert",
+                    "variant": "warning",
+                    "text": "🔒 **Безопасность**: Никогда не передавайте API-токены в URL параметрах, GET запросах, логах или системе контроля версий. Используйте только HTTPS и храните токены в переменных окружения или защищенных хранилищах."
                 },
                 {
                     "type": "heading",
                     "level": 2,
-                    "text": "Управление сканированиями"
+                    "text": "Переменные окружения"
+                },
+                {
+                    "type": "code",
+                    "language": "bash",
+                    "title": ".env файл",
+                    "code": "# VulneraAI Server API токен\nVULNERA_API_KEY=sk-vulneraai-your-production-token\n\n# VulneraAI Client токен (для интеграции)\nVULNERA_CLIENT_TOKEN=ct-client-your-token\n\n# Серверные URLs\nVULNERA_SERVER_URL=https://api.vulneraai.com\nVULNERA_SERVER_BASE=http://bxwmuwkxrqezjatkszqhmclxfvhcsv.vulneraai.ru:8000\nVULNERA_API_PREFIX=/api/v1\n\n# Локальный клиент\nVULNERA_CLIENT_URL=http://127.0.0.1:8001\nVULNERA_CLIENT_HOST=127.0.0.1\nVULNERA_CLIENT_PORT=8001"
+                }
+            ]
+        },
+        {
+            "id": "server-endpoints",
+            "title": "Server API: Основные эндпоинты",
+            "description": "REST API методы VulneraAI Server для управления сканированиями",
+            "content": [
+                {
+                    "type": "paragraph",
+                    "text": "VulneraAI Server предоставляет полный набор API методов для управления пентестами, подписками, пользователями и интеграциями. Все запросы требуют аутентификации через Bearer Token."
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Health & Info"
                 },
                 {
                     "type": "table",
                     "headers": [
                         "Метод",
                         "Endpoint",
-                        "Описание",
-                        "Scope"
+                        "Описание"
                     ],
                     "rows": [
                         [
                             "GET",
-                            "/scans",
-                            "Список всех сканирований пользователя",
-                            "scans:read"
-                        ],
-                        [
-                            "POST",
-                            "/scans",
-                            "Создать новое сканирование",
-                            "scans:write"
+                            "/health",
+                            "Базовая проверка здоровья"
                         ],
                         [
                             "GET",
-                            "/scans/{id}",
-                            "Детали конкретного сканирования",
-                            "scans:read"
+                            "/api/v1/health",
+                            "Полная проверка сервиса"
                         ],
                         [
-                            "PUT",
-                            "/scans/{id}",
-                            "Обновить параметры сканирования",
-                            "scans:write"
+                            "GET",
+                            "/api/v1/health/detailed",
+                            "Полная проверка всех компонентов (PostgreSQL, Redis, RabbitMQ)"
                         ],
                         [
-                            "DELETE",
-                            "/scans/{id}",
-                            "Удалить сканирование",
-                            "scans:write"
-                        ],
-                        [
-                            "POST",
-                            "/scans/{id}/start",
-                            "Запустить сканирование",
-                            "scans:write"
-                        ],
-                        [
-                            "POST",
-                            "/scans/{id}/stop",
-                            "Остановить выполняющееся сканирование",
-                            "scans:write"
-                        ],
-                        [
-                            "POST",
-                            "/scans/{id}/pause",
-                            "Приостановить сканирование",
-                            "scans:write"
-                        ],
-                        [
-                            "POST",
-                            "/scans/{id}/resume",
-                            "Возобновить приостановленное сканирование",
-                            "scans:write"
+                            "GET",
+                            "/api/v1/info",
+                            "Информация об API и версии"
                         ]
                     ]
                 },
                 {
                     "type": "heading",
                     "level": 2,
-                    "text": "Создание сканирования"
-                },
-                {
-                    "type": "code",
-                    "language": "json",
-                    "title": "POST /scans - Пример запроса",
-                    "code": "{\n  \"name\": \"Web Application Security Test\",\n  \"description\": \"Comprehensive security assessment of production app\",\n  \"targets\": [\n    {\n      \"type\": \"url\",\n      \"value\": \"https://example.com\"\n    },\n    {\n      \"type\": \"ip\",\n      \"value\": \"192.168.1.100\"\n    },\n    {\n      \"type\": \"cidr\",\n      \"value\": \"10.0.0.0/24\"\n    }\n  ],\n  \"scan_type\": \"full\",\n  \"ai_config\": {\n    \"battlenet_enabled\": true,\n    \"battlenet_intensity\": \"medium\",\n    \"rag_search_enabled\": true,\n    \"zero_day_detection\": true\n  },\n  \"settings\": {\n    \"intensity\": \"medium\",\n    \"depth\": 3,\n    \"timeout\": 3600,\n    \"exclude_paths\": [\n      \"/admin/logout\",\n      \"/health\"\n    ],\n    \"custom_headers\": {\n      \"User-Agent\": \"VulneraAI Scanner 1.0\"\n    }\n  },\n  \"schedule\": {\n    \"enabled\": false,\n    \"cron\": \"0 2 * * *\",\n    \"timezone\": \"UTC\"\n  },\n  \"notifications\": {\n    \"webhook_url\": \"https://your-app.com/webhooks\",\n    \"email\": \"admin@example.com\",\n    \"on_completion\": true,\n    \"on_critical_finding\": true\n  }\n}"
-                },
-                {
-                    "type": "heading",
-                    "level": 2,
-                    "text": "Получение результатов"
+                    "text": "Управление пентестами"
                 },
                 {
                     "type": "table",
@@ -199,69 +375,314 @@
                     "rows": [
                         [
                             "GET",
-                            "/scans/{id}/status",
+                            "/api/v1/scans",
+                            "Список всех сканирований пользователя",
+                            "scans:read"
+                        ],
+                        [
+                            "POST",
+                            "/api/v1/scans",
+                            "Создать новое сканирование",
+                            "scans:write"
+                        ],
+                        [
+                            "GET",
+                            "/api/v1/scans/{id}",
+                            "Детали конкретного сканирования",
+                            "scans:read"
+                        ],
+                        [
+                            "PUT",
+                            "/api/v1/scans/{id}",
+                            "Обновить параметры сканирования",
+                            "scans:write"
+                        ],
+                        [
+                            "DELETE",
+                            "/api/v1/scans/{id}",
+                            "Удалить сканирование",
+                            "scans:write"
+                        ],
+                        [
+                            "POST",
+                            "/api/v1/scans/{id}/start",
+                            "Запустить сканирование на Agent",
+                            "scans:write"
+                        ],
+                        [
+                            "POST",
+                            "/api/v1/scans/{id}/stop",
+                            "Остановить выполняющееся сканирование",
+                            "scans:write"
+                        ],
+                        [
+                            "GET",
+                            "/api/v1/scans/{id}/status",
                             "Текущий статус сканирования",
                             "scans:read"
                         ],
                         [
                             "GET",
-                            "/scans/{id}/results",
-                            "Результаты сканирования",
+                            "/api/v1/scans/{id}/results",
+                            "Результаты сканирования с уязвимостями",
                             "scans:read"
-                        ],
+                        ]
+                    ]
+                },
+                {
+                    "type": "code",
+                    "language": "json",
+                    "title": "POST /api/v1/scans - Создание сканирования",
+                    "code": "{\n  \"name\": \"Web Application Security Test\",\n  \"description\": \"Comprehensive security assessment of production app\",\n  \"targets\": [\n    {\n      \"type\": \"url\",\n      \"value\": \"https://example.com\"\n    },\n    {\n      \"type\": \"ip\",\n      \"value\": \"192.168.1.100\"\n    },\n    {\n      \"type\": \"cidr\",\n      \"value\": \"10.0.0.0/24\"\n    }\n  ],\n  \"scan_type\": \"full\",\n  \"ai_config\": {\n    \"battlenet_enabled\": true,\n    \"battlenet_intensity\": \"medium\",\n    \"rag_search_enabled\": true,\n    \"zero_day_detection\": true\n  },\n  \"settings\": {\n    \"intensity\": \"medium\",\n    \"depth\": 3,\n    \"timeout\": 3600,\n    \"exclude_paths\": [\n      \"/admin/logout\",\n      \"/health\"\n    ],\n    \"custom_headers\": {\n      \"User-Agent\": \"VulneraAI Scanner 1.0\"\n    }\n  },\n  \"notifications\": {\n    \"webhook_url\": \"https://your-app.com/webhooks\",\n    \"email\": \"admin@example.com\",\n    \"on_completion\": true,\n    \"on_critical_finding\": true\n  }\n}"
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Результаты и уязвимости"
+                },
+                {
+                    "type": "table",
+                    "headers": [
+                        "Метод",
+                        "Endpoint",
+                        "Описание",
+                        "Scope"
+                    ],
+                    "rows": [
                         [
                             "GET",
-                            "/scans/{id}/vulnerabilities",
+                            "/api/v1/scans/{id}/vulnerabilities",
                             "Список найденных уязвимостей",
                             "scans:read"
                         ],
                         [
                             "GET",
-                            "/vulnerabilities/{id}",
-                            "Детали конкретной уязвимости",
+                            "/api/v1/vulnerabilities/{id}",
+                            "Детали конкретной уязвимости с PoC",
                             "scans:read"
                         ],
                         [
                             "GET",
-                            "/scans/{id}/report",
+                            "/api/v1/scans/{id}/report",
                             "Полный отчет в JSON",
                             "scans:read"
                         ],
                         [
                             "GET",
-                            "/scans/{id}/report.pdf",
+                            "/api/v1/scans/{id}/report.pdf",
                             "Отчет в формате PDF",
                             "scans:read"
                         ],
                         [
                             "GET",
-                            "/scans/{id}/report.xlsx",
+                            "/api/v1/scans/{id}/report.xlsx",
                             "Отчет в формате Excel",
                             "scans:read"
+                        ],
+                        [
+                            "GET",
+                            "/api/v1/scans/{id}/report.sarif",
+                            "Отчет в формате SARIF (GitHub Security)",
+                            "scans:read"
+                        ]
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Управление подписками"
+                },
+                {
+                    "type": "table",
+                    "headers": [
+                        "Метод",
+                        "Endpoint",
+                        "Описание",
+                        "Scope"
+                    ],
+                    "rows": [
+                        [
+                            "GET",
+                            "/api/v1/subscriptions/current",
+                            "Текущая активная подписка",
+                            "subscriptions:read"
+                        ],
+                        [
+                            "GET",
+                            "/api/v1/subscriptions/plans",
+                            "Доступные планы подписок",
+                            "subscriptions:read"
+                        ],
+                        [
+                            "GET",
+                            "/api/v1/subscriptions/usage",
+                            "Использование квот и ресурсов",
+                            "subscriptions:read"
+                        ],
+                        [
+                            "POST",
+                            "/api/v1/subscriptions/upgrade",
+                            "Обновление плана подписки",
+                            "subscriptions:manage"
+                        ],
+                        [
+                            "POST",
+                            "/api/v1/subscriptions/cancel",
+                            "Отмена подписки",
+                            "subscriptions:manage"
+                        ],
+                        [
+                            "GET",
+                            "/api/v1/subscriptions/billing-history",
+                            "История платежей",
+                            "subscriptions:read"
+                        ]
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "client-endpoints",
+            "title": "Client API: Локальные эндпоинты",
+            "description": "REST API методы VulneraAI Client для выполнения тестов",
+            "content": [
+                {
+                    "type": "paragraph",
+                    "text": "VulneraAI Client предоставляет локальный API (обычно на http://127.0.0.1:8001) для управления агентом, выполнения команд тестирования и получения результатов на локальной машине. Доступен только из локальной сети (Kali Linux)."
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Health Check"
+                },
+                {
+                    "type": "table",
+                    "headers": [
+                        "Метод",
+                        "Endpoint",
+                        "Описание"
+                    ],
+                    "rows": [
+                        [
+                            "GET",
+                            "/health",
+                            "Базовая проверка клиента"
+                        ],
+                        [
+                            "GET",
+                            "/api/v1/health",
+                            "Полная проверка здоровья"
+                        ],
+                        [
+                            "GET",
+                            "/info",
+                            "Информация о клиенте и версии"
+                        ]
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Управление агентом"
+                },
+                {
+                    "type": "table",
+                    "headers": [
+                        "Метод",
+                        "Endpoint",
+                        "Описание",
+                        "Требует Scope"
+                    ],
+                    "rows": [
+                        [
+                            "GET",
+                            "/agent/status",
+                            "Текущий статус автономного агента",
+                            "-"
+                        ],
+                        [
+                            "POST",
+                            "/agent/start",
+                            "Запустить автономного агента",
+                            "-"
+                        ],
+                        [
+                            "POST",
+                            "/agent/stop",
+                            "Остановить автономного агента",
+                            "-"
+                        ],
+                        [
+                            "GET",
+                            "/agent/tasks",
+                            "Получить задачи с сервера",
+                            "-"
+                        ],
+                        [
+                            "POST",
+                            "/agent/tasks/{id}/report",
+                            "Отправить результаты задачи",
+                            "-"
                         ]
                     ]
                 },
                 {
                     "type": "code",
                     "language": "bash",
-                    "title": "Скачивание PDF отчета",
-                    "code": "curl -H \"Authorization: Bearer your_token\" \\\n     -o vulnerability_report.pdf \\\n     https://api.vulneraai.com/v1/scans/scan_12345/report.pdf"
-                }
-            ]
-        },
-        {
-            "id": "ai-endpoints",
-            "title": "AI-модули API",
-            "description": "Специализированные эндпоинты для работы с BattleNet и RAG",
-            "content": [
-                {
-                    "type": "paragraph",
-                    "text": "VulneraAI предоставляет прямой доступ к AI-модулям через специализированные API эндпоинты, позволяя интегрировать возможности BattleNet и RAG в ваши приложения."
+                    "title": "Примеры локальных команд Client",
+                    "code": "# Проверка здоровья клиента\ncurl http://127.0.0.1:8001/health\n\n# Получить статус агента\ncurl http://127.0.0.1:8001/api/v1/agent/status\n\n# Получить информацию о системе и клиенте\ncurl http://127.0.0.1:8001/info\n\n# Запустить агента\ncurl -X POST http://127.0.0.1:8001/agent/start\n\n# Остановить агента\ncurl -X POST http://127.0.0.1:8001/agent/stop\n\n# Получить задачи (агент получает их периодически)\ncurl http://127.0.0.1:8001/agent/tasks"
                 },
                 {
                     "type": "heading",
                     "level": 2,
-                    "text": "🤖 BattleNet API"
+                    "text": "Пентестирование"
+                },
+                {
+                    "type": "table",
+                    "headers": [
+                        "Метод",
+                        "Endpoint",
+                        "Описание"
+                    ],
+                    "rows": [
+                        [
+                            "GET",
+                            "/pentest/progress",
+                            "Прогресс текущего пентеста"
+                        ],
+                        [
+                            "POST",
+                            "/task/submit",
+                            "Отправить результат задачи"
+                        ]
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "Инициализация связи Client с Server"
+                },
+                {
+                    "type": "code",
+                    "language": "bash",
+                    "title": "Процесс подключения Client к Server",
+                    "code": "# 1. Client инициализируется при запуске\ncurl -X POST http://127.0.0.1:8001/api/v1/client/register \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"client_id\": \"kali-machine-prod-01\",\n    \"os\": \"Kali Linux\",\n    \"api_key\": \"sk-server-api-key-from-env\",\n    \"api_version\": \"v1\"\n  }'\n\n# Ответ:\n# {\n#   \"client_token\": \"ct-client-abc123xyz\",\n#   \"server_url\": \"https://api.vulneraai.com\",\n#   \"heartbeat_interval\": 30,\n#   \"refresh_interval\": 300\n# }\n\n# 2. Client периодически отправляет heartbeat\ncurl -X POST http://127.0.0.1:8001/api/v1/client/heartbeat \\\n  -H \"Authorization: Bearer ct-client-abc123xyz\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"status\": \"ready\",\n    \"uptime_seconds\": 3600,\n    \"memory_usage_percent\": 45.2,\n    \"cpu_usage_percent\": 12.5\n  }'\n\n# 3. Client получает задачи\ncurl http://127.0.0.1:8001/api/v1/agent/tasks \\\n  -H \"Authorization: Bearer ct-client-abc123xyz\"\n\n# Ответ содержит массив задач для выполнения"
+                }
+            ]
+        },
+        {
+            "id": "ai-modules",
+            "title": "AI модули: BattleNet, RAG, DataStream",
+            "description": "Специализированные эндпоинты для работы с AI компонентами",
+            "content": [
+                {
+                    "type": "paragraph",
+                    "text": "VulneraAI интегрирует три мощных AI модуля для интеллектуального анализа и автоматизации пентестирования: **BattleNet** (генерация эксплойтов), **RAG** (база знаний о уязвимостях), и **DataStream** (потоковая контекстная информация)."
+                },
+                {
+                    "type": "heading",
+                    "level": 2,
+                    "text": "🤖 BattleNet API - Генерация эксплойтов"
                 },
                 {
                     "type": "table",
@@ -287,7 +708,7 @@
                         [
                             "POST",
                             "/ai/battlenet/bypass-waf",
-                            "Генерация payload для обхода WAF",
+                            "Генерация payload для обхода WAF/IDS",
                             "ai:battlenet"
                         ],
                         [
@@ -307,7 +728,7 @@
                 {
                     "type": "code",
                     "language": "json",
-                    "title": "POST /ai/battlenet/generate-exploit - Пример запроса",
+                    "title": "POST /ai/battlenet/generate-exploit",
                     "code": "{\n  \"vulnerability\": {\n    \"cve_id\": \"CVE-2024-12345\",\n    \"type\": \"sql_injection\",\n    \"target_url\": \"https://target.com/login\",\n    \"parameter\": \"username\",\n    \"context\": {\n      \"framework\": \"PHP Laravel\",\n      \"database\": \"MySQL 8.0\",\n      \"waf_detected\": \"Cloudflare\"\n    }\n  },\n  \"options\": {\n    \"intensity\": \"high\",\n    \"evasion_enabled\": true,\n    \"payload_encoding\": \"url\",\n    \"max_attempts\": 10\n  }\n}"
                 },
                 {
@@ -345,13 +766,13 @@
                         [
                             "GET",
                             "/ai/rag/trending",
-                            "Трендовые уязвимости",
+                            "Трендовые уязвимости последние 30 дней",
                             "ai:rag"
                         ],
                         [
                             "POST",
                             "/ai/rag/context-analysis",
-                            "Контекстный анализ целей",
+                            "Контекстный анализ целей и сервисов",
                             "ai:rag"
                         ]
                     ]
@@ -359,17 +780,13 @@
                 {
                     "type": "code",
                     "language": "bash",
-                    "title": "Семантический поиск в RAG",
-                    "code": "curl -X GET \"https://api.vulneraai.com/v1/ai/rag/search?q=wordpress+plugin+rce&limit=10&severity=critical\" \\\n     -H \"Authorization: Bearer your_token\""
+                    "title": "Примеры RAG API запросов",
+                    "code": "# Семантический поиск\ncurl \"https://api.vulneraai.com/v1/ai/rag/search?q=wordpress+plugin+rce&limit=10&severity=critical\" \\\n  -H \"Authorization: Bearer sk-vulneraai-...\"\n\n# Получить детали CVE\ncurl \"https://api.vulneraai.com/v1/ai/rag/vulnerabilities/CVE-2024-1234\" \\\n  -H \"Authorization: Bearer sk-vulneraai-...\"\n\n# Получить трендовые уязвимости\ncurl \"https://api.vulneraai.com/v1/ai/rag/trending?platform=wordpress&limit=5\" \\\n  -H \"Authorization: Bearer sk-vulneraai-...\"\n\n# Рекомендации по атаке\ncurl -X POST \"https://api.vulneraai.com/v1/ai/rag/recommend\" \\\n  -H \"Authorization: Bearer sk-vulneraai-...\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"target\": \"https://example.com\",\n    \"discovered_tech\": [\"PHP 7.4\", \"Apache 2.4\", \"WordPress 5.8\"],\n    \"vulnerability_types\": [\"sql_injection\", \"xss\", \"rce\"]\n  }'"
                 },
                 {
                     "type": "heading",
                     "level": 2,
-                    "text": "🔄 DataStream API"
-                },
-                {
-                    "type": "paragraph",
-                    "text": "API для работы с потоком контекстных данных в реальном времени:"
+                    "text": "🔄 DataStream API - Потоковые данные"
                 },
                 {
                     "type": "table",
@@ -383,7 +800,7 @@
                         [
                             "GET",
                             "/datastream/events",
-                            "Поток событий сканирования (SSE)",
+                            "Поток событий сканирования (SSE/WebSocket)",
                             "scans:read"
                         ],
                         [
@@ -395,21 +812,33 @@
                         [
                             "POST",
                             "/datastream/context",
-                            "Добавить контекстные данные",
+                            "Добавить контекстные данные для AI анализа",
                             "scans:write"
+                        ],
+                        [
+                            "GET",
+                            "/datastream/live/{scan_id}",
+                            "Живой поток результатов сканирования",
+                            "scans:read"
                         ]
                     ]
+                },
+                {
+                    "type": "code",
+                    "language": "bash",
+                    "title": "Получение потока событий (Server-Sent Events)",
+                    "code": "# Подписка на события сканирования\ncurl -N -H \"Authorization: Bearer sk-vulneraai-...\" \\\n     https://api.vulneraai.com/v1/datastream/events?scan_id=scan_12345 \\\n     2>&1 | while IFS= read -r line; do\n  echo \"$line\"\n  # Обработать событие\ndone\n\n# Пример событий в потоке:\n# data: {\"event\": \"scan.started\", \"timestamp\": \"2025-12-12T10:30:00Z\"}\n# data: {\"event\": \"vulnerability.found\", \"vulnerability\": {...}}\n# data: {\"event\": \"scan.completed\", \"summary\": {...}}"
                 }
             ]
         },
         {
             "id": "webhooks",
-            "title": "Webhooks и уведомления",
-            "description": "Настройка и управление webhook уведомлениями",
+            "title": "Webhooks и Real-time уведомления",
+            "description": "Настройка и управление webhook уведомлениями для интеграций",
             "content": [
                 {
                     "type": "paragraph",
-                    "text": "Webhook система VulneraAI интегрирована с OpenWebUI и обеспечивает доставку уведомлений о событиях в режиме реального времени."
+                    "text": "Система webhook VulneraAI обеспечивает доставку уведомлений о событиях в режиме реального времени, интегрируясь с вашей инфраструктурой мониторинга, CI/CD пайплайнами и системами управления инцидентами."
                 },
                 {
                     "type": "heading",
@@ -427,74 +856,69 @@
                     "rows": [
                         [
                             "GET",
-                            "/webhooks",
+                            "/api/v1/webhooks",
                             "Список всех webhook",
                             "webhooks:manage"
                         ],
                         [
                             "POST",
-                            "/webhooks",
+                            "/api/v1/webhooks",
                             "Создать новый webhook",
                             "webhooks:manage"
                         ],
                         [
                             "GET",
-                            "/webhooks/{id}",
+                            "/api/v1/webhooks/{id}",
                             "Детали webhook",
                             "webhooks:manage"
                         ],
                         [
                             "PUT",
-                            "/webhooks/{id}",
+                            "/api/v1/webhooks/{id}",
                             "Обновить webhook",
                             "webhooks:manage"
                         ],
                         [
                             "DELETE",
-                            "/webhooks/{id}",
+                            "/api/v1/webhooks/{id}",
                             "Удалить webhook",
                             "webhooks:manage"
                         ],
                         [
                             "POST",
-                            "/webhooks/{id}/test",
+                            "/api/v1/webhooks/{id}/test",
                             "Тестовая отправка webhook",
                             "webhooks:manage"
                         ]
                     ]
                 },
                 {
-                    "type": "heading",
-                    "level": 2,
-                    "text": "Создание webhook"
-                },
-                {
                     "type": "code",
                     "language": "json",
-                    "title": "POST /webhooks - Создание webhook",
-                    "code": "{\n  \"name\": \"Production Alerts\",\n  \"url\": \"https://yourapp.com/api/vulneraai-webhook\",\n  \"events\": [\n    \"scan.started\",\n    \"scan.completed\",\n    \"scan.failed\",\n    \"vulnerability.critical\",\n    \"vulnerability.high\",\n    \"ai.battlenet.exploit_generated\",\n    \"ai.rag.zero_day_detected\"\n  ],\n  \"headers\": {\n    \"X-Custom-Header\": \"production\",\n    \"Authorization\": \"Bearer your-webhook-token\"\n  },\n  \"secret\": \"your_webhook_signing_secret\",\n  \"enabled\": true,\n  \"retry_config\": {\n    \"max_attempts\": 3,\n    \"retry_delay\": 60,\n    \"backoff_multiplier\": 2\n  },\n  \"filters\": {\n    \"scan_types\": [\"full\", \"targeted\"],\n    \"min_severity\": \"medium\",\n    \"target_patterns\": [\"*.prod.company.com\"]\n  }\n}"
+                    "title": "POST /api/v1/webhooks - Создание webhook",
+                    "code": "{\n  \"name\": \"Production Security Alerts\",\n  \"url\": \"https://yourapp.com/api/vulneraai-webhook\",\n  \"events\": [\n    \"scan.started\",\n    \"scan.completed\",\n    \"scan.failed\",\n    \"vulnerability.critical\",\n    \"vulnerability.high\",\n    \"ai.battlenet.exploit_generated\",\n    \"ai.rag.zero_day_detected\"\n  ],\n  \"headers\": {\n    \"X-Custom-Header\": \"production\",\n    \"Authorization\": \"Bearer your-webhook-token\"\n  },\n  \"secret\": \"your_webhook_signing_secret\",\n  \"enabled\": true,\n  \"retry_config\": {\n    \"max_attempts\": 3,\n    \"retry_delay\": 60,\n    \"backoff_multiplier\": 2\n  },\n  \"filters\": {\n    \"scan_types\": [\"full\", \"targeted\"],\n    \"min_severity\": \"medium\",\n    \"target_patterns\": [\"*.prod.company.com\"]\n  }\n}"
                 },
                 {
                     "type": "heading",
                     "level": 2,
-                    "text": "Типы событий"
+                    "text": "Типы событий webhook"
                 },
                 {
                     "type": "table",
                     "headers": [
                         "Событие",
                         "Описание",
-                        "Полезная нагрузка"
+                        "Включает данные"
                     ],
                     "rows": [
                         [
                             "scan.started",
-                            "Сканирование запущено",
+                            "Сканирование запущено на Client",
                             "scan_id, targets, start_time"
                         ],
                         [
                             "scan.progress",
-                            "Обновление прогресса",
+                            "Обновление прогресса сканирования",
                             "scan_id, progress_percentage, current_stage"
                         ],
                         [
@@ -530,15 +954,10 @@
                     ]
                 },
                 {
-                    "type": "heading",
-                    "level": 2,
-                    "text": "Структура webhook payload"
-                },
-                {
                     "type": "code",
                     "language": "json",
-                    "title": "Пример webhook уведомления",
-                    "code": "{\n  \"id\": \"wh_event_67890\",\n  \"event\": \"vulnerability.critical\",\n  \"timestamp\": \"2025-09-10T04:30:00Z\",\n  \"api_version\": \"v1\",\n  \"data\": {\n    \"scan_id\": \"scan_12345\",\n    \"scan_name\": \"Production Web App Audit\",\n    \"vulnerability\": {\n      \"id\": \"vuln_abc123\",\n      \"cve_id\": \"CVE-2024-9999\",\n      \"title\": \"Remote Code Execution in Login Form\",\n      \"severity\": \"critical\",\n      \"cvss_score\": 9.8,\n      \"cvss_vector\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\",\n      \"affected_url\": \"https://app.example.com/login\",\n      \"parameter\": \"username\",\n      \"payload\": \"'; DROP TABLE users; --\",\n      \"evidence\": \"HTTP 500 error with SQL syntax error message\",\n      \"recommendation\": \"Implement parameterized queries and input validation\"\n    },\n    \"battlenet_analysis\": {\n      \"exploit_generated\": true,\n      \"exploit_id\": \"exp_def456\",\n      \"success_rate\": 0.95,\n      \"bypass_techniques\": [\"WAF evasion\", \"Encoding variations\"]\n    },\n    \"rag_context\": {\n      \"similar_vulnerabilities\": [\n        \"CVE-2023-1234\",\n        \"CVE-2023-5678\"\n      ],\n      \"attack_patterns\": [\"SQL Injection\", \"Authentication Bypass\"],\n      \"remediation_priority\": \"immediate\"\n    }\n  },\n  \"metadata\": {\n    \"webhook_id\": \"webhook_789\",\n    \"delivery_attempt\": 1,\n    \"signature\": \"sha256=a1b2c3d4e5f6...\"\n  }\n}"
+                    "title": "Структура webhook payload",
+                    "code": "{\n  \"id\": \"wh_event_67890\",\n  \"event\": \"vulnerability.critical\",\n  \"timestamp\": \"2025-12-12T10:30:00Z\",\n  \"api_version\": \"v1\",\n  \"data\": {\n    \"scan_id\": \"scan_12345\",\n    \"scan_name\": \"Production Web App Audit\",\n    \"vulnerability\": {\n      \"id\": \"vuln_abc123\",\n      \"cve_id\": \"CVE-2024-9999\",\n      \"title\": \"Remote Code Execution in Login Form\",\n      \"severity\": \"critical\",\n      \"cvss_score\": 9.8,\n      \"cvss_vector\": \"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\",\n      \"affected_url\": \"https://app.example.com/login\",\n      \"parameter\": \"username\",\n      \"payload\": \"'; DROP TABLE users; --\",\n      \"evidence\": \"HTTP 500 error with SQL syntax error message\",\n      \"recommendation\": \"Implement parameterized queries and input validation\"\n    },\n    \"battlenet_analysis\": {\n      \"exploit_generated\": true,\n      \"exploit_id\": \"exp_def456\",\n      \"success_rate\": 0.95,\n      \"bypass_techniques\": [\"WAF evasion\", \"Encoding variations\"]\n    },\n    \"rag_context\": {\n      \"similar_vulnerabilities\": [\"CVE-2023-1234\", \"CVE-2023-5678\"],\n      \"attack_patterns\": [\"SQL Injection\", \"Authentication Bypass\"],\n      \"remediation_priority\": \"immediate\"\n    }\n  },\n  \"metadata\": {\n    \"webhook_id\": \"webhook_789\",\n    \"delivery_attempt\": 1,\n    \"signature\": \"sha256=a1b2c3d4e5f6...\"\n  }\n}"
                 },
                 {
                     "type": "heading",
@@ -548,19 +967,19 @@
                 {
                     "type": "code",
                     "language": "python",
-                    "title": "Пример верификации webhook подписи",
-                    "code": "import hmac\nimport hashlib\nimport json\n\ndef verify_webhook_signature(payload, signature, secret):\n    \"\"\"Проверка подписи webhook от VulneraAI\"\"\"\n    expected_signature = hmac.new(\n        secret.encode('utf-8'),\n        payload.encode('utf-8'),\n        hashlib.sha256\n    ).hexdigest()\n    \n    expected_signature = f\"sha256={expected_signature}\"\n    \n    return hmac.compare_digest(signature, expected_signature)\n\n# Пример использования\ndef handle_webhook(request):\n    payload = request.body.decode('utf-8')\n    signature = request.headers.get('X-VulneraAI-Signature')\n    secret = 'your_webhook_signing_secret'\n    \n    if not verify_webhook_signature(payload, signature, secret):\n        return {'error': 'Invalid signature'}, 401\n    \n    event_data = json.loads(payload)\n    event_type = event_data['event']\n    \n    if event_type == 'vulnerability.critical':\n        # Обработка критической уязвимости\n        handle_critical_vulnerability(event_data['data'])\n    \n    return {'status': 'received'}, 200"
+                    "title": "Пример верификации webhook подписи (Python)",
+                    "code": "import hmac\nimport hashlib\nimport json\n\ndef verify_webhook_signature(payload, signature, secret):\n    \"\"\"Проверка подписи webhook от VulneraAI\"\"\"\n    expected_signature = hmac.new(\n        secret.encode('utf-8'),\n        payload.encode('utf-8'),\n        hashlib.sha256\n    ).hexdigest()\n    \n    expected_signature = f\"sha256={expected_signature}\"\n    \n    return hmac.compare_digest(signature, expected_signature)\n\ndef handle_webhook(request):\n    payload = request.body.decode('utf-8')\n    signature = request.headers.get('X-VulneraAI-Signature')\n    secret = 'your_webhook_signing_secret'\n    \n    # Проверить подпись\n    if not verify_webhook_signature(payload, signature, secret):\n        return {'error': 'Invalid signature'}, 401\n    \n    # Обработать событие\n    event_data = json.loads(payload)\n    event_type = event_data['event']\n    \n    if event_type == 'vulnerability.critical':\n        # Отправить alert в Slack/PagerDuty/etc\n        send_critical_alert(event_data['data'])\n    \n    return {'status': 'received'}, 200"
                 }
             ]
         },
         {
             "id": "integrations",
             "title": "Интеграции и расширения",
-            "description": "API для интеграции с внешними системами",
+            "description": "API для интеграции с внешними системами SIEM, CI/CD, мессенджерами",
             "content": [
                 {
                     "type": "paragraph",
-                    "text": "VulneraAI предоставляет специализированные эндпоинты для интеграции с популярными системами безопасности и DevOps инструментами."
+                    "text": "VulneraAI предоставляет комплексную систему интеграций с популярными SIEM системами, CI/CD пайплайнами, тикетными системами и мессенджерами для автоматизации workflow безопасности."
                 },
                 {
                     "type": "heading",
@@ -578,25 +997,25 @@
                     "rows": [
                         [
                             "GET",
-                            "/integrations/splunk/events",
-                            "События в формате Splunk",
-                            "JSON/HEC"
+                            "/api/v1/integrations/splunk/events",
+                            "События в формате Splunk HEC",
+                            "JSON"
                         ],
                         [
                             "GET",
-                            "/integrations/qradar/dsm",
-                            "DSM события для QRadar",
+                            "/api/v1/integrations/qradar/dsm",
+                            "DSM события для IBM QRadar",
                             "LEEF"
                         ],
                         [
                             "GET",
-                            "/integrations/arcsight/cef",
+                            "/api/v1/integrations/arcsight/cef",
                             "События в формате CEF",
                             "Syslog CEF"
                         ],
                         [
                             "GET",
-                            "/integrations/elastic/beats",
+                            "/api/v1/integrations/elastic/beats",
                             "События для Elasticsearch",
                             "Beats JSON"
                         ]
@@ -618,25 +1037,25 @@
                     "rows": [
                         [
                             "POST",
-                            "/integrations/jira/create-issue",
-                            "Создание задачи в Jira",
+                            "/api/v1/integrations/jira/create-issue",
+                            "Создание задачи в Jira с уязвимостью",
                             "Atlassian Jira"
                         ],
                         [
                             "POST",
-                            "/integrations/servicenow/incident",
-                            "Создание инцидента",
+                            "/api/v1/integrations/servicenow/incident",
+                            "Создание инцидента в ServiceNow",
                             "ServiceNow"
                         ],
                         [
                             "POST",
-                            "/integrations/github/issue",
-                            "Создание GitHub Issue",
+                            "/api/v1/integrations/github/issue",
+                            "Создание GitHub Issue с результатами",
                             "GitHub"
                         ],
                         [
                             "POST",
-                            "/integrations/gitlab/issue",
+                            "/api/v1/integrations/gitlab/issue",
                             "Создание GitLab Issue",
                             "GitLab"
                         ]
@@ -645,23 +1064,38 @@
                 {
                     "type": "heading",
                     "level": 2,
-                    "text": "CI/CD пайплайны"
+                    "text": "CI/CD интеграции"
                 },
                 {
-                    "type": "list",
+                    "type": "features",
                     "items": [
-                        "**Jenkins Plugin** — интеграция через REST API для автоматических сканирований",
-                        "**GitHub Actions** — официальный action для security проверок",
-                        "**GitLab CI** — шаблоны .gitlab-ci.yml с VulneraAI сканированием",
-                        "**Azure DevOps** — расширение для Azure Pipelines",
-                        "**CircleCI Orbs** — переиспользуемые компоненты для сканирования"
+                        {
+                            "title": "GitHub Actions",
+                            "description": "Официальный action vulneraai/scan-action для security проверок в CI/CD"
+                        },
+                        {
+                            "title": "GitLab CI",
+                            "description": "Встроенный шаблон .gitlab-ci.yml с интеграцией VulneraAI сканирования"
+                        },
+                        {
+                            "title": "Jenkins",
+                            "description": "Jenkins Plugin для запуска сканирований и обработки результатов"
+                        },
+                        {
+                            "title": "Azure DevOps",
+                            "description": "Расширение для Azure Pipelines с поддержкой SARIF отчетов"
+                        },
+                        {
+                            "title": "CircleCI",
+                            "description": "CircleCI Orbs для переиспользуемых компонентов сканирования"
+                        }
                     ]
                 },
                 {
                     "type": "code",
                     "language": "yaml",
-                    "title": "Пример GitHub Action",
-                    "code": "name: Security Scan\non:\n  push:\n    branches: [ main ]\n  pull_request:\n    branches: [ main ]\n\njobs:\n  security-scan:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v2\n    \n    - name: VulneraAI Security Scan\n      uses: vulneraai/scan-action@v1\n      with:\n        api-token: ${{ secrets.VULNERAAI_TOKEN }}\n        target: ${{ github.event.repository.clone_url }}\n        scan-type: 'full'\n        fail-on-critical: true\n        upload-results: true\n      \n    - name: Upload SARIF results\n      uses: github/codeql-action/upload-sarif@v1\n      if: always()\n      with:\n        sarif_file: vulneraai-results.sarif"
+                    "title": "GitHub Action пример",
+                    "code": "name: Security Scan\non:\n  push:\n    branches: [ main ]\n  pull_request:\n    branches: [ main ]\n\njobs:\n  security-scan:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v2\n    \n    - name: VulneraAI Security Scan\n      uses: vulneraai/scan-action@v1\n      with:\n        api-token: ${{ secrets.VULNERAAI_TOKEN }}\n        target: ${{ github.event.repository.clone_url }}\n        scan-type: 'full'\n        fail-on-critical: true\n        upload-results: true\n      \n    - name: Upload SARIF results to GitHub Security\n      uses: github/codeql-action/upload-sarif@v1\n      if: always()\n      with:\n        sarif_file: vulneraai-results.sarif"
                 },
                 {
                     "type": "heading",
@@ -673,64 +1107,74 @@
                     "items": [
                         {
                             "title": "Slack Integration",
-                            "description": "Бот для получения уведомлений и управления сканированиями через Slack команды"
+                            "description": "Официальный Slack бот для получения уведомлений, управления сканированиями через команды"
                         },
                         {
                             "title": "Microsoft Teams",
-                            "description": "Коннектор для Teams с адаптивными карточками и интерактивными уведомлениями"
-                        },
+                            "description": "Teams коннектор с адаптивными карточками и интерактивными уведомлениями"
+                        ],
                         {
                             "title": "Discord Webhooks",
                             "description": "Поддержка Discord webhook с rich embeds для команд безопасности"
                         },
                         {
                             "title": "Telegram Bot",
-                            "description": "Бот для персональных уведомлений и быстрых команд управления"
+                            "description": "Telegram бот для персональных уведомлений и быстрых команд"
                         }
                     ]
+                },
+                {
+                    "type": "code",
+                    "language": "bash",
+                    "title": "Интеграция со Slack",
+                    "code": "# 1. Создать Incoming Webhook в Slack\n# https://api.slack.com/messaging/webhooks\n\n# 2. Добавить webhook URL в VulneraAI\ncurl -X POST https://api.vulneraai.com/v1/integrations/slack \\\n  -H \"Authorization: Bearer sk-vulneraai-...\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"webhook_url\": \"https://hooks.slack.com/services/YOUR/WEBHOOK/URL\",\n    \"channel\": \"#security-alerts\",\n    \"events\": [\"vulnerability.critical\", \"scan.completed\"]\n  }'\n\n# 3. Настроить Slack Commands для управления\n# /vulneraai scan https://example.com\n# /vulneraai status\n# /vulneraai report scan_12345"
                 }
             ]
         },
         {
             "id": "rate-limits",
-            "title": "Ограничения и лимиты",
-            "description": "Rate limiting, квоты и ограничения API",
+            "title": "Rate Limiting и квоты",
+            "description": "Ограничения API и управление квотами по планам",
             "content": [
                 {
                     "type": "paragraph",
-                    "text": "VulneraAI применяет различные ограничения для обеспечения стабильности сервиса и справедливого распределения ресурсов между пользователями."
+                    "text": "VulneraAI применяет различные rate limits и квоты ресурсов в зависимости от плана подписки для обеспечения стабильности сервиса и справедливого распределения ресурсов."
                 },
                 {
                     "type": "heading",
                     "level": 2,
-                    "text": "Rate Limiting"
+                    "text": "Rate Limiting по планам"
                 },
                 {
                     "type": "table",
                     "headers": [
                         "План",
-                        "Запросов/минуту",
+                        "Запросов/мин",
                         "Сканирований/час",
-                        "AI вызовов/день"
+                        "AI вызовов/день",
+                        "BattleNet вызовов"
                     ],
                     "rows": [
                         [
                             "Starter",
                             "100",
                             "2",
-                            "50"
+                            "50",
+                            "10"
                         ],
                         [
                             "Professional",
                             "1000",
                             "20",
-                            "500"
+                            "500",
+                            "100"
                         ],
                         [
                             "Enterprise",
                             "10000",
                             "Безлимит",
-                            "5000"
+                            "5000",
+                            "Безлимит"
                         ]
                     ]
                 },
@@ -744,8 +1188,10 @@
                     "items": [
                         "**X-RateLimit-Limit** — максимальное количество запросов в период",
                         "**X-RateLimit-Remaining** — оставшиеся запросы в текущем окне",
-                        "**X-RateLimit-Reset** — время сброса ограничений (Unix timestamp)",
-                        "**X-RateLimit-Retry-After** — рекомендуемое время ожидания при превышении лимита"
+                        "**X-RateLimit-Reset** — Unix timestamp сброса ограничений",
+                        "**X-RateLimit-Retry-After** — рекомендуемое время ожидания при превышении (секунды)",
+                        "**X-Quota-Remaining-Scans** — осталось сканирований в текущем часе",
+                        "**X-Quota-Remaining-AI** — осталось AI вызовов в текущий день"
                     ]
                 },
                 {
@@ -763,7 +1209,7 @@
                     ],
                     "rows": [
                         [
-                            "Активные сканирования",
+                            "Активные сканирования одновременно",
                             "2",
                             "10",
                             "100"
@@ -775,13 +1221,13 @@
                             "Безлимит"
                         ],
                         [
-                            "Размер отчета",
+                            "Максимальный размер отчета",
                             "50MB",
                             "500MB",
                             "5GB"
                         ],
                         [
-                            "История хранения",
+                            "История хранения результатов",
                             "3 месяца",
                             "1 год",
                             "Безлимит"
@@ -791,35 +1237,41 @@
                             "2",
                             "10",
                             "100"
+                        ],
+                        [
+                            "API ключи",
+                            "1",
+                            "5",
+                            "Безлимит"
                         ]
                     ]
                 },
                 {
                     "type": "heading",
                     "level": 2,
-                    "text": "Обработка ошибок ограничений"
+                    "text": "Обработка rate limit ошибок"
                 },
                 {
                     "type": "code",
                     "language": "python",
-                    "title": "Пример обработки rate limit",
-                    "code": "import time\nimport requests\nfrom requests.adapters import HTTPAdapter\nfrom urllib3.util.retry import Retry\n\nclass VulneraAIClient:\n    def __init__(self, token, base_url=\"https://api.vulneraai.com/v1\"):\n        self.token = token\n        self.base_url = base_url\n        self.session = self._create_session()\n    \n    def _create_session(self):\n        session = requests.Session()\n        session.headers.update({\n            'Authorization': f'Bearer {self.token}',\n            'Content-Type': 'application/json',\n            'User-Agent': 'VulneraAI-Python-Client/1.0'\n        })\n        \n        retry_strategy = Retry(\n            total=3,\n            status_forcelist=[429, 500, 502, 503, 504],\n            method_whitelist=[\"HEAD\", \"GET\", \"OPTIONS\"],\n            backoff_factor=1\n        )\n        \n        adapter = HTTPAdapter(max_retries=retry_strategy)\n        session.mount(\"http://\", adapter)\n        session.mount(\"https://\", adapter)\n        \n        return session\n    \n    def _handle_rate_limit(self, response):\n        if response.status_code == 429:\n            retry_after = int(response.headers.get('X-RateLimit-Retry-After', 60))\n            print(f\"Rate limit exceeded. Waiting {retry_after} seconds...\")\n            time.sleep(retry_after)\n            return True\n        return False\n    \n    def make_request(self, method, endpoint, **kwargs):\n        url = f\"{self.base_url}{endpoint}\"\n        \n        while True:\n            response = self.session.request(method, url, **kwargs)\n            \n            if not self._handle_rate_limit(response):\n                break\n        \n        response.raise_for_status()\n        return response.json()\n\n# Использование\nclient = VulneraAIClient('your-token')\nscans = client.make_request('GET', '/scans')"
+                    "title": "Пример обработки 429 Too Many Requests",
+                    "code": "import time\nimport requests\nfrom requests.adapters import HTTPAdapter\nfrom urllib3.util.retry import Retry\n\nclass VulneraAIClient:\n    def __init__(self, token):\n        self.token = token\n        self.session = self._create_session()\n    \n    def _create_session(self):\n        session = requests.Session()\n        session.headers.update({\n            'Authorization': f'Bearer {self.token}',\n            'Content-Type': 'application/json'\n        })\n        \n        # Автоматический retry с exponential backoff\n        retry_strategy = Retry(\n            total=5,\n            status_forcelist=[429, 500, 502, 503, 504],\n            allowed_methods=[\"HEAD\", \"GET\", \"OPTIONS\", \"POST\"],\n            backoff_factor=1  # 1, 2, 4, 8, 16 секунд\n        )\n        \n        adapter = HTTPAdapter(max_retries=retry_strategy)\n        session.mount(\"https://\", adapter)\n        \n        return session\n    \n    def make_request(self, method, endpoint, **kwargs):\n        url = f\"https://api.vulneraai.com/v1{endpoint}\"\n        \n        while True:\n            response = self.session.request(method, url, **kwargs)\n            \n            if response.status_code == 429:\n                # Получить рекомендуемое время ожидания\n                retry_after = int(response.headers.get('X-RateLimit-Retry-After', 60))\n                print(f\"Rate limited. Waiting {retry_after} seconds...\")\n                time.sleep(retry_after)\n                continue\n            \n            response.raise_for_status()\n            return response.json()\n    \n    def check_quotas(self):\n        response = self.session.get(\n            \"https://api.vulneraai.com/v1/subscriptions/usage\"\n        )\n        quotas = response.json()\n        \n        return {\n            'scans_remaining': quotas['scans_remaining'],\n            'ai_calls_remaining': quotas['ai_calls_remaining'],\n            'storage_used_gb': quotas['storage_used_gb']\n        }\n\n# Использование\nclient = VulneraAIClient('your-token')\nquotas = client.check_quotas()\nprint(f\"Scans remaining: {quotas['scans_remaining']}\")"
                 },
                 {
                     "type": "alert",
                     "variant": "info",
-                    "text": "💡 **Совет**: Используйте HTTP заголовки для мониторинга ваших лимитов и реализуйте exponential backoff для обработки превышений."
+                    "text": "💡 **Совет**: Всегда проверяйте X-RateLimit-* заголовки в ответе и реализуйте exponential backoff для обработки превышений лимитов. Это поможет оптимизировать использование API."
                 }
             ]
         },
         {
             "id": "sdks-examples",
-            "title": "SDK и примеры кода",
-            "description": "Официальные SDK и примеры интеграции",
+            "title": "SDK и примеры интеграции",
+            "description": "Официальные SDK и код примеры для интеграции VulneraAI",
             "content": [
                 {
                     "type": "paragraph",
-                    "text": "VulneraAI предоставляет официальные SDK для популярных языков программирования, а также примеры интеграции для различных use cases."
+                    "text": "VulneraAI предоставляет официальные SDK для всех популярных языков программирования с полной поддержкой API, async/await, типизацией и примерами использования."
                 },
                 {
                     "type": "heading",
@@ -831,19 +1283,19 @@
                     "items": [
                         {
                             "title": "Python SDK",
-                            "description": "pip install vulneraai — полнофункциональный клиент с поддержкой async/await"
+                            "description": "pip install vulneraai — async/await поддержка, полная типизация, работает на Python 3.9+"
                         },
                         {
-                            "title": "JavaScript/Node.js SDK",
-                            "description": "npm install @vulneraai/sdk — TypeScript поддержка и Promise-based API"
+                            "title": "JavaScript/TypeScript SDK",
+                            "description": "npm install @vulneraai/sdk — Promise/async API, полная TypeScript поддержка, Node.js и браузер"
                         },
                         {
                             "title": "Go SDK",
-                            "description": "go get github.com/vulneraai/go-sdk — идиоматичный Go код с context поддержкой"
+                            "description": "go get github.com/vulneraai/go-sdk — идиоматичный Go код, context поддержка, streaming"
                         },
                         {
                             "title": "Java SDK",
-                            "description": "Maven/Gradle зависимость с Spring Boot автоконфигурацией"
+                            "description": "Maven/Gradle artifact com.vulneraai:sdk — Spring Boot auto-configuration, async HttpClient"
                         }
                     ]
                 },
@@ -855,35 +1307,24 @@
                 {
                     "type": "code",
                     "language": "python",
-                    "title": "Базовое использование Python SDK",
-                    "code": "from vulneraai import VulneraAI\nimport asyncio\n\n# Инициализация клиента\nclient = VulneraAI(\n    api_key=\"sk-vulneraai-your-token\",\n    base_url=\"https://api.vulneraai.com/v1\"\n)\n\nasync def main():\n    # Создание сканирования\n    scan = await client.scans.create(\n        name=\"API Security Test\",\n        targets=[\n            {\"type\": \"url\", \"value\": \"https://api.example.com\"}\n        ],\n        scan_type=\"full\",\n        ai_config={\n            \"battlenet_enabled\": True,\n            \"rag_search_enabled\": True\n        }\n    )\n    \n    print(f\"Created scan: {scan.id}\")\n    \n    # Запуск сканирования\n    await client.scans.start(scan.id)\n    \n    # Мониторинг прогресса\n    async for event in client.scans.stream_events(scan.id):\n        print(f\"Event: {event.type} - {event.data}\")\n        \n        if event.type == \"scan.completed\":\n            break\n    \n    # Получение результатов\n    vulnerabilities = await client.scans.get_vulnerabilities(scan.id)\n    \n    critical_vulns = [\n        v for v in vulnerabilities \n        if v.severity == \"critical\"\n    ]\n    \n    print(f\"Found {len(critical_vulns)} critical vulnerabilities\")\n    \n    # Генерация эксплойта для первой критической уязвимости\n    if critical_vulns:\n        exploit = await client.ai.battlenet.generate_exploit(\n            vulnerability=critical_vulns[0],\n            options={\"intensity\": \"high\", \"evasion_enabled\": True}\n        )\n        \n        print(f\"Generated exploit with success rate: {exploit.success_rate}\")\n    \n    # Скачивание отчета\n    report_pdf = await client.scans.download_report(\n        scan.id, \n        format=\"pdf\"\n    )\n    \n    with open(f\"report_{scan.id}.pdf\", \"wb\") as f:\n        f.write(report_pdf)\n\n# Запуск\nasyncio.run(main())"
+                    "title": "Полный рабочий пример Python SDK",
+                    "code": "from vulneraai import VulneraAI, events\nimport asyncio\n\nasync def main():\n    # Инициализация клиента\n    client = VulneraAI(\n        api_key=\"sk-vulneraai-your-token\",\n        base_url=\"https://api.vulneraai.com/v1\"\n    )\n    \n    # Создание сканирования\n    scan = await client.scans.create(\n        name=\"API Security Assessment\",\n        targets=[\n            {\"type\": \"url\", \"value\": \"https://api.example.com\"}\n        ],\n        scan_type=\"full\",\n        ai_config={\n            \"battlenet_enabled\": True,\n            \"rag_search_enabled\": True,\n            \"zero_day_detection\": True\n        }\n    )\n    \n    print(f\"✓ Scan created: {scan.id}\")\n    \n    # Запуск сканирования\n    await client.scans.start(scan.id)\n    print(f\"✓ Scan started on agent\")\n    \n    # Потоковый мониторинг прогресса\n    async for event in client.scans.stream_events(scan.id):\n        if event.type == events.ScanProgress:\n            print(f\"Progress: {event.data.percentage}%\")\n        \n        elif event.type == events.VulnerabilityFound:\n            vuln = event.data\n            print(f\"🔴 Found {vuln.severity}: {vuln.title} (CVSS: {vuln.cvss_score})\")\n        \n        elif event.type == events.ScanCompleted:\n            print(f\"✓ Scan completed in {event.data.duration}s\")\n            break\n        \n        elif event.type == events.ScanFailed:\n            print(f\"✗ Scan failed: {event.data.error}\")\n            break\n    \n    # Получение полных результатов\n    vulnerabilities = await client.scans.get_vulnerabilities(scan.id)\n    \n    # Фильтрация по severity\n    critical = [v for v in vulnerabilities if v.severity == \"critical\"]\n    high = [v for v in vulnerabilities if v.severity == \"high\"]\n    \n    print(f\"\\n📊 Summary: {len(critical)} critical, {len(high)} high\")\n    \n    # Генерация эксплойтов для критических уязвимостей\n    if critical:\n        print(f\"\\n🤖 Generating exploits with BattleNet...\")\n        \n        for vuln in critical[:3]:  # Top 3\n            exploit = await client.ai.battlenet.generate_exploit(\n                vulnerability=vuln,\n                options={\"intensity\": \"high\", \"evasion_enabled\": True}\n            )\n            \n            print(f\"  • {vuln.title}\")\n            print(f\"    Success Rate: {exploit.success_rate * 100:.1f}%\")\n            print(f\"    Techniques: {', '.join(exploit.bypass_techniques)}\")\n    \n    # Рекомендации от RAG\n    if critical or high:\n        recommendations = await client.ai.rag.recommend(\n            target=\"https://api.example.com\",\n            discovered_tech=[\"Python\", \"Django\", \"PostgreSQL\"],\n            vulnerability_types=[\"sql_injection\", \"rce\", \"xxe\"]\n        )\n        \n        print(f\"\\n📚 RAG Recommendations:\")\n        for rec in recommendations[:3]:\n            print(f\"  • {rec.title} (Impact: {rec.impact})\")\n    \n    # Скачивание отчетов\n    print(f\"\\n📄 Downloading reports...\")\n    \n    # PDF отчет\n    pdf_data = await client.scans.download_report(scan.id, format=\"pdf\")\n    with open(f\"{scan.id}_report.pdf\", \"wb\") as f:\n        f.write(pdf_data)\n    \n    # SARIF для GitHub Security\n    sarif_data = await client.scans.download_report(scan.id, format=\"sarif\")\n    with open(f\"{scan.id}_sarif.json\", \"w\") as f:\n        import json\n        json.dump(sarif_data, f)\n    \n    print(f\"✓ Reports saved\")\n    \n    # Webhook уведомление (опционально)\n    await client.webhooks.create(\n        name=\"Scan Completion Alert\",\n        url=\"https://your-server.com/webhooks/security\",\n        events=[\"scan.completed\", \"vulnerability.critical\"],\n        secret=\"your_signing_secret\"\n    )\n\n# Запуск\nif __name__ == \"__main__\":\n    asyncio.run(main())"
                 },
                 {
                     "type": "heading",
                     "level": 2,
-                    "text": "JavaScript SDK примеры"
+                    "text": "JavaScript/Node.js примеры"
                 },
                 {
                     "type": "code",
                     "language": "javascript",
-                    "title": "Node.js интеграция",
-                    "code": "const { VulneraAI } = require('@vulneraai/sdk');\nconst fs = require('fs');\n\nconst client = new VulneraAI({\n  apiKey: process.env.VULNERAAI_API_KEY,\n  baseURL: 'https://api.vulneraai.com/v1'\n});\n\nasync function scanWebsite(targetUrl) {\n  try {\n    // Создание и запуск сканирования\n    const scan = await client.scans.create({\n      name: `Security Scan - ${targetUrl}`,\n      targets: [{ type: 'url', value: targetUrl }],\n      scanType: 'full',\n      aiConfig: {\n        battlenetEnabled: true,\n        ragSearchEnabled: true,\n        zeroDayDetection: true\n      },\n      notifications: {\n        webhookUrl: 'https://your-app.com/webhook',\n        onCriticalFinding: true\n      }\n    });\n\n    console.log(`Scan created: ${scan.id}`);\n\n    await client.scans.start(scan.id);\n    console.log('Scan started...');\n\n    // Polling статуса\n    let status;\n    do {\n      await new Promise(resolve => setTimeout(resolve, 30000)); // 30 sec\n      status = await client.scans.getStatus(scan.id);\n      console.log(`Scan progress: ${status.progress}%`);\n    } while (status.status === 'running');\n\n    if (status.status === 'completed') {\n      // Получение уязвимостей\n      const vulnerabilities = await client.scans.getVulnerabilities(scan.id);\n      \n      const criticalCount = vulnerabilities.filter(v => v.severity === 'critical').length;\n      const highCount = vulnerabilities.filter(v => v.severity === 'high').length;\n      \n      console.log(`Scan completed: ${criticalCount} critical, ${highCount} high severity vulnerabilities`);\n      \n      // Экспорт в SARIF для GitHub Security\n      const sarifReport = await client.scans.exportReport(scan.id, { format: 'sarif' });\n      fs.writeFileSync('vulnerabilities.sarif', JSON.stringify(sarifReport));\n      \n      return {\n        scanId: scan.id,\n        vulnerabilities,\n        summary: { critical: criticalCount, high: highCount }\n      };\n    } else {\n      throw new Error(`Scan failed: ${status.error}`);\n    }\n  } catch (error) {\n    console.error('Scan error:', error.message);\n    throw error;\n  }\n}\n\n// Использование\nscanWebsite('https://example.com')\n  .then(result => {\n    console.log('Scan results:', result.summary);\n  })\n  .catch(error => {\n    console.error('Error:', error);\n    process.exit(1);\n  });"
-                },
-                {
-                    "type": "heading",
-                    "level": 2,
-                    "text": "Go SDK пример"
-                },
-                {
-                    "type": "code",
-                    "language": "go",
-                    "title": "Go интеграция с context",
-                    "code": "package main\n\nimport (\n    \"context\"\n    \"fmt\"\n    \"log\"\n    \"time\"\n    \n    \"github.com/vulneraai/go-sdk\"\n)\n\nfunc main() {\n    client := vulneraai.New(\"sk-vulneraai-your-token\")\n    \n    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)\n    defer cancel()\n    \n    // Создание сканирования\n    scan, err := client.Scans.Create(ctx, &vulneraai.CreateScanRequest{\n        Name: \"Go Integration Test\",\n        Targets: []vulneraai.Target{\n            {Type: \"url\", Value: \"https://api.example.com\"},\n        },\n        ScanType: \"full\",\n        AIConfig: &vulneraai.AIConfig{\n            BattleNetEnabled: true,\n            RAGSearchEnabled: true,\n        },\n    })\n    \n    if err != nil {\n        log.Fatal(err)\n    }\n    \n    fmt.Printf(\"Created scan: %s\\n\", scan.ID)\n    \n    // Запуск сканирования\n    if err := client.Scans.Start(ctx, scan.ID); err != nil {\n        log.Fatal(err)\n    }\n    \n    // Мониторинг с каналами\n    events := make(chan *vulneraai.Event, 10)\n    go func() {\n        defer close(events)\n        client.Scans.StreamEvents(ctx, scan.ID, events)\n    }()\n    \n    // Обработка событий\n    for event := range events {\n        fmt.Printf(\"Event: %s\\n\", event.Type)\n        \n        if event.Type == \"scan.completed\" {\n            break\n        }\n        \n        if event.Type == \"vulnerability.critical\" {\n            vuln := event.Data.Vulnerability\n            fmt.Printf(\"Critical vulnerability found: %s (CVSS: %.1f)\\n\", \n                vuln.Title, vuln.CVSSScore)\n        }\n    }\n    \n    // Получение финальных результатов\n    vulnerabilities, err := client.Scans.GetVulnerabilities(ctx, scan.ID)\n    if err != nil {\n        log.Fatal(err)\n    }\n    \n    criticalCount := 0\n    for _, vuln := range vulnerabilities {\n        if vuln.Severity == \"critical\" {\n            criticalCount++\n        }\n    }\n    \n    fmt.Printf(\"Scan completed. Found %d critical vulnerabilities\\n\", criticalCount)\n}"
+                    "title": "Node.js интеграция с Express",
+                    "code": "const { VulneraAI } = require('@vulneraai/sdk');\nconst express = require('express');\nconst fs = require('fs').promises;\n\nconst app = express();\nconst client = new VulneraAI({\n  apiKey: process.env.VULNERAAI_API_KEY,\n  baseURL: 'https://api.vulneraai.com/v1'\n});\n\n// Endpoint для запуска сканирования\napp.post('/api/scan', async (req, res) => {\n  try {\n    const { targetUrl } = req.body;\n    \n    // Создание сканирования\n    const scan = await client.scans.create({\n      name: `Security Scan - ${targetUrl}`,\n      targets: [{ type: 'url', value: targetUrl }],\n      scanType: 'full',\n      aiConfig: {\n        battlenetEnabled: true,\n        ragSearchEnabled: true,\n        zeroDayDetection: true\n      },\n      notifications: {\n        webhookUrl: `${process.env.WEBHOOK_BASE_URL}/webhook`,\n        onCriticalFinding: true\n      }\n    });\n    \n    // Запуск асинхронно\n    client.scans.start(scan.id).catch(err => {\n      console.error(`Scan ${scan.id} failed:`, err);\n    });\n    \n    res.json({\n      success: true,\n      scanId: scan.id,\n      status: 'started',\n      statusUrl: `/api/scan/${scan.id}/status`\n    });\n  } catch (error) {\n    res.status(500).json({ error: error.message });\n  }\n});\n\n// Endpoint для получения статуса\napp.get('/api/scan/:scanId/status', async (req, res) => {\n  try {\n    const { scanId } = req.params;\n    const status = await client.scans.getStatus(scanId);\n    \n    res.json({\n      scanId,\n      status: status.status,\n      progress: status.progress,\n      vulnerabilitiesCount: status.vulnerabilitiesCount,\n      criticalCount: status.criticalCount\n    });\n  } catch (error) {\n    res.status(500).json({ error: error.message });\n  }\n});\n\n// Endpoint для скачивания отчета\napp.get('/api/scan/:scanId/report/:format', async (req, res) => {\n  try {\n    const { scanId, format } = req.params;\n    \n    const reportData = await client.scans.downloadReport(\n      scanId,\n      { format }\n    );\n    \n    const mimeTypes = {\n      pdf: 'application/pdf',\n      json: 'application/json',\n      xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',\n      sarif: 'application/json'\n    };\n    \n    res.set('Content-Type', mimeTypes[format]);\n    res.set('Content-Disposition', `attachment; filename=\"report_${scanId}.${format}\"`);\n    \n    if (typeof reportData === 'string') {\n      res.send(reportData);\n    } else {\n      res.send(Buffer.from(reportData));\n    }\n  } catch (error) {\n    res.status(500).json({ error: error.message });\n  }\n});\n\n// Webhook обработчик\napp.post('/webhook', express.json(), async (req, res) => {\n  try {\n    const signature = req.headers['x-vulneraai-signature'];\n    const payload = JSON.stringify(req.body);\n    \n    // Проверить подпись (см. раздел webhooks)\n    const isValid = verifyWebhookSignature(\n      payload,\n      signature,\n      process.env.WEBHOOK_SECRET\n    );\n    \n    if (!isValid) {\n      return res.status(401).json({ error: 'Invalid signature' });\n    }\n    \n    const event = req.body;\n    \n    console.log(`Webhook event: ${event.event}`);\n    \n    if (event.event === 'scan.completed') {\n      await handleScanCompleted(event.data);\n    } else if (event.event === 'vulnerability.critical') {\n      await handleCriticalVulnerability(event.data);\n    }\n    \n    res.json({ status: 'received' });\n  } catch (error) {\n    console.error('Webhook error:', error);\n    res.status(500).json({ error: error.message });\n  }\n});\n\nasync function handleScanCompleted(data) {\n  console.log(`Scan ${data.scan_id} completed`);\n  console.log(`  Duration: ${data.duration}s`);\n  console.log(`  Vulnerabilities: ${data.vulnerabilities_count}`);\n  \n  // Отправить уведомление в Slack\n  await notifySlack({\n    text: `✅ Scan completed: ${data.scan_id}`,\n    blocks: [{\n      type: \"section\",\n      text: { type: \"mrkdwn\", text: `*Scan Results*\\nTarget: ${data.target}\\nVulnerabilities: ${data.vulnerabilities_count}` }\n    }]\n  });\n}\n\nasync function handleCriticalVulnerability(data) {\n  console.log(`Critical vulnerability: ${data.vulnerability.title}`);\n  \n  // Создать GitHub Issue\n  await client.integrations.github.createIssue({\n    repository: 'my-org/my-repo',\n    title: `[CRITICAL] ${data.vulnerability.title}`,\n    body: `CVE: ${data.vulnerability.cve_id}\\nCVSS: ${data.vulnerability.cvss_score}\\n${data.vulnerability.description}`,\n    labels: ['security', 'critical']\n  });\n}\n\napp.listen(3000, () => {\n  console.log('VulneraAI Integration Server running on port 3000');\n});"
                 },
                 {
                     "type": "alert",
                     "variant": "success",
-                    "text": "📚 **Документация SDK**: Полная документация по всем SDK доступна на GitHub в репозиториях vulneraai/python-sdk, vulneraai/js-sdk, vulneraai/go-sdk."
+                    "text": "📚 **Документация SDK**: Полная документация по SDK доступна на GitHub в репозиториях [vulneraai/python-sdk](https://github.com/vulneraai/python-sdk), [@vulneraai/sdk](https://github.com/vulneraai/js-sdk), [vulneraai/go-sdk](https://github.com/vulneraai/go-sdk), [vulneraai/java-sdk](https://github.com/vulneraai/java-sdk)."
                 }
             ]
         }
