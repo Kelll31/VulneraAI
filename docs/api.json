@@ -4,807 +4,196 @@
   "icon": "🔌",
   "order": 4,
   "version": "1.0.0",
-  "lastUpdated": "2025-12-12",
+  "lastUpdated": "2025-12-13",
   "baseUrl": "https://api.vulneraai.com/v1",
-  "description": "Полная документация REST API VulneraAI Server - платформы для автоматизированного пентеста с использованием AI-модулей BattleNet, RAG и DataStream",
+  "description": "REST API для автоматизации пентеста с AI-модулями BattleNet, RAG и DataStream",
   "articles": [
     {
       "id": "overview",
       "title": "Общий обзор API",
-      "description": "Основная информация об API VulneraAI Server",
+      "description": "Основная информация об API",
       "content": [
-        {
-          "type": "paragraph",
-          "text": "VulneraAI Server предоставляет мощный REST API для полной автоматизации пентеста, управления подписками, пользователями и интеграциями. API построен на FastAPI с поддержкой асинхронных операций и интегрирован с системой управления пользователями OpenWebUI."
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Базовая информация"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Параметр",
-            "Значение",
-            "Описание"
-          ],
-          "rows": [
-            ["Base URL", "https://api.vulneraai.com/v1", "Основной адрес API"],
-            ["API Version", "v1", "Текущая версия API"],
-            ["Response Format", "JSON", "Формат ответов"],
-            ["Authentication", "Bearer Token (JWT)", "Использует JWT аутентификацию"],
-            ["Content-Type", "application/json", "Тип контента для запросов"],
-            ["Rate Limiting", "Зависит от плана", "100-10000 запросов/минуту"]
-          ]
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Структура ответа"
-        },
-        {
-          "type": "code",
-          "language": "json",
-          "title": "Стандартный успешный ответ",
-          "code": "{
-  \"success\": true,
-  \"data\": {
-    \"id\": \"resource_id\",
-    \"status\": \"active\",
-    \"created_at\": \"2025-12-12T10:30:00Z\"
-  },
-  \"meta\": {
-    \"request_id\": \"req_abc123\",
-    \"timestamp\": \"2025-12-12T10:30:00Z\",
-    \"api_version\": \"v1\"
-  }
-}"
-        },
-        {
-          "type": "code",
-          "language": "json",
-          "title": "Ответ с ошибкой",
-          "code": "{
-  \"success\": false,
-  \"error\": {
-    \"code\": \"INVALID_INPUT\",
-    \"message\": \"Validation error\",
-    \"details\": [
-      {
-        \"field\": \"email\",
-        \"message\": \"Invalid email format\"
-      }
-    ]
-  },
-  \"meta\": {
-    \"request_id\": \"req_def456\",
-    \"timestamp\": \"2025-12-12T10:30:00Z\"
-  }
-}"
-        }
+        {"type": "paragraph", "text": "VulneraAI Server - REST API для автоматизации пентеста, управления подписками и интеграций. Построен на FastAPI с поддержкой JWT аутентификации."},
+        {"type": "heading", "level": 2, "text": "Базовая информация"},
+        {"type": "table", "headers": ["Параметр", "Значение"], "rows": [
+          ["Base URL", "https://api.vulneraai.com/v1"],
+          ["Authentication", "Bearer Token (JWT)"],
+          ["Response Format", "JSON"],
+          ["Rate Limiting", "100-10000 запросов/минуту"]
+        ]}
       ]
     },
     {
       "id": "authentication",
       "title": "Аутентификация и авторизация",
-      "description": "Получение и использование API-токенов для доступа к ресурсам",
+      "description": "Получение и использование API-токенов",
       "content": [
-        {
-          "type": "paragraph",
-          "text": "VulneraAI Server использует Bearer Token аутентификацию на основе JWT. Все запросы к защищенным эндпоинтам должны включать валидный токен доступа в заголовке Authorization."
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Получение токена"
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "title": "POST /auth/register - Регистрация нового пользователя",
-          "code": "curl -X POST https://api.vulneraai.com/v1/auth/register \\
-  -H \"Content-Type: application/json\" \\
-  -d '{
-    \"email\": \"user@example.com\",
-    \"password\": \"secure_password_123\",
-    \"full_name\": \"John Doe\"
-  }'
-
-# Ответ:
-# {
-#   \"success\": true,
-#   \"data\": {
-#     \"user_id\": \"user_123\",
-#     \"email\": \"user@example.com\",
-#     \"access_token\": \"sk-vulneraai-eyJhbGc...\",
-#     \"refresh_token\": \"ref-eyJhbGc...\",
-#     \"token_type\": \"bearer\",
-#     \"expires_in\": 900
-#   }
-# }"
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "title": "POST /auth/login - Вход в систему",
-          "code": "curl -X POST https://api.vulneraai.com/v1/auth/login \\
-  -H \"Content-Type: application/json\" \\
-  -d '{
-    \"email\": \"user@example.com\",
-    \"password\": \"secure_password_123\"
-  }'
-
-# Ответ:
-# {
-#   \"success\": true,
-#   \"data\": {
-#     \"user_id\": \"user_123\",
-#     \"email\": \"user@example.com\",
-#     \"access_token\": \"sk-vulneraai-...\",
-#     \"refresh_token\": \"ref-...\",
-#     \"expires_in\": 900
-#   }
-# }"
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Использование токена в запросах"
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "title": "Пример запроса с аутентификацией",
-          "code": "curl -H \"Authorization: Bearer sk-vulneraai-your-token-here\" \\
-     -H \"Content-Type: application/json\" \\
-     https://api.vulneraai.com/v1/auth/me
-
-# Альтернативный способ (в переменной окружения):
-VULNERA_TOKEN=\"sk-vulneraai-your-token-here\"
-curl -H \"Authorization: Bearer $VULNERA_TOKEN\" \\
-     https://api.vulneraai.com/v1/auth/me"
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Области доступа (Scopes)"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Scope",
-            "Описание",
-            "Доступ к эндпоинтам"
-          ],
-          "rows": [
-            ["pentests:read", "Просмотр пентестов и результатов", "GET /pentests, /vulnerabilities"],
-            ["pentests:write", "Создание и управление пентестами", "POST, PUT, DELETE /pentests"],
-            ["pentests:admin", "Административный доступ к пентестам", "PATCH /pentests/{id}/admin"],
-            ["ai:battlenet", "Доступ к модулю BattleNet", "POST /ai/battlenet/*"],
-            ["ai:rag", "Доступ к модулю RAG", "GET /ai/rag/*"],
-            ["ai:datastream", "Доступ к потокам данных DataStream", "GET /datastream/*"],
-            ["subscriptions:read", "Просмотр подписки и квот", "GET /subscriptions/*"],
-            ["subscriptions:manage", "Управление подписками", "POST, PUT /subscriptions/*"],
-            ["webhooks:manage", "Управление webhook уведомлениями", "POST, PUT, DELETE /webhooks"],
-            ["integrations:read", "Просмотр интеграций", "GET /integrations/*"],
-            ["integrations:manage", "Управление интеграциями", "POST, PUT, DELETE /integrations/*"],
-            ["admin", "Полный административный доступ", "Все эндпоинты"]
-          ]
-        }
+        {"type": "paragraph", "text": "VulneraAI использует Bearer Token аутентификацию на основе JWT."},
+        {"type": "code", "language": "bash", "title": "POST /auth/login", "code": "curl -X POST https://api.vulneraai.com/v1/auth/login \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"email\":\"user@example.com\",\"password\":\"pwd\"}'"},
+        {"type": "code", "language": "bash", "title": "Использование токена", "code": "curl -H \"Authorization: Bearer $TOKEN\" \\\n     https://api.vulneraai.com/v1/auth/me"},
+        {"type": "heading", "level": 2, "text": "Scopes"},
+        {"type": "table", "headers": ["Scope", "Описание"], "rows": [
+          ["pentests:read", "Просмотр пентестов"],
+          ["pentests:write", "Создание/редактирование пентестов"],
+          ["ai:battlenet", "Доступ к BattleNet"],
+          ["ai:rag", "Доступ к RAG"],
+          ["ai:datastream", "Доступ к DataStream"],
+          ["subscriptions:read", "Просмотр подписки"],
+          ["webhooks:manage", "Управление webhooks"],
+          ["admin", "Полный доступ"]
+        ]}
       ]
     },
     {
-      "id": "health-endpoints",
-      "title": "Health Check и информация",
-      "description": "Проверка статуса и получение информации о сервере",
+      "id": "health",
+      "title": "Health Check",
+      "description": "Проверка статуса сервера",
       "content": [
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Эндпоинты"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Метод",
-            "Endpoint",
-            "Описание",
-            "Auth"
-          ],
-          "rows": [
-            ["GET", "/health", "Базовая проверка доступности", "Нет"],
-            ["GET", "/api/v1/health", "Полная проверка сервиса", "Нет"],
-            ["GET", "/api/v1/health/detailed", "Детальная проверка всех компонентов", "Нет"],
-            ["GET", "/api/v1/info", "Информация о сервере и версии", "Нет"]
-          ]
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "title": "GET /api/v1/health - Проверка здоровья",
-          "code": "curl https://api.vulneraai.com/v1/health
-
-# Ответ:
-# {
-#   \"status\": \"healthy\",
-#   \"timestamp\": \"2025-12-12T10:30:00Z\",
-#   \"uptime_seconds\": 86400
-# }"
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "title": "GET /api/v1/health/detailed - Детальная проверка",
-          "code": "curl https://api.vulneraai.com/v1/health/detailed
-
-# Ответ:
-# {
-#   \"status\": \"healthy\",
-#   \"components\": {
-#     \"database\": {
-#       \"status\": \"connected\",
-#       \"response_time_ms\": 2,
-#       \"connections\": 15
-#     },
-#     \"redis\": {
-#       \"status\": \"connected\",
-#       \"response_time_ms\": 1
-#     },
-#     \"rabbitmq\": {
-#       \"status\": \"connected\",
-#       \"queue_length\": 5
-#     },
-#     \"gpt_tunnel\": {
-#       \"status\": \"available\",
-#       \"response_time_ms\": 45
-#     }
-#   }
-# }"
-        }
+        {"type": "table", "headers": ["Endpoint", "Описание"], "rows": [
+          ["GET /health", "Базовая проверка"],
+          ["GET /api/v1/health", "Полная проверка"],
+          ["GET /api/v1/health/detailed", "Детальная проверка компонентов"]
+        ]}
       ]
     },
     {
       "id": "pentests",
       "title": "Управление пентестами",
-      "description": "Создание, управление и мониторинг пентестов",
+      "description": "Создание, запуск и получение результатов пентестов",
       "content": [
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Основные операции"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Метод",
-            "Endpoint",
-            "Описание",
-            "Scope"
-          ],
-          "rows": [
-            ["GET", "/api/v1/pentests", "Список всех пентестов пользователя", "pentests:read"],
-            ["POST", "/api/v1/pentests", "Создать новый пентест", "pentests:write"],
-            ["GET", "/api/v1/pentests/{id}", "Детали конкретного пентеста", "pentests:read"],
-            ["PUT", "/api/v1/pentests/{id}", "Обновить параметры пентеста", "pentests:write"],
-            ["DELETE", "/api/v1/pentests/{id}", "Удалить пентест", "pentests:write"],
-            ["POST", "/api/v1/pentests/{id}/start", "Запустить пентест на Agent", "pentests:write"],
-            ["POST", "/api/v1/pentests/{id}/stop", "Остановить пентест", "pentests:write"],
-            ["GET", "/api/v1/pentests/{id}/status", "Получить текущий статус", "pentests:read"],
-            ["GET", "/api/v1/pentests/{id}/results", "Получить результаты пентеста", "pentests:read"],
-            ["GET", "/api/v1/pentests/{id}/vulnerabilities", "Список найденных уязвимостей", "pentests:read"]
-          ]
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Создание пентеста"
-        },
-        {
-          "type": "code",
-          "language": "json",
-          "title": "POST /api/v1/pentests - Пример запроса",
-          "code": "{
-  \"name\": \"Production Web Application Security Test\",
-  \"description\": \"Comprehensive security assessment of production app\",
-  \"targets\": [
-    {
-      \"type\": \"url\",
-      \"value\": \"https://example.com\"
-    },
-    {
-      \"type\": \"ip\",
-      \"value\": \"192.168.1.100\"
-    },
-    {
-      \"type\": \"cidr\",
-      \"value\": \"10.0.0.0/24\"
-    }
-  ],
-  \"pentest_type\": \"full\",
-  \"ai_config\": {
-    \"battlenet_enabled\": true,
-    \"battlenet_intensity\": \"medium\",
-    \"rag_enabled\": true,
-    \"datastream_enabled\": true,
-    \"zero_day_detection\": true
-  },
-  \"settings\": {
-    \"intensity\": \"medium\",
-    \"depth\": 3,
-    \"timeout\": 3600,
-    \"exclude_paths\": [
-      \"/admin/logout\",
-      \"/health\"
-    ]
-  },
-  \"notifications\": {
-    \"webhook_url\": \"https://your-app.com/webhooks\",
-    \"email\": \"admin@example.com\",
-    \"on_completion\": true,
-    \"on_critical_finding\": true
-  }
-}"
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Получение результатов"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Метод",
-            "Endpoint",
-            "Описание",
-            "Формат"
-          ],
-          "rows": [
-            ["GET", "/api/v1/pentests/{id}/report", "Полный отчет", "JSON"],
-            ["GET", "/api/v1/pentests/{id}/report.pdf", "Отчет в PDF", "PDF"],
-            ["GET", "/api/v1/pentests/{id}/report.xlsx", "Отчет в Excel", "XLSX"],
-            ["GET", "/api/v1/pentests/{id}/report.sarif", "Отчет для GitHub Security", "SARIF JSON"],
-            ["GET", "/api/v1/vulnerabilities/{id}", "Детали уязвимости с PoC", "JSON"]
-          ]
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "title": "Примеры скачивания отчетов",
-          "code": "# PDF отчет
-curl -H \"Authorization: Bearer $TOKEN\" \\
-     -o pentest_report.pdf \\
-     https://api.vulneraai.com/v1/pentests/pentest_123/report.pdf
-
-# Excel отчет
-curl -H \"Authorization: Bearer $TOKEN\" \\
-     -o pentest_report.xlsx \\
-     https://api.vulneraai.com/v1/pentests/pentest_123/report.xlsx
-
-# SARIF для GitHub
-curl -H \"Authorization: Bearer $TOKEN\" \\
-     https://api.vulneraai.com/v1/pentests/pentest_123/report.sarif > report.sarif"
-        }
+        {"type": "table", "headers": ["Метод", "Endpoint", "Описание"], "rows": [
+          ["GET", "/api/v1/pentests", "Список пентестов"],
+          ["POST", "/api/v1/pentests", "Создать пентест"],
+          ["GET", "/api/v1/pentests/{id}", "Детали пентеста"],
+          ["POST", "/api/v1/pentests/{id}/start", "Запустить пентест"],
+          ["POST", "/api/v1/pentests/{id}/stop", "Остановить пентест"],
+          ["GET", "/api/v1/pentests/{id}/status", "Статус пентеста"],
+          ["GET", "/api/v1/pentests/{id}/results", "Результаты"],
+          ["GET", "/api/v1/pentests/{id}/report.pdf", "PDF отчет"],
+          ["GET", "/api/v1/pentests/{id}/report.sarif", "SARIF для GitHub"]
+        ]},
+        {"type": "code", "language": "json", "title": "Пример создания пентеста", "code": "{\n  \"name\": \"Web App Pentest\",\n  \"targets\": [{\"type\": \"url\", \"value\": \"https://example.com\"}],\n  \"pentest_type\": \"full\",\n  \"ai_config\": {\n    \"battlenet_enabled\": true,\n    \"rag_enabled\": true,\n    \"datastream_enabled\": true\n  }\n}"}
       ]
     },
     {
-      "id": "ai-modules",
+      "id": "ai",
       "title": "AI модули: BattleNet, RAG, DataStream",
-      "description": "Интеллектуальные модули для анализа и автоматизации пентеста",
+      "description": "Интеллектуальные модули для анализа и автоматизации",
       "content": [
-        {
-          "type": "paragraph",
-          "text": "VulneraAI интегрирует три мощных AI модуля: BattleNet для генерации эксплойтов, RAG для семантического поиска и рекомендаций, и DataStream для потокового анализа контекстных данных."
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "🤖 BattleNet - Генерация эксплойтов"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Метод",
-            "Endpoint",
-            "Описание",
-            "Scope"
-          ],
-          "rows": [
-            ["POST", "/api/v1/ai/battlenet/generate-exploit", "Генерация эксплойта для уязвимости", "ai:battlenet"],
-            ["POST", "/api/v1/ai/battlenet/adaptive-attack", "Создание адаптивной атакующей стратегии", "ai:battlenet"],
-            ["POST", "/api/v1/ai/battlenet/bypass-waf", "Генерация payload для обхода WAF", "ai:battlenet"],
-            ["GET", "/api/v1/ai/battlenet/techniques", "Список доступных техник атак", "ai:battlenet"],
-            ["POST", "/api/v1/ai/battlenet/zero-day-scan", "Поиск потенциальных zero-day уязвимостей", "ai:battlenet"]
-          ]
-        },
-        {
-          "type": "code",
-          "language": "json",
-          "title": "POST /api/v1/ai/battlenet/generate-exploit - Генерация эксплойта",
-          "code": "{
-  \"vulnerability\": {
-    \"cve_id\": \"CVE-2024-12345\",
-    \"type\": \"sql_injection\",
-    \"target_url\": \"https://target.com/login\",
-    \"parameter\": \"username\",
-    \"context\": {
-      \"framework\": \"PHP Laravel\",
-      \"database\": \"MySQL 8.0\",
-      \"waf_detected\": \"Cloudflare\"
-    }
-  },
-  \"options\": {
-    \"intensity\": \"high\",
-    \"evasion_enabled\": true,
-    \"payload_encoding\": \"url\",
-    \"max_attempts\": 10
-  }
-}"
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "📚 RAG - База знаний уязвимостей"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Метод",
-            "Endpoint",
-            "Описание",
-            "Scope"
-          ],
-          "rows": [
-            ["GET", "/api/v1/ai/rag/search", "Семантический поиск уязвимостей", "ai:rag"],
-            ["GET", "/api/v1/ai/rag/vulnerabilities/{cve}", "Детали CVE из базы знаний", "ai:rag"],
-            ["POST", "/api/v1/ai/rag/recommend", "Рекомендации по векторам атак", "ai:rag"],
-            ["GET", "/api/v1/ai/rag/trending", "Трендовые уязвимости за период", "ai:rag"],
-            ["POST", "/api/v1/ai/rag/context-analysis", "Контекстный анализ целей и сервисов", "ai:rag"]
-          ]
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "title": "GET /api/v1/ai/rag/search - Поиск уязвимостей",
-          "code": "curl -H \"Authorization: Bearer $TOKEN\" \\
-     \"https://api.vulneraai.com/v1/ai/rag/search?q=wordpress+plugin+rce&limit=10&severity=critical\"
-
-# Параметры запроса:
-# q - поисковый запрос
-# limit - максимум результатов (по умолчанию 10)
-# severity - фильтр по severity (critical, high, medium, low)
-# cve_year - фильтр по году CVE
-
-# Ответ содержит:
-# - Matching CVEs
-# - Attack Patterns
-# - Remediation Steps
-# - References"
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "🔄 DataStream - Потоковые данные"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Метод",
-            "Endpoint",
-            "Описание",
-            "Scope"
-          ],
-          "rows": [
-            ["GET", "/api/v1/datastream/events", "Поток событий пентеста (SSE/WebSocket)", "ai:datastream"],
-            ["GET", "/api/v1/datastream/metrics", "Метрики производительности AI-модулей", "ai:datastream"],
-            ["POST", "/api/v1/datastream/context", "Добавить контекстные данные для AI", "ai:datastream"],
-            ["GET", "/api/v1/datastream/live/{pentest_id}", "Живой поток результатов пентеста", "ai:datastream"]
-          ]
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "title": "GET /api/v1/datastream/events - Получение потока событий",
-          "code": "# Подписка на события (Server-Sent Events)
-curl -N -H \"Authorization: Bearer $TOKEN\" \\
-     https://api.vulneraai.com/v1/datastream/events?pentest_id=pentest_123 \\
-     2>&1 | while IFS= read -r line; do
-  echo \"$line\"
-  # Обработать событие
-done
-
-# Примеры событий в потоке:
-# data: {\"event\": \"pentest.started\", \"timestamp\": \"2025-12-12T10:30:00Z\"}
-# data: {\"event\": \"vulnerability.found\", \"vulnerability\": {...}}
-# data: {\"event\": \"pentest.completed\", \"summary\": {...}}"
-        }
+        {"type": "heading", "level": 2, "text": "🤖 BattleNet"},
+        {"type": "table", "headers": ["Endpoint", "Описание"], "rows": [
+          ["POST /api/v1/ai/battlenet/generate-exploit", "Генерация эксплойта"],
+          ["POST /api/v1/ai/battlenet/adaptive-attack", "Адаптивная атака"],
+          ["POST /api/v1/ai/battlenet/bypass-waf", "Обход WAF"],
+          ["GET /api/v1/ai/battlenet/techniques", "Список техник"],
+          ["POST /api/v1/ai/battlenet/zero-day-scan", "Поиск zero-day"]
+        ]},
+        {"type": "heading", "level": 2, "text": "📚 RAG"},
+        {"type": "table", "headers": ["Endpoint", "Описание"], "rows": [
+          ["GET /api/v1/ai/rag/search", "Поиск уязвимостей"],
+          ["GET /api/v1/ai/rag/vulnerabilities/{cve}", "Детали CVE"],
+          ["POST /api/v1/ai/rag/recommend", "Рекомендации"],
+          ["GET /api/v1/ai/rag/trending", "Тренды"]
+        ]},
+        {"type": "heading", "level": 2, "text": "🔄 DataStream"},
+        {"type": "table", "headers": ["Endpoint", "Описание"], "rows": [
+          ["GET /api/v1/datastream/events", "Поток событий (SSE)"],
+          ["GET /api/v1/datastream/metrics", "Метрики AI"],
+          ["POST /api/v1/datastream/context", "Добавить контекст"],
+          ["GET /api/v1/datastream/live/{pentest_id}", "Живой поток"]
+        ]}
       ]
     },
     {
       "id": "webhooks",
-      "title": "Webhooks и уведомления",
-      "description": "Настройка и управление webhook для real-time уведомлений",
+      "title": "Webhooks",
+      "description": "Настройка real-time уведомлений",
       "content": [
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Управление webhooks"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Метод",
-            "Endpoint",
-            "Описание",
-            "Scope"
-          ],
-          "rows": [
-            ["GET", "/api/v1/webhooks", "Список всех webhook", "webhooks:manage"],
-            ["POST", "/api/v1/webhooks", "Создать новый webhook", "webhooks:manage"],
-            ["GET", "/api/v1/webhooks/{id}", "Детали webhook", "webhooks:manage"],
-            ["PUT", "/api/v1/webhooks/{id}", "Обновить webhook", "webhooks:manage"],
-            ["DELETE", "/api/v1/webhooks/{id}", "Удалить webhook", "webhooks:manage"],
-            ["POST", "/api/v1/webhooks/{id}/test", "Тестовая отправка", "webhooks:manage"]
-          ]
-        },
-        {
-          "type": "code",
-          "language": "json",
-          "title": "POST /api/v1/webhooks - Создание webhook",
-          "code": "{
-  \"name\": \"Production Security Alerts\",
-  \"url\": \"https://yourapp.com/api/vulneraai-webhook\",
-  \"events\": [
-    \"pentest.started\",
-    \"pentest.completed\",
-    \"pentest.failed\",
-    \"vulnerability.critical\",
-    \"vulnerability.high\",
-    \"ai.battlenet.exploit_generated\",
-    \"ai.rag.zero_day_detected\"
-  ],
-  \"headers\": {
-    \"X-Custom-Header\": \"production\",
-    \"Authorization\": \"Bearer your-webhook-token\"
-  },
-  \"secret\": \"your_webhook_signing_secret\",
-  \"enabled\": true,
-  \"retry_config\": {
-    \"max_attempts\": 3,
-    \"retry_delay\": 60,
-    \"backoff_multiplier\": 2
-  }
-}"
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Типы событий webhook"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Событие",
-            "Описание",
-            "Данные"
-          ],
-          "rows": [
-            ["pentest.started", "Пентест запущен на Agent", "pentest_id, targets, start_time"],
-            ["pentest.progress", "Обновление прогресса пентеста", "pentest_id, progress_percentage, current_stage"],
-            ["pentest.completed", "Пентест успешно завершен", "pentest_id, duration, vulnerabilities_count"],
-            ["pentest.failed", "Ошибка при пентесте", "pentest_id, error_code, error_message"],
-            ["vulnerability.critical", "Найдена критическая уязвимость", "vulnerability_id, cve_id, cvss_score"],
-            ["vulnerability.high", "Найдена высокорисковая уязвимость", "vulnerability_id, cve_id, cvss_score"],
-            ["ai.battlenet.exploit_generated", "BattleNet сгенерировал эксплойт", "exploit_id, vulnerability_id, success_rate"],
-            ["ai.rag.zero_day_detected", "RAG обнаружил potential zero-day", "finding_id, confidence_score, affected_targets"]
-          ]
-        }
+        {"type": "table", "headers": ["Метод", "Endpoint", "Описание"], "rows": [
+          ["GET", "/api/v1/webhooks", "Список webhooks"],
+          ["POST", "/api/v1/webhooks", "Создать webhook"],
+          ["PUT", "/api/v1/webhooks/{id}", "Обновить webhook"],
+          ["DELETE", "/api/v1/webhooks/{id}", "Удалить webhook"],
+          ["POST", "/api/v1/webhooks/{id}/test", "Тестовая отправка"]
+        ]},
+        {"type": "heading", "level": 2, "text": "События"},
+        {"type": "table", "headers": ["Событие", "Описание"], "rows": [
+          ["pentest.started", "Пентест запущен"],
+          ["pentest.completed", "Пентест завершен"],
+          ["vulnerability.critical", "Критическая уязвимость"],
+          ["vulnerability.high", "Высокорисковая уязвимость"],
+          ["ai.battlenet.exploit_generated", "Эксплойт сгенерирован"],
+          ["ai.rag.zero_day_detected", "Обнаружен zero-day"]
+        ]}
       ]
     },
     {
       "id": "subscriptions",
-      "title": "Управление подписками и квотами",
-      "description": "Работа с планами подписок и контроль использования ресурсов",
+      "title": "Подписки и квоты",
+      "description": "Управление планами и ресурсами",
       "content": [
-        {
-          "type": "table",
-          "headers": [
-            "Метод",
-            "Endpoint",
-            "Описание",
-            "Scope"
-          ],
-          "rows": [
-            ["GET", "/api/v1/subscriptions/current", "Текущая активная подписка", "subscriptions:read"],
-            ["GET", "/api/v1/subscriptions/plans", "Доступные планы подписок", "subscriptions:read"],
-            ["GET", "/api/v1/subscriptions/usage", "Использование квот и ресурсов", "subscriptions:read"],
-            ["POST", "/api/v1/subscriptions/upgrade", "Обновление плана", "subscriptions:manage"],
-            ["POST", "/api/v1/subscriptions/cancel", "Отмена подписки", "subscriptions:manage"],
-            ["GET", "/api/v1/subscriptions/billing-history", "История платежей", "subscriptions:read"]
-          ]
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Планы и квоты"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Ресурс",
-            "Starter",
-            "Professional",
-            "Enterprise"
-          ],
-          "rows": [
-            ["Запросов/минуту", "100", "1000", "10000"],
-            ["Пентестов/час", "2", "20", "Без лимита"],
-            ["AI вызовов/день", "50", "500", "5000"],
-            ["Максимальный размер отчета", "50MB", "500MB", "5GB"],
-            ["История хранения", "3 месяца", "1 год", "Без лимита"],
-            ["Webhook endpoints", "2", "10", "100"]
-          ]
-        }
+        {"type": "table", "headers": ["Endpoint", "Описание"], "rows": [
+          ["GET /api/v1/subscriptions/current", "Текущая подписка"],
+          ["GET /api/v1/subscriptions/plans", "Доступные планы"],
+          ["GET /api/v1/subscriptions/usage", "Использование ресурсов"],
+          ["POST /api/v1/subscriptions/upgrade", "Обновить план"],
+          ["POST /api/v1/subscriptions/cancel", "Отменить подписку"]
+        ]},
+        {"type": "table", "headers": ["Ресурс", "Starter", "Professional", "Enterprise"], "rows": [
+          ["Запросы/мин", "100", "1000", "10000"],
+          ["Пентесты/час", "2", "20", "∞"],
+          ["AI вызовы/день", "50", "500", "5000"],
+          ["Макс размер отчета", "50MB", "500MB", "5GB"],
+          ["История", "3м", "1г", "∞"],
+          ["Webhooks", "2", "10", "100"]
+        ]}
       ]
     },
     {
       "id": "integrations",
-      "title": "Интеграции и расширения",
-      "description": "API для интеграции с внешними системами",
+      "title": "Интеграции",
+      "description": "Связь с внешними системами",
       "content": [
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "SIEM интеграции"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Система",
-            "Endpoint",
-            "Формат",
-            "Описание"
-          ],
-          "rows": [
-            ["Splunk", "/api/v1/integrations/splunk/events", "JSON HEC", "События в формате Splunk HTTP Event Collector"],
-            ["IBM QRadar", "/api/v1/integrations/qradar/dsm", "LEEF", "Log Event Extended Format для QRadar"],
-            ["Elastic", "/api/v1/integrations/elastic/beats", "Beats JSON", "События для Elasticsearch/Kibana"],
-            ["ArcSight", "/api/v1/integrations/arcsight/cef", "CEF Syslog", "Common Event Format через Syslog"]
-          ]
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Тикетные системы"
-        },
-        {
-          "type": "table",
-          "headers": [
-            "Система",
-            "Endpoint",
-            "Описание"
-          ],
-          "rows": [
-            ["Jira", "POST /api/v1/integrations/jira/create-issue", "Автоматическое создание задач в Jira"],
-            ["ServiceNow", "POST /api/v1/integrations/servicenow/incident", "Создание инцидентов в ServiceNow"],
-            ["GitHub", "POST /api/v1/integrations/github/issue", "Создание GitHub Issues с результатами"],
-            ["GitLab", "POST /api/v1/integrations/gitlab/issue", "Создание GitLab Issues"]
-          ]
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "CI/CD интеграции"
-        },
-        {
-          "type": "features",
-          "items": [
-            {"title": "GitHub Actions", "description": "vulneraai/scan-action для автоматических security проверок в CI/CD"},
-            {"title": "GitLab CI", "description": ".gitlab-ci.yml шаблон с VulneraAI пентестом"},
-            {"title": "Jenkins", "description": "Jenkins Plugin для интеграции в пайплайны"},
-            {"title": "Azure DevOps", "description": "Azure Pipelines расширение с SARIF экспортом"},
-            {"title": "CircleCI", "description": "CircleCI Orbs для переиспользуемых компонентов"}
-          ]
-        }
-      ]
-    },
-    {
-      "id": "rate-limits",
-      "title": "Rate Limiting и лимиты",
-      "description": "Ограничения API и управление квотами",
-      "content": [
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "HTTP заголовки ограничений"
-        },
-        {
-          "type": "list",
-          "items": [
-            "**X-RateLimit-Limit** - максимальное количество запросов в период",
-            "**X-RateLimit-Remaining** - оставшиеся запросы в текущем окне",
-            "**X-RateLimit-Reset** - Unix timestamp сброса ограничений",
-            "**X-RateLimit-Retry-After** - рекомендуемое время ожидания при превышении",
-            "**X-Quota-Remaining-Pentests** - оставшиеся пентесты в текущем часе",
-            "**X-Quota-Remaining-AI** - оставшиеся AI вызовы в текущий день"
-          ]
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "title": "Проверка лимитов в ответе",
-          "code": "curl -i https://api.vulneraai.com/v1/pentests \\
-  -H \"Authorization: Bearer $TOKEN\"
-
-# Ответ содержит:
-# HTTP/2 200 OK
-# X-RateLimit-Limit: 1000
-# X-RateLimit-Remaining: 998
-# X-RateLimit-Reset: 1702460100
-# X-Quota-Remaining-Pentests: 19
-# X-Quota-Remaining-AI: 450"
-        },
-        {
-          "type": "heading",
-          "level": 2,
-          "text": "Обработка 429 Too Many Requests"
-        },
-        {
-          "type": "code",
-          "language": "python",
-          "title": "Пример обработки rate limit",
-          "code": "import time
-import requests
-
-def api_request_with_retry(url, headers, max_retries=3):
-    for attempt in range(max_retries):
-        response = requests.get(url, headers=headers)
-        
-        if response.status_code == 429:
-            retry_after = int(response.headers.get('X-RateLimit-Retry-After', 60))
-            print(f\"Rate limited. Waiting {retry_after} seconds...\")
-            time.sleep(retry_after)
-            continue
-        
-        response.raise_for_status()
-        return response.json()
-    
-    raise Exception(\"Max retries exceeded\")
-
-# Использование
-headers = {\"Authorization\": f\"Bearer {token}\"}
-data = api_request_with_retry(
-    \"https://api.vulneraai.com/v1/pentests\",
-    headers
-)"
-        }
+        {"type": "heading", "level": 2, "text": "SIEM"},
+        {"type": "table", "headers": ["Система", "Endpoint", "Формат"], "rows": [
+          ["Splunk", "/api/v1/integrations/splunk/events", "JSON HEC"],
+          ["IBM QRadar", "/api/v1/integrations/qradar/dsm", "LEEF"],
+          ["Elastic", "/api/v1/integrations/elastic/beats", "Beats JSON"],
+          ["ArcSight", "/api/v1/integrations/arcsight/cef", "CEF Syslog"]
+        ]},
+        {"type": "heading", "level": 2, "text": "Тикеты"},
+        {"type": "table", "headers": ["Система", "Endpoint"], "rows": [
+          ["Jira", "POST /api/v1/integrations/jira/create-issue"],
+          ["ServiceNow", "POST /api/v1/integrations/servicenow/incident"],
+          ["GitHub", "POST /api/v1/integrations/github/issue"],
+          ["GitLab", "POST /api/v1/integrations/gitlab/issue"]
+        ]},
+        {"type": "heading", "level": 2, "text": "CI/CD"},
+        {"type": "list", "items": [
+          "GitHub Actions: vulneraai/scan-action",
+          "GitLab CI: .gitlab-ci.yml шаблон",
+          "Jenkins Plugin",
+          "Azure DevOps Pipeline",
+          "CircleCI Orbs"
+        ]}
       ]
     },
     {
       "id": "errors",
       "title": "Коды ошибок",
-      "description": "Описание HTTP кодов ошибок и их значений",
+      "description": "HTTP коды и их значения",
       "content": [
-        {
-          "type": "table",
-          "headers": [
-            "Код",
-            "Статус",
-            "Описание",
-            "Решение"
-          ],
-          "rows": [
-            ["200", "OK", "Запрос успешен", "Обработайте результат"],
-            ["201", "Created", "Ресурс создан", "Используйте ID из ответа"],
-            ["400", "Bad Request", "Невалидный формат запроса", "Проверьте параметры"],
-            ["401", "Unauthorized", "Токен отсутствует или невалиден", "Получите новый токен"],
-            ["403", "Forbidden", "Недостаточно прав доступа", "Проверьте scopes токена"],
-            ["404", "Not Found", "Ресурс не найден", "Проверьте ID ресурса"],
-            ["429", "Too Many Requests", "Превышен rate limit", "Используйте Retry-After"],
-            ["500", "Server Error", "Ошибка на сервере", "Повторите позже"],
-            ["503", "Service Unavailable", "Сервис недоступен", "Повторите через время"]
-          ]
-        }
+        {"type": "table", "headers": ["Код", "Статус", "Решение"], "rows": [
+          ["200", "OK", "Успешен"],
+          ["201", "Created", "Ресурс создан"],
+          ["400", "Bad Request", "Проверьте параметры"],
+          ["401", "Unauthorized", "Получите токен"],
+          ["403", "Forbidden", "Проверьте scopes"],
+          ["404", "Not Found", "Проверьте ID"],
+          ["429", "Too Many Requests", "Ждите (используйте Retry-After)"],
+          ["500", "Server Error", "Повторите позже"],
+          ["503", "Service Unavailable", "Сервис недоступен"]
+        ]}
       ]
     }
   ]
