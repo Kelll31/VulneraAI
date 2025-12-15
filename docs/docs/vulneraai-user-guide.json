@@ -1,0 +1,10 @@
+{
+  "siteTitle": "Руководство пользователя VulneraAI",
+  "pages": [
+    {
+      "id": "user-guide-intro",
+      "title": "Введение",
+      "order": 1,
+      "content": "Документация в процессе разработки " }
+  ]
+}

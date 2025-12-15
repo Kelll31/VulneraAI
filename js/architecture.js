@@ -687,12 +687,6 @@
                             <li><strong>Увеличенные расстояния</strong> между блоками для лучшей читаемости</li>
                         </ul>
                     </div>
-
-                    <div style="margin-top: 24px; padding: 16px; background: rgba(16, 185, 129, 0.1); border-radius: 8px;">
-                        <p style="margin: 0; color: #10b981; font-size: 13px;">
-                            ✨ Компоненты расположены автоматически с увеличенным spacing
-                        </p>
-                    </div>
                 </div>
             `;
         }

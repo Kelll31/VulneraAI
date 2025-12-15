@@ -5,37 +5,45 @@
     // Application state
     let currentPage = 'home';
     let aiBackground = null;
-    let isDocsActive = false; // Флаг для отслеживания активности docs
+    let isDocsActive = false; // оставлено для совместимости логики hashchange
 
-    // Wait for DOM to be ready
     document.addEventListener('DOMContentLoaded', function () {
         console.log('VulneraAI: Initializing professional interface...');
+
+        injectNotificationStyles();
         initializeNavigation();
         initializeContactForm();
         initializeScrollEffects();
         initializeAnimations();
         initializeAIBackground();
+
         console.log('VulneraAI: Initialization complete');
     });
 
     // Initialize AI Background once
     function initializeAIBackground() {
-        if (!aiBackground && !isMobile()) {
-            setTimeout(() => {
-                aiBackground = createDynamicAIBackground();
+        if (aiBackground) return;
+        if (isMobile()) return;
+
+        setTimeout(() => {
+            // повторная проверка после timeout
+            if (aiBackground) return;
+            aiBackground = createDynamicAIBackground();
+            if (aiBackground) {
                 console.log('VulneraAI: AI Background initialized for all pages');
-            }, 500);
-        }
+            }
+        }, 500);
     }
 
     // Enhanced Navigation system with hash support (avoiding docs conflicts)
     function initializeNavigation() {
-        // Handle navigation links
+        // Handle navigation links (header/menu/buttons)
         const navLinks = document.querySelectorAll('[data-page]');
         navLinks.forEach(link => {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetPage = this.getAttribute('data-page');
+                if (!targetPage) return;
 
                 console.log('VulneraAI: Clicking on:', targetPage);
 
@@ -50,31 +58,26 @@
             });
         });
 
-        // Handle browser back/forward buttons - НО НЕ для документации
+        // Handle browser back/forward buttons
         window.addEventListener('hashchange', handleHashChange);
 
         // Initialize with current state
         initializeFromCurrentState();
     }
 
-
     function initializeFromCurrentState() {
         const hash = window.location.hash.slice(1);
 
-        // Если хэш содержит слэш или это документация - передаем управление docs.js
-        if (hash.includes('/') || hash === 'documentation' || !hash) {
-            if (hash.includes('/')) {
-                // Это навигация документации - активируем документы
-                navigateToDocumentation();
-                return;
-            } else if (hash === 'documentation') {
-                navigateToDocumentation();
-                return;
-            } else {
-                // Пустой хэш - показываем главную
-                navigateToPage('home', false);
-                return;
-            }
+        // Документация или вложенная навигация документации — редиректим во внешние docs
+        if (hash === 'documentation' || hash.includes('/')) {
+            navigateToDocumentation();
+            return;
+        }
+
+        // Пустой хэш - показываем главную
+        if (!hash) {
+            navigateToPage('home', false);
+            return;
         }
 
         // Проверяем, существует ли страница
@@ -87,7 +90,7 @@
     }
 
     function handleHashChange() {
-        // ИГНОРИРУЕМ hashchange если активны документы
+        // На случай старой логики: если docs активны — игнорируем (хотя теперь docs внешние)
         if (isDocsActive) {
             console.log('VulneraAI: Ignoring hash change - docs is active');
             return;
@@ -120,26 +123,16 @@
 
     function navigateToDocumentation() {
         console.log('VulneraAI: Navigating to documentation');
+        isDocsActive = false;
 
-        // Показываем страницу документации
-        showPage('documentation');
-
-        // Активируем флаг документации
-        isDocsActive = true;
-
-        // Управляем футером - ПОКАЗЫВАЕМ для documentation
-        controlFooterVisibility('documentation');
-
-        // Если нет хэша документации, ставим базовый
-        if (!window.location.hash || !window.location.hash.includes('/')) {
-            window.history.replaceState(null, null, '#documentation');
-        }
+        // Важно: внешний переход не должен ломать текущую страницу.
+        // Если хочешь открывать в новой вкладке — замени на window.open(url, '_blank', 'noopener,noreferrer')
+        window.location.assign('https://docs.vulneraai.ru');
     }
 
     function navigateToPage(pageName, updateHash = true) {
         console.log('VulneraAI: Navigating to page:', pageName);
 
-        // Деактивируем флаг документации
         isDocsActive = false;
 
         // Показываем страницу
@@ -150,46 +143,37 @@
 
         // Обновляем хэш если нужно
         if (updateHash && window.location.hash.slice(1) !== pageName) {
-            window.history.pushState(null, null, `#${pageName}`);
+            window.history.pushState(null, '', `#${pageName}`);
         }
     }
-
 
     function showPage(pageName) {
         // Hide all pages
         const pages = document.querySelectorAll('.page');
-        pages.forEach(page => {
-            page.classList.remove('active');
-        });
+        pages.forEach(page => page.classList.remove('active'));
 
         // Show target page
         const targetPage = document.getElementById(pageName);
-        if (targetPage) {
-            targetPage.classList.add('active');
-            currentPage = pageName;
+        if (!targetPage) return;
 
-            // Update navigation
-            updateNavigation(pageName);
+        targetPage.classList.add('active');
+        currentPage = pageName;
 
-            // Scroll to top
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+        // Update navigation
+        updateNavigation(pageName);
 
-            console.log('VulneraAI: Displayed page:', pageName);
-        }
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        console.log('VulneraAI: Displayed page:', pageName);
     }
 
     function updateNavigation(activePage) {
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
+        const links = document.querySelectorAll('.nav-link');
+        links.forEach(link => {
             const linkPage = link.getAttribute('data-page');
-            if (linkPage === activePage) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
+            if (linkPage === activePage) link.classList.add('active');
+            else link.classList.remove('active');
         });
     }
 
@@ -201,22 +185,19 @@
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            // Get form data
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
             console.log('Contact form submitted:', data);
 
-            // Show success message
             showNotification('Сообщение отправлено успешно! Мы свяжемся с вами в ближайшее время.', 'success');
-
-            // Reset form
             this.reset();
         });
     }
 
     // Scroll effects and animations
     function initializeScrollEffects() {
-        // Intersection Observer for fade-in animations
+        if (!('IntersectionObserver' in window)) return;
+
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -224,70 +205,55 @@
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('animate-in');
             });
         }, observerOptions);
 
-        // Observe elements for animation
         const animateElements = document.querySelectorAll('.feature-card, .docs-section, .hero-content');
-        animateElements.forEach(element => {
-            observer.observe(element);
-        });
+        animateElements.forEach(element => observer.observe(element));
     }
 
     // Initialize smooth animations
     function initializeAnimations() {
-        // Add smooth hover effects to buttons
         const buttons = document.querySelectorAll('.btn');
         buttons.forEach(button => {
             button.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-2px)';
             });
-
             button.addEventListener('mouseleave', function () {
                 this.style.transform = 'translateY(0)';
             });
         });
 
-        // Add hover effects to feature cards
         const featureCards = document.querySelectorAll('.feature-card');
         featureCards.forEach(card => {
             card.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-5px)';
             });
-
             card.addEventListener('mouseleave', function () {
                 this.style.transform = 'translateY(0)';
             });
         });
     }
 
-
     // ============================================
     // FOOTER VISIBILITY CONTROL
     // ============================================
-
     function controlFooterVisibility(pageName) {
         const footer = document.querySelector('.footer');
-
         if (!footer) {
             console.warn('VulneraAI: Footer element not found');
             return;
         }
 
         // ТОЛЬКО на странице архитектуры футер скрывается
-        // На documentation и других страницах - показываем
         const pagesWithoutFooter = ['architecture'];
 
         if (pagesWithoutFooter.includes(pageName)) {
-            console.log('VulneraAI: Hiding footer for page:', pageName);
             footer.style.display = 'none';
             footer.classList.add('footer--hidden');
             document.body.classList.add('no-footer');
         } else {
-            console.log('VulneraAI: Showing footer for page:', pageName);
             footer.style.display = 'block';
             footer.classList.remove('footer--hidden');
             document.body.classList.remove('no-footer');
@@ -295,26 +261,21 @@
     }
 
     // ============================================
-    // PERSISTENT DYNAMIC AI BACKGROUND
+    // PERSISTENT DYNAMIC AI BACKGROUND (НЕ ЛОМАЕМ)
     // ============================================
     function createDynamicAIBackground() {
-        // Проверяем, не создан ли уже фон
+        // Если уже есть canvas — не создаём второй, иначе начнутся «двойные» анимации
         const existingCanvas = document.getElementById('ai-background-canvas');
         if (existingCanvas) {
             console.log('VulneraAI: AI Background already exists');
             return {
                 destroy: () => {
-                    if (existingCanvas.parentNode) {
-                        existingCanvas.remove();
-                    }
+                    if (existingCanvas.parentNode) existingCanvas.remove();
                 },
                 canvas: existingCanvas
             };
         }
 
-        console.log('VulneraAI: Creating persistent AI background for all pages');
-
-        // Создаем canvas элемент
         const canvas = document.createElement('canvas');
         canvas.id = 'ai-background-canvas';
         canvas.style.position = 'fixed';
@@ -326,28 +287,33 @@
         canvas.style.pointerEvents = 'none';
         canvas.style.opacity = '0';
         canvas.style.transition = 'opacity 1.5s ease-in-out';
+
         document.body.appendChild(canvas);
 
         // Плавное появление
-        setTimeout(() => {
-            canvas.style.opacity = '0.75';
-        }, 200);
+        setTimeout(() => { canvas.style.opacity = '0.75'; }, 200);
 
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { alpha: true });
+        if (!ctx) {
+            console.warn('VulneraAI: Canvas 2D context not available');
+            canvas.remove();
+            return null;
+        }
+
         let width = window.innerWidth;
         let height = window.innerHeight;
         canvas.width = width;
         canvas.height = height;
 
         // Настройки частиц
-        const particlesCount = Math.min(100, Math.floor((width * height) / 18000));
-        const maxDistance = 160;
+        let particlesCount = Math.min(120, Math.floor((width * height) / 16000));
+        let maxDistance = 160;
+
         const particles = [];
         let mouseX = width / 2;
         let mouseY = height / 2;
         let animationId = null;
 
-        // Класс частицы
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
@@ -361,7 +327,7 @@
             }
 
             update() {
-                // Движение частиц
+                // Движение
                 this.x += this.vx;
                 this.y += this.vy;
 
@@ -373,7 +339,7 @@
                 this.x = Math.max(0, Math.min(width, this.x));
                 this.y = Math.max(0, Math.min(height, this.y));
 
-                // Пульсация размера
+                // Пульсация
                 this.size = this.baseSize + Math.sin(Date.now() * 0.002 + this.pulsePhase) * 0.4;
 
                 // Очень слабое притягивание к мыши
@@ -381,17 +347,18 @@
                 const dy = mouseY - this.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                if (distance < 250) {
-                    const force = (250 - distance) / 250 * 0.008;
+                if (distance > 0.001 && distance < 250) {
+                    const force = ((250 - distance) / 250) * 0.008;
                     this.vx += (dx / distance) * force;
                     this.vy += (dy / distance) * force;
                 }
 
                 // Ограничение скорости
                 const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-                if (speed > 1.5) {
-                    this.vx = (this.vx / speed) * 1.5;
-                    this.vy = (this.vy / speed) * 1.5;
+                const maxSpeed = 1.5;
+                if (speed > maxSpeed) {
+                    this.vx = (this.vx / speed) * maxSpeed;
+                    this.vy = (this.vy / speed) * maxSpeed;
                 }
             }
 
@@ -399,11 +366,8 @@
                 ctx.save();
                 ctx.globalAlpha = this.opacity;
 
-                // Создаем градиент для свечения
-                const gradient = ctx.createRadialGradient(
-                    this.x, this.y, 0,
-                    this.x, this.y, this.size * 5
-                );
+                const glowRadius = this.size * 5;
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowRadius);
                 gradient.addColorStop(0, 'rgba(59, 130, 246, 0.9)');
                 gradient.addColorStop(0.4, 'rgba(16, 185, 129, 0.5)');
                 gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
@@ -415,11 +379,11 @@
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = gradient;
                 ctx.fill();
+
                 ctx.restore();
             }
         }
 
-        // Создание частиц
         function initParticles() {
             particles.length = 0;
             for (let i = 0; i < particlesCount; i++) {
@@ -427,9 +391,9 @@
             }
         }
 
-        // Соединение близких частиц линиями
         function connectParticles() {
             ctx.save();
+
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
@@ -438,6 +402,7 @@
 
                     if (distance < maxDistance) {
                         const opacity = (1 - distance / maxDistance) * 0.25;
+
                         const gradient = ctx.createLinearGradient(
                             particles[i].x, particles[i].y,
                             particles[j].x, particles[j].y
@@ -448,6 +413,7 @@
                         ctx.strokeStyle = gradient;
                         ctx.lineWidth = 1;
                         ctx.globalAlpha = opacity;
+
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -455,23 +421,23 @@
                     }
                 }
             }
+
             ctx.restore();
         }
 
-        // Создание динамического фонового градиента
         function drawBackground() {
             const time = Date.now() * 0.0002;
 
-            // Основной градиент
-            const gradient = ctx.createRadialGradient(
+            // Основной радиальный градиент
+            const baseGradient = ctx.createRadialGradient(
                 width / 2, height / 2, 0,
                 width / 2, height / 2, Math.max(width, height) * 0.9
             );
-            gradient.addColorStop(0, `rgba(15, 23, 42, ${0.96 + Math.sin(time) * 0.04})`);
-            gradient.addColorStop(0.7, 'rgba(10, 10, 25, 0.98)');
-            gradient.addColorStop(1, 'rgba(5, 5, 15, 1)');
+            baseGradient.addColorStop(0, `rgba(15, 23, 42, ${0.96 + Math.sin(time) * 0.04})`);
+            baseGradient.addColorStop(0.7, 'rgba(10, 10, 25, 0.98)');
+            baseGradient.addColorStop(1, 'rgba(5, 5, 15, 1)');
 
-            ctx.fillStyle = gradient;
+            ctx.fillStyle = baseGradient;
             ctx.fillRect(0, 0, width, height);
 
             // Дополнительные световые эффекты
@@ -479,20 +445,14 @@
             ctx.globalCompositeOperation = 'screen';
 
             // Синее пятно
-            const spot1 = ctx.createRadialGradient(
-                width * 0.2, height * 0.3, 0,
-                width * 0.2, height * 0.3, 350
-            );
+            const spot1 = ctx.createRadialGradient(width * 0.2, height * 0.3, 0, width * 0.2, height * 0.3, 350);
             spot1.addColorStop(0, `rgba(59, 130, 246, ${0.06 + Math.sin(time * 1.2) * 0.02})`);
             spot1.addColorStop(1, 'rgba(59, 130, 246, 0)');
             ctx.fillStyle = spot1;
             ctx.fillRect(0, 0, width, height);
 
             // Зеленое пятно
-            const spot2 = ctx.createRadialGradient(
-                width * 0.8, height * 0.7, 0,
-                width * 0.8, height * 0.7, 450
-            );
+            const spot2 = ctx.createRadialGradient(width * 0.8, height * 0.7, 0, width * 0.8, height * 0.7, 450);
             spot2.addColorStop(0, `rgba(16, 185, 129, ${0.04 + Math.sin(time * 1.8) * 0.02})`);
             spot2.addColorStop(1, 'rgba(16, 185, 129, 0)');
             ctx.fillStyle = spot2;
@@ -501,62 +461,62 @@
             ctx.restore();
         }
 
-        // Основной цикл анимации
         function animate() {
+            // Если canvas уже удалили — прекращаем цикл
             if (!canvas || !canvas.parentNode) return;
 
             ctx.clearRect(0, 0, width, height);
+
             drawBackground();
             connectParticles();
 
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
+            for (const p of particles) {
+                p.update();
+                p.draw();
+            }
 
             animationId = requestAnimationFrame(animate);
         }
 
-        // Обработка изменения размера окна
         function handleResize() {
             width = window.innerWidth;
             height = window.innerHeight;
+
             canvas.width = width;
             canvas.height = height;
 
-            // Пересоздаем частицы с новыми параметрами
+            // Актуализируем параметры под новое разрешение
+            particlesCount = Math.min(120, Math.floor((width * height) / 16000));
+            maxDistance = 160;
+
             initParticles();
         }
 
-        // Отслеживание мыши для интерактивности
         function handleMouseMove(e) {
             mouseX = e.clientX;
             mouseY = e.clientY;
         }
 
-        // Настройка обработчиков событий
-        window.addEventListener('resize', handleResize);
-        document.addEventListener('mousemove', handleMouseMove);
+        // Подписки
+        window.addEventListener('resize', handleResize, { passive: true });
+        document.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-        // Инициализация и запуск
         initParticles();
         animate();
 
-        // Возврат объекта для управления фоном
         return {
             destroy: () => {
                 console.log('VulneraAI: Destroying AI background');
-                if (animationId) {
-                    cancelAnimationFrame(animationId);
-                }
+
+                if (animationId) cancelAnimationFrame(animationId);
+
                 window.removeEventListener('resize', handleResize);
                 document.removeEventListener('mousemove', handleMouseMove);
+
                 if (canvas && canvas.parentNode) {
                     canvas.style.opacity = '0';
                     setTimeout(() => {
-                        if (canvas && canvas.parentNode) {
-                            canvas.remove();
-                        }
+                        if (canvas && canvas.parentNode) canvas.remove();
                     }, 800);
                 }
             },
@@ -567,39 +527,69 @@
     // ============================================
     // UTILITY FUNCTIONS
     // ============================================
-
-    // Performance optimization for mobile
     function isMobile() {
-        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        return window.innerWidth <= 768 ||
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
-    // Utility functions
     function showNotification(message, type = 'info') {
         // Удаляем существующие уведомления
-        const existingNotifications = document.querySelectorAll('.notification');
-        existingNotifications.forEach(notification => notification.remove());
+        const existing = document.querySelectorAll('.notification.vulneraai-notification');
+        existing.forEach(n => n.remove());
 
         const notification = document.createElement('div');
-        notification.className = `notification notification--${type}`;
-        notification.innerHTML = `
-            <div class="notification__content">
-                <span class="notification__message">${message}</span>
-                <button class="notification__close" onclick="this.parentNode.parentNode.remove()">×</button>
-            </div>
-        `;
+        notification.className = `notification vulneraai-notification notification--${type}`;
+        notification.setAttribute('role', 'status');
+        notification.setAttribute('aria-live', 'polite');
+        notification.textContent = String(message);
 
         document.body.appendChild(notification);
 
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
-            }
-        }, 5000);
+        // Авто-удаление
+        window.setTimeout(() => {
+            notification.classList.add('is-hiding');
+            window.setTimeout(() => {
+                if (notification.parentNode) notification.remove();
+            }, 300);
+        }, 3000);
     }
 
-    // Global functions for HTML onclick handlers
-    window.navigateToPage = navigateToPage;
-    window.showNotification = showNotification;
+    function injectNotificationStyles() {
+        if (document.getElementById('vulneraai-notification-styles')) return;
 
+        const style = document.createElement('style');
+        style.id = 'vulneraai-notification-styles';
+        style.textContent = `
+@keyframes vul-slideIn {
+  from { transform: translateX(400px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes vul-slideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(400px); opacity: 0; }
+}
+.notification.vulneraai-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: #fff;
+  z-index: 10000;
+  animation: vul-slideIn 0.3s ease-out;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  max-width: min(520px, calc(100vw - 40px));
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+.notification.vulneraai-notification.notification--success { background: #10b981; }
+.notification.vulneraai-notification.notification--info { background: #3b82f6; }
+.notification.vulneraai-notification.notification--error { background: #ef4444; }
+
+.notification.vulneraai-notification.is-hiding {
+  animation: vul-slideOut 0.3s ease-out forwards;
+}
+    `.trim();
+
+        document.head.appendChild(style);
+    }
 })();

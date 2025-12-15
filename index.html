@@ -23,7 +23,7 @@
                 <div class="nav-links">
                     <a href="#home" class="nav-link active" data-page="home">Главная</a>
                     <a href="#architecture" class="nav-link" data-page="architecture">Архитектура</a>
-                    <a href="#documentation" class="nav-link" data-page="documentation">Документация</a>
+                    <a href="https://docs.vulneraai.ru" class="nav-link" data-page="documentation">Документация</a>
                     <a href="https://shtormlabs.ru" class="nav-link" target="_blank" rel="noopener noreferrer">Наш
                         сайт</a>
                 </div>
@@ -197,99 +197,6 @@
         </section>
     </main>
 
-
-    <!-- Documentation Page -->
-    <main id="documentation" class="page">
-        <section class="page-hero">
-            <div class="container">
-                <h1 class="page-title">Техническая документация</h1>
-                <p class="page-subtitle">Полное руководство по установке, конфигурации и использованию</p>
-            </div>
-        </section>
-
-        <section class="documentation-section">
-            <div class="container">
-                <div class="docs-layout">
-                    <nav class="docs-nav">
-                        <div class="docs-nav-section">
-                            <h4 class="docs-nav-title">🚀 Быстрый старт</h4>
-                            <ul class="docs-nav-list">
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/README.md"
-                                        target="_blank">Server Quick Start</a></li>
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/blob/main/README.md"
-                                        target="_blank">Client Quick Start</a></li>
-                            </ul>
-                        </div>
-                        <div class="docs-nav-section">
-                            <h4 class="docs-nav-title">📦 Установка</h4>
-                            <ul class="docs-nav-list">
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/QUICK_START_DEBIAN.md"
-                                        target="_blank">Debian Setup</a></li>
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/DEBIAN_DOCKER_SETUP.md"
-                                        target="_blank">Docker Setup</a></li>
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/KUBERNETES_QUICK_START.md"
-                                        target="_blank">Kubernetes Deploy</a></li>
-                            </ul>
-                        </div>
-                        <div class="docs-nav-section">
-                            <h4 class="docs-nav-title">⚙️ Конфигурация</h4>
-                            <ul class="docs-nav-list">
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Server/blob/main/.env.example"
-                                        target="_blank">.env параметры Server</a></li>
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/blob/main/.env.example"
-                                        target="_blank">.env параметры Client</a></li>
-                            </ul>
-                        </div>
-                        <div class="docs-nav-section">
-                            <h4 class="docs-nav-title">📚 API & SDK</h4>
-                            <ul class="docs-nav-list">
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Server#-api-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F"
-                                        target="_blank">API Endpoints</a></li>
-                                <li><a href="https://github.com/Kelll31/VulneraAI_Server#openapiwagger"
-                                        target="_blank">Swagger Docs</a></li>
-                            </ul>
-                        </div>
-                    </nav>
-
-                    <div class="docs-content">
-                        <article class="docs-article">
-                            <h3>Первые шаги</h3>
-                            <ol>
-                                <li><strong>Установите VulneraAI Server:</strong> Следуйте инструкциям в <a
-                                        href="https://github.com/Kelll31/VulneraAI_Server#%F0%9F%9A%80-%D0%B1%D1%8B%D1%81%D1%82%D1%80%D1%8B%D0%B9-%D1%81%D1%82%D0%B0%D1%80%D1%82"
-                                        target="_blank">README сервера</a></li>
-                                <li><strong>Установите Kali Linux Client</strong> на машину с Kali: <a
-                                        href="https://github.com/Kelll31/VulneraAI_Client_Kali_Linux/blob/main/README.md"
-                                        target="_blank">инструкции клиента</a></li>
-                                <li><strong>Откройте в браузере:</strong>
-                                    <ul>
-                                        <li>Server API docs: <code>http://localhost:8000/docs</code></li>
-                                        <li>Client Web UI: <code>http://localhost:5173</code></li>
-                                    </ul>
-                                </li>
-                                <li><strong>Создайте учётную запись</strong> и начните использовать!</li>
-                            </ol>
-
-                            <h3 style="margin-top: 30px;">Требования</h3>
-                            <h4>Для Server:</h4>
-                            <ul>
-                                <li>Docker & Docker Compose или</li>
-                                <li>Python 3.11+, PostgreSQL 15+, Redis 7+, RabbitMQ 3.13+</li>
-                                <li>(Опционально) Kubernetes 1.20+</li>
-                            </ul>
-                            <h4>Для Client:</h4>
-                            <ul>
-                                <li><strong>Обязательно Kali Linux 2024+</strong></li>
-                                <li>Python 3.11+</li>
-                                <li>Node.js 20+</li>
-                            </ul>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-wrapper">
@@ -316,7 +223,8 @@
                             <li><a href="#home" class="footer-link" data-page="home">Главная</a></li>
                             <li><a href="#architecture" class="footer-link" data-page="architecture">Архитектура</a>
                             </li>
-                            <li><a href="#documentation" class="footer-link" data-page="documentation">Документация</a>
+                            <li><a href="https://docs.vulneraai.ru" class="footer-link"
+                                    data-page="documentation">Документация</a>
                             </li>
                         </ul>
                     </div>
@@ -328,7 +236,7 @@
                                     class="footer-link">О компании</a></li>
                             <li><a href="https://github.com/Kelll31" target="_blank" rel="noopener noreferrer"
                                     class="footer-link">GitHub</a></li>
-                            <li><a href="#documentation" target="_blank" rel="noopener noreferrer"
+                            <li><a href="https://docs.vulneraai.ru" target="_blank" rel="noopener noreferrer"
                                     class="footer-link">API Документация</a></li>
                         </ul>
                     </div>
@@ -349,7 +257,6 @@
 
     <script src="js/architecture.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/docs.js"></script>
     <style>
         /* Tech Stack Cards - Redesigned Styles */
         .tech-stack-section {

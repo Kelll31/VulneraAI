@@ -1,0 +1,32 @@
+{
+  "files": [
+    {
+      "file": "core.json",
+      "pathPrefix": [
+        "Документация"
+      ],
+      "namespace": "core"
+    },
+    {
+      "file": "vulneraai-api-docs.json",
+      "pathPrefix": [
+        "VulneraAI API"
+      ],
+      "namespace": "vulneraai"
+    },
+    {
+      "file": "vulneraai-architecture-docs.json",
+      "pathPrefix": [
+        "VulneraAI Архитектура"
+      ],
+      "namespace": "vulneraai"
+    },
+    {
+      "file": "vulneraai-user-guide.json",
+      "pathPrefix": [
+        "Руководство пользователя"
+      ],
+      "namespace": "vulneraai"
+    }
+  ]
+}
