@@ -4,18 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VulneraAI - Платформа для автоматизированного ИИ-пентеста</title>
-    <meta name="description"
-        content="VulneraAI - полностью автоматизированная платформа для тестирования на проникновение с ИИ. FastAPI сервер с K8s и Kali Linux клиент.">
-    <meta name="keywords"
-        content="VulneraAI, пентест, penetration testing, AI, machine learning, Kali Linux, FastAPI, Python">
-    
-    <!-- Favicon - Multiple formats for better compatibility -->
+
+    <title>VulneraAI — платформа для автоматизированного тестирования на проникновение с ИИ</title>
+    <meta name="description" content="VulneraAI — полностью автоматизированная платформа для тестирования на проникновение с использованием ИИ: REST API сервер (FastAPI, PostgreSQL, K8s) и Kali Linux клиент (Python, React, CLI).">
+    <meta name="keywords" content="VulneraAI, пентест, penetration testing, pentest, AI, искусственный интеллект, machine learning, k8s, Kubernetes, FastAPI, Python, Kali Linux, security testing, security automation, bug bounty, red team">
+    <meta name="robots" content="index,follow">
+    <meta name="author" content="ShtormLabs">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="VulneraAI">
+    <meta property="og:title" content="VulneraAI — автоматизированный ИИ‑пентест">
+    <meta property="og:description" content="Запускайте полностью автоматизированные пентесты с помощью ИИ: генерация эксплойтов, детекция 0‑day, RAG по CVE и подробные отчёты.">
+    <meta property="og:url" content="https://vulneraai.ru/">
+    <meta property="og:locale" content="ru_RU">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VulneraAI — автоматизированный ИИ‑пентест">
+    <meta name="twitter:description" content="Полностью автоматизированная платформа для тестирования на проникновение с ИИ.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://vulneraai.ru/">
+
+    <!-- Favicon / Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
     <meta name="theme-color" content="#0f172a">
-    
+
+    <!-- Preconnects (docs, main site) -->
+    <link rel="preconnect" href="https://docs.vulneraai.ru" crossorigin>
+    <link rel="preconnect" href="https://shtormlabs.ru" crossorigin>
+
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -33,7 +54,7 @@
                     <a href="https://docs.vulneraai.ru" class="nav-link" data-page="documentation">Документация</a>
                     <a href="https://shtormlabs.ru" class="nav-link" target="_blank" rel="noopener noreferrer">Наш
                         сайт</a>
-                    <a href="https://pentest.vulneraai.ru" class="nav-link">Войти в систему</a>
+                    <a href="https://pentest.vulneraai.ru" class="nav-link nav-link--login">Войти в систему</a>
                 </div>
             </div>
         </div>
@@ -51,12 +72,12 @@
                     <h1 class="hero-title">
                         VulneraAI
                         <br>
-                        <span class="hero-subtitle-text">Автоматизированный ИИ-пентест</span>
+                        <span class="hero-subtitle-text">Автоматизированный ИИ‑пентест</span>
                     </h1>
                     <p class="hero-description">
                         Полнофункциональная платформа для автоматизированного тестирования на проникновение с
                         использованием искусственного интеллекта. Состоит из мощного REST API сервера (FastAPI,
-                        PostgreSQL, K8s-ready) и лёгкого Kali Linux клиента (Python + React + CLI).
+                        PostgreSQL, K8s‑ready) и лёгкого Kali Linux клиента (Python + React + CLI).
                     </p>
                     <div class="hero-actions">
                         <button class="btn btn--primary btn--lg" data-page="architecture">
@@ -84,36 +105,37 @@
                         <div class="feature-icon">⚡</div>
                         <h3 class="feature-title">Автоматическая генерация эксплойтов</h3>
                         <p class="feature-description">Система анализирует архитектуру целевой инфраструктуры и
-                            автоматически генерирует адаптированные эксплойты</p>
+                            автоматически генерирует адаптированные эксплойты.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔍</div>
-                        <h3 class="feature-title">Детекция 0-day уязвимостей</h3>
-                        <p class="feature-description">ML-алгоритмы обнаруживают 0-day и нестандартные векторы атак
-                        </p>
+                        <h3 class="feature-title">Детекция 0‑day уязвимостей</h3>
+                        <p class="feature-description">ML‑алгоритмы обнаруживают 0‑day и нестандартные векторы атак
+                            ещё до появления публичных эксплойтов.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">📚</div>
-                        <h3 class="feature-title">RAG-система знаний</h3>
+                        <h3 class="feature-title">RAG‑система знаний</h3>
                         <p class="feature-description">Контекстный поиск по базе CVE с семантической индексацией и
-                            актуальными векторами атак</p>
+                            актуальными техниками эксплуатации.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🧠</div>
-                        <h3 class="feature-title">Адаптивные стратегии</h3>
-                        <p class="feature-description">ИИ динамически меняет тактику в реальном времени на основе
-                            результатов</p>
+                        <h3 class="feature-title">Адаптивные стратегии атак</h3>
+                        <p class="feature-description">ИИ динамически меняет тактику в реальном времени в зависимости
+                            от успешности атак и ответов целевой системы.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">⚙️</div>
                         <h3 class="feature-title">Полная автоматизация</h3>
-                        <p class="feature-description">От планирования до генерации отчётов - вся рутина
-                            автоматизирована</p>
+                        <p class="feature-description">От планирования и разведки до генерации отчётов — все рутинные
+                            этапы пентеста автоматизированы.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">📊</div>
                         <h3 class="feature-title">Подробные отчёты</h3>
-                        <p class="feature-description">JSON, PDF, SARIF форматы с визуализацией и рекомендациями</p>
+                        <p class="feature-description">Экспорт результатов в JSON, PDF и SARIF с приоритизацией
+                            уязвимостей и рекомендациями по устранению.</p>
                     </div>
                 </div>
             </div>
@@ -131,7 +153,7 @@
                     <div class="tech-card">
                         <div class="tech-card-header">
                             <div class="tech-icon">🖥️</div>
-                            <h3>Бэкэнд Сервер</h3>
+                            <h3>Бэкэнд‑сервер</h3>
                         </div>
                         <div class="tech-card-body">
                             <ul class="tech-list">
@@ -148,7 +170,7 @@
                     <div class="tech-card">
                         <div class="tech-card-header">
                             <div class="tech-icon">🐉</div>
-                            <h3>Kali Linux Клиент</h3>
+                            <h3>Kali Linux клиент</h3>
                         </div>
                         <div class="tech-card-body">
                             <ul class="tech-list">
@@ -160,7 +182,6 @@
                             </ul>
                         </div>
                     </div>
-
 
                     <!-- Scalability -->
                     <div class="tech-card">
@@ -215,7 +236,7 @@
                             <span class="footer-logo-text">VulneraAI</span>
                         </div>
                         <p class="footer-description">
-                            Автоматизированная платформа для тестирования на проникновение с использованием ИИ
+                            Автоматизированная платформа для тестирования на проникновение с использованием ИИ.
                         </p>
                         <div class="footer-social">
                             <a href="https://t.me/Shtorm_Labs" target="_blank" rel="noopener noreferrer"
