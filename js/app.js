@@ -47,6 +47,12 @@
 
                 console.log('VulneraAI: Clicking on:', targetPage);
 
+                // Для входа в систему - внешний переход
+                if (targetPage === 'login') {
+                    window.location.assign('https://pentest.vulneraai.ru');
+                    return;
+                }
+
                 // Для документации - особая обработка
                 if (targetPage === 'documentation') {
                     navigateToDocumentation();
@@ -169,7 +175,7 @@
     }
 
     function updateNavigation(activePage) {
-        const links = document.querySelectorAll('.nav-link');
+        const links = document.querySelectorAll('.nav-link:not(.nav-link--login)');
         links.forEach(link => {
             const linkPage = link.getAttribute('data-page');
             if (linkPage === activePage) link.classList.add('active');
