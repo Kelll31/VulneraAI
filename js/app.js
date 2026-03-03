@@ -47,15 +47,9 @@
 
                 console.log('VulneraAI: Clicking on:', targetPage);
 
-                // Для входа в систему - внешний переход
-                if (targetPage === 'login') {
-                    window.location.assign('https://pentest.vulneraai.ru');
-                    return;
-                }
-
-                // Для документации - особая обработка
+                // Для документации - особая обработка (переход на GitHub)
                 if (targetPage === 'documentation') {
-                    navigateToDocumentation();
+                    window.open('https://github.com/Kelll31/VulneraAI_light', '_blank', 'noopener,noreferrer');
                     return;
                 }
 
@@ -74,9 +68,11 @@
     function initializeFromCurrentState() {
         const hash = window.location.hash.slice(1);
 
-        // Документация или вложенная навигация документации — редиректим во внешние docs
+        // Документация или вложенная навигация документации
         if (hash === 'documentation' || hash.includes('/')) {
-            navigateToDocumentation();
+            window.open('https://github.com/Kelll31/VulneraAI_light', '_blank', 'noopener,noreferrer');
+            // Default to home page if they opened the docs route directly
+            navigateToPage('home', false);
             return;
         }
 
@@ -107,7 +103,9 @@
 
         // Если это документация или навигация документации
         if (hash === 'documentation' || hash.includes('/')) {
-            navigateToDocumentation();
+            window.open('https://github.com/Kelll31/VulneraAI_light', '_blank', 'noopener,noreferrer');
+            // Keep the previous valid page or default to home to prevent a blank state
+            navigateToPage('home', false);
             return;
         }
 
@@ -127,14 +125,6 @@
         }
     }
 
-    function navigateToDocumentation() {
-        console.log('VulneraAI: Navigating to documentation');
-        isDocsActive = false;
-
-        // Важно: внешний переход не должен ломать текущую страницу.
-        // Если хочешь открывать в новой вкладке — замени на window.open(url, '_blank', 'noopener,noreferrer')
-        window.location.assign('https://docs.vulneraai.ru');
-    }
 
     function navigateToPage(pageName, updateHash = true) {
         console.log('VulneraAI: Navigating to page:', pageName);

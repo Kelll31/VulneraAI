@@ -5,17 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>VulneraAI — платформа для автоматизированного тестирования на проникновение с ИИ</title>
-    <meta name="description" content="VulneraAI — полностью автоматизированная платформа для тестирования на проникновение с использованием ИИ: REST API сервер (FastAPI, PostgreSQL, K8s) и Kali Linux клиент (Python, React, CLI).">
-    <meta name="keywords" content="VulneraAI, пентест, penetration testing, pentest, AI, искусственный интеллект, machine learning, k8s, Kubernetes, FastAPI, Python, Kali Linux, security testing, security automation, bug bounty, red team">
+    <title>VulneraAI Light — Production-Ready Lightweight Security Testing Agent</title>
+    <meta name="description" content="VulneraAI Light — полнофункциональная облегченная версия агента для тестирования безопасности с RESTful API управления.">
+    <meta name="keywords" content="VulneraAI, VulneraAI Light, пентест, penetration testing, pentest, Docker, FastAPI, Python, security testing, security automation">
     <meta name="robots" content="index,follow">
     <meta name="author" content="ShtormLabs">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="VulneraAI">
-    <meta property="og:title" content="VulneraAI — автоматизированный ИИ‑пентест">
-    <meta property="og:description" content="Запускайте полностью автоматизированные пентесты с помощью ИИ: генерация эксплойтов, детекция 0‑day, RAG по CVE и подробные отчёты.">
+    <meta property="og:site_name" content="VulneraAI Light">
+    <meta property="og:title" content="VulneraAI Light — Lightweight Security Testing Agent">
+    <meta property="og:description" content="Полнофункциональная облегченная версия агента для тестирования безопасности с RESTful API управления.">
     <meta property="og:url" content="https://vulneraai.ru/">
     <meta property="og:locale" content="ru_RU">
 
@@ -41,13 +41,12 @@
         <div class="container">
             <div class="nav-content">
                 <div class="logo">
-                    <span class="logo-text">VulneraAI</span>
+                    <span class="logo-text">VulneraAI Light</span>
                 </div>
                 <div class="nav-links">
                     <a href="#home" class="nav-link active" data-page="home">Главная</a>
                     <a href="#architecture" class="nav-link" data-page="architecture">Архитектура</a>
-                    <a href="https://docs.vulneraai.ru" class="nav-link" data-page="documentation">Документация</a>
-                    <a href="https://pentest.vulneraai.ru" class="nav-link">Войти в систему</a>
+                    <a href="https://github.com/Kelll31/VulneraAI_light" class="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a>
                 </div>
             </div>
         </div>
@@ -63,22 +62,21 @@
                         <span class="status status--info">Production Ready v1.0.0</span>
                     </div>
                     <h1 class="hero-title">
-                        VulneraAI
+                        VulneraAI Light
                         <br>
-                        <span class="hero-subtitle-text">Автоматизированный ИИ‑пентест</span>
+                        <span class="hero-subtitle-text">Lightweight Security Testing Agent</span>
                     </h1>
                     <p class="hero-description">
-                        Полнофункциональная платформа для автоматизированного тестирования на проникновение с
-                        использованием искусственного интеллекта. Состоит из мощного REST API сервера (FastAPI,
-                        PostgreSQL, K8s‑ready) и лёгкого Kali Linux клиента (Python + React + CLI).
+                        Полнофункциональная облегченная версия агента для тестирования безопасности с RESTful API управления.
+                        Быстрое развертывание, Docker контейнеризация и полная изоляция.
                     </p>
                     <div class="hero-actions">
                         <button class="btn btn--primary btn--lg" data-page="architecture">
                             Обзор архитектуры
                         </button>
-                        <button class="btn btn--outline btn--lg" data-page="documentation">
-                            Документация
-                        </button>
+                        <a href="https://github.com/Kelll31/VulneraAI_light" target="_blank" rel="noopener noreferrer" class="btn btn--outline btn--lg">
+                            GitHub Репозиторий
+                        </a>
                     </div>
                 </div>
             </div>
@@ -90,45 +88,39 @@
                 <div class="section-header">
                     <h2 class="section-title">Ключевые возможности платформы</h2>
                     <p class="section-subtitle">
-                        Передовые технологии для полной автоматизации процесса тестирования безопасности
+                        Облегченная версия с фокусом на простоту развертывания и управления
                     </p>
                 </div>
                 <div class="features-grid">
                     <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h3 class="feature-title">Автоматическая генерация эксплойтов</h3>
-                        <p class="feature-description">Система анализирует архитектуру целевой инфраструктуры и
-                            автоматически генерирует адаптированные эксплойты.</p>
+                        <div class="feature-icon">🚀</div>
+                        <h3 class="feature-title">Быстрое развертывание</h3>
+                        <p class="feature-description">Одна команда для развертывания на Windows и Linux с помощью Docker и скриптов.</p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon">🔍</div>
-                        <h3 class="feature-title">Детекция 0‑day уязвимостей</h3>
-                        <p class="feature-description">ML‑алгоритмы обнаруживают 0‑day и нестандартные векторы атак
-                            ещё до появления публичных эксплойтов.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📚</div>
-                        <h3 class="feature-title">RAG‑система знаний</h3>
-                        <p class="feature-description">Контекстный поиск по базе CVE с семантической индексацией и
-                            актуальными техниками эксплуатации.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🧠</div>
-                        <h3 class="feature-title">Адаптивные стратегии атак</h3>
-                        <p class="feature-description">ИИ динамически меняет тактику в реальном времени в зависимости
-                            от успешности атак и ответов целевой системы.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">⚙️</div>
-                        <h3 class="feature-title">Полная автоматизация</h3>
-                        <p class="feature-description">От планирования и разведки до генерации отчётов — все рутинные
-                            этапы пентеста автоматизированы.</p>
+                        <div class="feature-icon">🔐</div>
+                        <h3 class="feature-title">JWT Аутентификация</h3>
+                        <p class="feature-description">Безопасный доступ с использованием access/refresh токенов для управления API.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">📊</div>
-                        <h3 class="feature-title">Подробные отчёты</h3>
-                        <p class="feature-description">Экспорт результатов в JSON, PDF и SARIF с приоритизацией
-                            уязвимостей и рекомендациями по устранению.</p>
+                        <h3 class="feature-title">RESTful API</h3>
+                        <p class="feature-description">Полноценный API для управления сессиями и инстансами с автоматической Swagger/OpenAPI документацией.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🐳</div>
+                        <h3 class="feature-title">Docker Контейнеризация</h3>
+                        <p class="feature-description">Полная изоляция сервисов через Docker Compose, production-ready конфигурация.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💾</div>
+                        <h3 class="feature-title">PostgreSQL & Redis</h3>
+                        <p class="feature-description">Надежное хранение сессий и пользователей в PostgreSQL, а также кеширование и очереди через Redis.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📈</div>
+                        <h3 class="feature-title">Мониторинг</h3>
+                        <p class="feature-description">Встроенные health checks, логирование и метрики состояния инстанса.</p>
                     </div>
                 </div>
             </div>
@@ -146,32 +138,29 @@
                     <div class="tech-card">
                         <div class="tech-card-header">
                             <div class="tech-icon">🖥️</div>
-                            <h3>Бэкэнд‑сервер</h3>
+                            <h3>Agent API</h3>
                         </div>
                         <div class="tech-card-body">
                             <ul class="tech-list">
                                 <li><span class="tech-label">Framework</span> FastAPI</li>
                                 <li><span class="tech-label">Language</span> Python 3.11+</li>
-                                <li><span class="tech-label">Database</span> PostgreSQL</li>
-                                <li><span class="tech-label">Cache</span> Redis</li>
-                                <li><span class="tech-label">Queue</span> RabbitMQ</li>
+                                <li><span class="tech-label">Auth</span> JWT (Access/Refresh)</li>
+                                <li><span class="tech-label">Docs</span> Swagger/OpenAPI</li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Kali Client -->
+                    <!-- Storage -->
                     <div class="tech-card">
                         <div class="tech-card-header">
-                            <div class="tech-icon">🐉</div>
-                            <h3>Kali Linux клиент</h3>
+                            <div class="tech-icon">💾</div>
+                            <h3>Хранилище</h3>
                         </div>
                         <div class="tech-card-body">
                             <ul class="tech-list">
-                                <li><span class="tech-label">Frontend</span> React 18</li>
-                                <li><span class="tech-label">Language</span> TypeScript</li>
-                                <li><span class="tech-label">Backend</span> FastAPI</li>
-                                <li><span class="tech-label">CLI</span> Typer + Rich</li>
-                                <li><span class="tech-label">Bundler</span> Vite</li>
+                                <li><span class="tech-label">Database</span> PostgreSQL</li>
+                                <li><span class="tech-label">Cache</span> Redis</li>
+                                <li><span class="tech-label">Queues</span> Redis</li>
                             </ul>
                         </div>
                     </div>
@@ -180,15 +169,14 @@
                     <div class="tech-card">
                         <div class="tech-card-header">
                             <div class="tech-icon">🚀</div>
-                            <h3>Масштабирование</h3>
+                            <h3>Инфраструктура</h3>
                         </div>
                         <div class="tech-card-body">
                             <ul class="tech-list">
                                 <li><span class="tech-label">Containerization</span> Docker</li>
-                                <li><span class="tech-label">Orchestration</span> Kubernetes</li>
                                 <li><span class="tech-label">Composition</span> Docker Compose</li>
-                                <li><span class="tech-label">Async</span> Async/Await</li>
-                                <li><span class="tech-label">Concurrency</span> AsyncIO</li>
+                                <li><span class="tech-label">Proxy</span> Nginx / Traefik</li>
+                                <li><span class="tech-label">Deploy</span> bash / powershell scripts</li>
                             </ul>
                         </div>
                     </div>
@@ -226,12 +214,14 @@
                 <div class="footer-content">
                     <div class="footer-section footer-section--primary">
                         <div class="footer-logo">
-                            <span class="footer-logo-text">VulneraAI</span>
+                            <span class="footer-logo-text">VulneraAI Light</span>
                         </div>
                         <p class="footer-description">
-                            Автоматизированная платформа для тестирования на проникновение с использованием ИИ.
+                            Production-Ready Lightweight Security Testing Agent
                         </p>
                         <div class="footer-social">
+                            <a href="https://github.com/Kelll31/VulneraAI_light" target="_blank" rel="noopener noreferrer"
+                                class="social-link" title="GitHub">GitHub</a>
                             <a href="https://t.me/Shtorm_Labs" target="_blank" rel="noopener noreferrer"
                                 class="social-link" title="Telegram">Telegram</a>
                             <a href="https://shtormlabs.ru" target="_blank" rel="noopener noreferrer"
@@ -245,9 +235,6 @@
                             <li><a href="#home" class="footer-link" data-page="home">Главная</a></li>
                             <li><a href="#architecture" class="footer-link" data-page="architecture">Архитектура</a>
                             </li>
-                            <li><a href="https://docs.vulneraai.ru" class="footer-link"
-                                    data-page="documentation">Документация</a>
-                            </li>
                         </ul>
                     </div>
 
@@ -256,17 +243,15 @@
                         <ul class="footer-links">
                             <li><a href="https://shtormlabs.ru/company.html" target="_blank" rel="noopener noreferrer"
                                     class="footer-link">О компании</a></li>
-                            <li><a href="https://github.com/Kelll31" target="_blank" rel="noopener noreferrer"
-                                    class="footer-link">GitHub</a></li>
-                            <li><a href="https://docs.vulneraai.ru" target="_blank" rel="noopener noreferrer"
-                                    class="footer-link">API Документация</a></li>
+                            <li><a href="https://github.com/Kelll31/VulneraAI_light" target="_blank" rel="noopener noreferrer"
+                                    class="footer-link">Репозиторий проекта</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="footer-bottom">
                     <p class="footer-copyright">
-                        © 2025 VulneraAI. Все права защищены.
+                        © 2025 VulneraAI Light. Все права защищены.
                     </p>
                     <p class="footer-company">
                         Разработано компанией <a href="https://shtormlabs.ru" target="_blank" rel="noopener noreferrer"
