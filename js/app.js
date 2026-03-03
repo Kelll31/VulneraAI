@@ -71,6 +71,8 @@
         // Документация или вложенная навигация документации
         if (hash === 'documentation' || hash.includes('/')) {
             window.open('https://github.com/Kelll31/VulneraAI_light', '_blank', 'noopener,noreferrer');
+            // Default to home page if they opened the docs route directly
+            navigateToPage('home', false);
             return;
         }
 
@@ -102,6 +104,8 @@
         // Если это документация или навигация документации
         if (hash === 'documentation' || hash.includes('/')) {
             window.open('https://github.com/Kelll31/VulneraAI_light', '_blank', 'noopener,noreferrer');
+            // Keep the previous valid page or default to home to prevent a blank state
+            navigateToPage('home', false);
             return;
         }
 
