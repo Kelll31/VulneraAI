@@ -29,39 +29,28 @@
 
         defineCompleteArchitecture() {
             this.nodes = [
-                // SERVER BLOCK
-                { id: 'api_gateway', name: 'API Gateway', tech: 'FastAPI/Uvicorn', group: 'server', color: '#3b82f6', size: 1.0 },
-                { id: 'core_services', name: 'Core Services', tech: 'Business Logic', group: 'server', color: '#f59e0b', size: 1.2 },
-                { id: 'storage', name: 'Storage', tech: 'PostgreSQL/Redis', group: 'server', color: '#6366f1', size: 1.0 },
-                { id: 'queue', name: 'Queue', tech: 'RabbitMQ', group: 'server', color: '#8b5cf6', size: 0.9 },
-                { id: 'auth', name: 'Auth Service', tech: 'JWT/OAuth', group: 'server', color: '#0ea5e9', size: 0.8 },
+                // AGENT BLOCK
+                { id: 'agent_api', name: 'Agent (FastAPI)', tech: 'FastAPI/Uvicorn', group: 'agent', color: '#3b82f6', size: 1.2 },
+                { id: 'auth', name: 'Authentication', tech: 'JWT', group: 'agent', color: '#0ea5e9', size: 0.9 },
+                { id: 'sessions', name: 'Sessions', tech: 'Commands Execution', group: 'agent', color: '#10b981', size: 1.0 },
+                { id: 'instance', name: 'Instance Mgmt', tech: 'System Status', group: 'agent', color: '#f59e0b', size: 0.9 },
+                { id: 'health', name: 'Health Monitor', tech: 'Metrics', group: 'agent', color: '#8b5cf6', size: 0.8 },
 
-                // CLIENT BLOCK
-                { id: 'client_ui', name: 'Web UI', tech: 'React 18', group: 'client', color: '#10b981', size: 1.0 },
-                { id: 'client_backend', name: 'Agent', tech: 'FastAPI', group: 'client', color: '#22c55e', size: 1.0 },
-                { id: 'cli_tools', name: 'CLI Tools', tech: 'Kali Suite', group: 'client', color: '#059669', size: 0.8 },
-
-                // INTEGRATION BLOCK
-                { id: 'monitoring', name: 'Monitoring', tech: 'Prometheus', group: 'integration', color: '#94a3b8', size: 0.9 },
-                { id: 'webhooks', name: 'Webhooks', tech: 'Events', group: 'integration', color: '#ec4899', size: 0.9 },
-                { id: 'external_apis', name: 'External APIs', tech: 'Shodan/VT', group: 'integration', color: '#fb923c', size: 0.8 },
-                { id: 'report_gen', name: 'Reports', tech: 'PDF/JSON', group: 'integration', color: '#a855f7', size: 0.8 },
+                // STORAGE BLOCK
+                { id: 'postgres', name: 'PostgreSQL', tech: 'Data Storage', group: 'storage', color: '#6366f1', size: 1.1 },
+                { id: 'redis', name: 'Redis', tech: 'Cache & Queues', group: 'storage', color: '#ec4899', size: 1.1 }
             ];
 
             // Связи с указанием двухсторонних
             this.edges = [
-                { source: 'client_ui', target: 'client_backend', protocol: 'HTTP', bidirectional: true },
-                { source: 'client_backend', target: 'cli_tools', protocol: 'CLI', bidirectional: false },
-                { source: 'client_backend', target: 'api_gateway', protocol: 'HTTPS', bidirectional: true },
-                { source: 'api_gateway', target: 'auth', protocol: 'JWT', bidirectional: false },
-                { source: 'api_gateway', target: 'core_services', protocol: 'Internal', bidirectional: true },
-                { source: 'core_services', target: 'storage', protocol: 'SQL', bidirectional: true },
-                { source: 'core_services', target: 'queue', protocol: 'AMQP', bidirectional: true },
-                { source: 'queue', target: 'client_backend', protocol: 'Tasks', bidirectional: false },
-                { source: 'core_services', target: 'webhooks', protocol: 'Events', bidirectional: false },
-                { source: 'core_services', target: 'external_apis', protocol: 'REST', bidirectional: false },
-                { source: 'core_services', target: 'report_gen', protocol: 'Data', bidirectional: false },
-                { source: 'core_services', target: 'monitoring', protocol: 'Metrics', bidirectional: false },
+                { source: 'agent_api', target: 'auth', protocol: 'Internal', bidirectional: true },
+                { source: 'agent_api', target: 'sessions', protocol: 'Internal', bidirectional: true },
+                { source: 'agent_api', target: 'instance', protocol: 'Internal', bidirectional: true },
+                { source: 'agent_api', target: 'health', protocol: 'Internal', bidirectional: true },
+                { source: 'agent_api', target: 'postgres', protocol: 'SQL', bidirectional: true },
+                { source: 'agent_api', target: 'redis', protocol: 'TCP', bidirectional: true },
+                { source: 'sessions', target: 'redis', protocol: 'Tasks', bidirectional: true },
+                { source: 'auth', target: 'postgres', protocol: 'SQL', bidirectional: true }
             ];
         }
 
@@ -158,9 +147,9 @@
         setupForceSimulation() {
             // Увеличенные расстояния между группами
             const groupCenters = {
-                server: { x: 280, y: 330 },      // Левая группа
-                client: { x: 700, y: 280 },      // Центральная группа (больше отступ)
-                integration: { x: 1120, y: 340 } // Правая группа (больше отступ)
+                agent: { x: 400, y: 330 },       // Левая группа
+                storage: { x: 1000, y: 330 },    // Правая группа
+                integration: { x: 1120, y: 340 } // Оставлено для совместимости
             };
 
             this.nodes.forEach(node => {
@@ -228,8 +217,10 @@
                 });
 
                 // Группировка
-                const groups = { server: [], client: [], integration: [] };
-                this.nodes.forEach(n => groups[n.group].push(n));
+                const groups = { agent: [], storage: [], integration: [] };
+                this.nodes.forEach(n => {
+                    if (groups[n.group]) groups[n.group].push(n);
+                });
 
                 Object.keys(groups).forEach(groupName => {
                     const groupNodes = groups[groupName];
@@ -264,12 +255,13 @@
 
         drawGroupBoundaries() {
             const groups = {
-                server: { nodes: [], color: '#3b82f6', name: 'Server', gradient: 'serverGrad' },
-                client: { nodes: [], color: '#10b981', name: 'Client', gradient: 'clientGrad' },
-                integration: { nodes: [], color: '#f97316', name: 'Integrations', gradient: 'integrationGrad' }
+                agent: { nodes: [], color: '#3b82f6', name: 'Agent', gradient: 'serverGrad' },
+                storage: { nodes: [], color: '#10b981', name: 'Storage', gradient: 'clientGrad' }
             };
 
-            this.nodes.forEach(n => groups[n.group].nodes.push(n));
+            this.nodes.forEach(n => {
+                if (groups[n.group]) groups[n.group].nodes.push(n);
+            });
 
             Object.keys(groups).forEach(key => {
                 const group = groups[key];
@@ -632,12 +624,11 @@
 
         drawLegend() {
             const legendData = [
-                { color: '#3b82f6', label: 'Server Components' },
-                { color: '#10b981', label: 'Client Components' },
-                { color: '#f97316', label: 'Integration Services' }
+                { color: '#3b82f6', label: 'Agent API' },
+                { color: '#10b981', label: 'Storage & Cache' }
             ];
 
-            let x = 120;
+            let x = 300;
             const y = 610;
 
             legendData.forEach(item => {
@@ -715,136 +706,67 @@
 
         getComponentDetails(id) {
             const allDetails = {
-                'api_gateway': {
-                    description: 'REST API шлюз на FastAPI для маршрутизации всех запросов от клиентов. Обеспечивает JWT аутентификацию, валидацию данных через Pydantic и документирование через OpenAPI.',
+                'agent_api': {
+                    description: 'Основной REST API агент, написанный на FastAPI. Является точкой входа для всех операций, маршрутизирует запросы и управляет жизненным циклом сессий и инстансов.',
                     features: [
                         'FastAPI 0.104+ асинхронный framework',
-                        'JWT токены PyJWT для безопасности',
                         'Pydantic V2 для валидации данных',
                         'Uvicorn ASGI сервер',
-                        'Auto-generated OpenAPI документация',
+                        'Auto-generated Swagger/OpenAPI документация',
                         'CORS middleware для cross-origin запросов'
                     ]
                 },
-                'core_services': {
-                    description: 'Бизнес-логика VulneraAI. Управление пентестами, проектами, сканированиями. Координирует взаимодействие между API и агентом на Kali Linux.',
-                    features: [
-                        'Service Layer паттерн для разделения логики',
-                        'Database ORM SQLAlchemy V2 для моделирования',
-                        'Асинхронные операции через async/await',
-                        'Dependency Injection через FastAPI Depends',
-                        'Repository паттерн для доступа к БД',
-                        'Бизнес-логика управления пентестами'
-                    ]
-                },
-                'storage': {
-                    description: 'PostgreSQL для персистентного хранения результатов пентестов, проектов, пользователей. Кэширование через Redis опционально.',
-                    features: [
-                        'PostgreSQL 14+ с поддержкой JSONB типов',
-                        'SQLAlchemy ORM для работы с БД',
-                        'Alembic для миграций базы данных',
-                        'Нормализованная схема для пентестов',
-                        'Индексирование критических полей',
-                        'Connection pooling через psycopg3'
-                    ]
-                },
-                'queue': {
-                    description: 'Celery с RabbitMQ/Redis для асинхронной обработки длительных операций: запуск сканов, генерация отчётов, обработка результатов.',
-                    features: [
-                        'Celery для распределённых задач',
-                        'RabbitMQ или Redis в качестве broker',
-                        'Retry механизмы для отказоустойчивости',
-                        'Task monitoring и логирование',
-                        'Асинхронное выполнение сканирований',
-                        'Priority queue для критичных задач'
-                    ]
-                },
                 'auth': {
-                    description: 'JWT-based аутентификация на FastAPI. Управление пользователями, ролями доступа, безопасное хранение паролей с bcrypt.',
+                    description: 'Модуль аутентификации на основе JWT токенов. Отвечает за проверку доступа, генерацию токенов и безопасность API.',
                     features: [
-                        'PyJWT для генерации и проверки токенов',
-                        'Passlib и bcrypt для хеширования паролей',
-                        'Пользователи и роли доступа (User, Admin)',
-                        'Refresh tokens для продления сессии',
-                        'Rate limiting на защищённых endpoints',
-                        'Audit logs для отслеживания действий'
+                        'JWT (Access и Refresh токены)',
+                        'Безопасное хранение паролей',
+                        'Bearer-авторизация на защищенных эндпоинтах',
+                        'Пользователи и роли доступа'
                     ]
                 },
-                'client_ui': {
-                    description: 'React фронтенд с TypeScript. Интерфейс для управления пентестами, просмотра результатов и взаимодействия с AI.',
+                'sessions': {
+                    description: 'Управление сессиями сканирования и выполнения команд. Обрабатывает запуск, остановку и отслеживание статуса задач.',
                     features: [
-                        'React 18 с TypeScript поддержкой',
-                        'Tailwind CSS для стилизации',
-                        'Axios для HTTP запросов к API',
-                        'WebSocket для real-time обновлений',
-                        'State management Redux или Zustand',
-                        'Responsive дизайн для всех устройств'
+                        'Создание и выполнение команд',
+                        'Мониторинг статуса (running, completed, error)',
+                        'Ограничения времени выполнения (timeout)',
+                        'Хранение вывода и результатов команд'
                     ]
                 },
-                'client_backend': {
-                    description: 'Python агент на Kali Linux. Выполняет команды сканирования инструментов, отправляет результаты на сервер, управляет процессами.',
+                'instance': {
+                    description: 'Управление и мониторинг самого инстанса агента. Отвечает за контроль загрузки и системных ресурсов.',
                     features: [
-                        'Python 3.11+ с asyncio поддержкой',
-                        'Requests/httpx для API коммуникации',
-                        'Socket.io для real-time обмена данными',
-                        'Subprocess управление инструментами Kali',
-                        'Structured logging через Python logging',
-                        'SSL сертификаты для безопасной передачи'
+                        'Метрики использования CPU и памяти',
+                        'Статус и аптайм (uptime)',
+                        'Статистика выполненных задач',
+                        'Управление конфигурацией (max concurrent tasks)'
                     ]
                 },
-                'cli_tools': {
-                    description: 'Интеграция с инструментами Kali Linux для сканирования: Nmap, Metasploit, Burp Suite, Nikto, SQLMap, Hydra, Gobuster.',
+                'health': {
+                    description: 'Модуль проверок работоспособности (Health Checks). Предоставляет эндпоинт для мониторинга состояния сервисов.',
                     features: [
-                        'Nmap для сканирования портов и сервисов',
-                        'Metasploit для поиска и эксплуатации',
-                        'Nikto для сканирования веб-приложений',
-                        'SQLMap для тестирования SQL injection',
-                        'Hydra для brute-force атак',
-                        'Gobuster для перебора директорий и DNS'
+                        'Проверка доступности базы данных (PostgreSQL)',
+                        'Проверка доступности кеша (Redis)',
+                        'Общий статус приложения (ok / error)'
                     ]
                 },
-                'monitoring': {
-                    description: 'Prometheus для мониторинга здоровья системы, метрик производительности API, задач Celery. Alerting через Alertmanager.',
+                'postgres': {
+                    description: 'Основная реляционная база данных для персистентного хранения всех данных агента.',
                     features: [
-                        'Prometheus метрики для request/latency',
-                        'Grafana дашборды для визуализации',
-                        'Alertmanager для критичных оповещений',
-                        'Метрики выполнения Celery задач',
-                        'Мониторинг соединений БД и queries',
-                        'Custom бизнес-метрики'
+                        'Хранение пользователей и хешей паролей',
+                        'Хранение истории и результатов сессий',
+                        'PostgreSQL 14+ в Docker контейнере',
+                        'SQLAlchemy ORM для работы с БД'
                     ]
                 },
-                'webhooks': {
-                    description: 'Event-driven система для уведомлений при завершении сканирования. Интеграция со Slack, Discord, email.',
+                'redis': {
+                    description: 'Быстрое in-memory хранилище (key-value), используемое для кеширования, временных данных и очередей задач.',
                     features: [
-                        'Webhook callbacks для событий',
-                        'Slack интеграция с форматированными сообщениями',
-                        'Discord интеграция с embed-ами',
-                        'Email уведомления с результатами',
-                        'Telegram bot опционально',
-                        'Retry logic для надёжной доставки'
-                    ]
-                },
-                'external_apis': {
-                    description: 'Интеграция с внешними threat intelligence сервисами: VirusTotal, Shodan, HaveIBeenPwned, CVE/NVD databases.',
-                    features: [
-                        'VirusTotal для анализа файлов',
-                        'Shodan для информации об IP адресах',
-                        'HaveIBeenPwned для проверки утечек паролей',
-                        'NVD/CVE databases для уязвимостей',
-                        'API key management и rate limiting',
-                        'Кэширование responses через Redis'
-                    ]
-                },
-                'report_gen': {
-                    description: 'Генератор профессиональных отчётов в PDF/HTML/DOCX. Включает выводы, рекомендации и детальное описание уязвимостей.',
-                    features: [
-                        'Jinja2 для HTML шаблонов отчётов',
-                        'WeasyPrint для конвертации PDF',
-                        'Charts.js для визуализации данных',
-                        'Python-docx для DOCX экспорта',
-                        'Кастомизируемые шаблоны под клиента',
-                        'Multi-language поддержка отчётов'
+                        'Кеширование частых запросов',
+                        'Использование в качестве брокера задач',
+                        'Быстрое обновление статусов сессий',
+                        'Redis 7+ в Docker контейнере'
                     ]
                 }
             };
