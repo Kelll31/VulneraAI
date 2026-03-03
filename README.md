@@ -84,7 +84,7 @@ cd VulneraAI_light
 #### Логин
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/auth/login \
+curl -X POST localhost:8000/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "username": "admin",
@@ -104,7 +104,7 @@ curl -X POST http://localhost:8000/api/v1/auth/login \
 #### Получить информацию о текущем пользователе
 
 ```bash
-curl -X GET http://localhost:8000/api/v1/auth/me \
+curl -X GET localhost:8000/api/v1/auth/me \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
@@ -113,7 +113,7 @@ curl -X GET http://localhost:8000/api/v1/auth/me \
 #### Выполнить команду
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/sessions/execute \
+curl -X POST localhost:8000/api/v1/sessions/execute \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -141,14 +141,14 @@ curl -X POST http://localhost:8000/api/v1/sessions/execute \
 #### Получить сессию по ID
 
 ```bash
-curl -X GET http://localhost:8000/api/v1/sessions/{session_id} \
+curl -X GET localhost:8000/api/v1/sessions/{session_id} \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 #### Список сессий
 
 ```bash
-curl -X GET "http://localhost:8000/api/v1/sessions?skip=0&limit=50" \
+curl -X GET "localhost:8000/api/v1/sessions?skip=0&limit=50" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
@@ -157,7 +157,7 @@ curl -X GET "http://localhost:8000/api/v1/sessions?skip=0&limit=50" \
 #### Статус инстанса
 
 ```bash
-curl -X GET http://localhost:8000/api/v1/instance/status \
+curl -X GET localhost:8000/api/v1/instance/status \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
@@ -175,7 +175,7 @@ curl -X GET http://localhost:8000/api/v1/instance/status \
 #### Детальная информация об инстансе
 
 ```bash
-curl -X GET http://localhost:8000/api/v1/instance/info \
+curl -X GET localhost:8000/api/v1/instance/info \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
@@ -203,7 +203,7 @@ curl -X GET http://localhost:8000/api/v1/instance/info \
 ### Health Check
 
 ```bash
-curl http://localhost:8000/api/v1/health
+curl localhost:8000/api/v1/health
 ```
 
 **Ответ**:
@@ -319,10 +319,10 @@ Mетрики доступны через API:
 
 ```bash
 # Health check
-curl http://localhost:8000/api/v1/health
+curl localhost:8000/api/v1/health
 
 # Instance metrics
-curl http://localhost:8000/api/v1/instance/status \
+curl localhost:8000/api/v1/instance/status \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
