@@ -13,6 +13,7 @@
             this.width = 1400;  // Увеличена ширина
             this.height = 650;  // Увеличена высота
             this.nodeRadius = 55;
+            this.nodesMap = new Map();
         }
 
         initialize() {
@@ -20,6 +21,7 @@
             if (!this.detailsPanel) return;
 
             this.defineCompleteArchitecture();
+            this.updateNodesMap();
             this.createDiagram();
             this.setupForceSimulation();
             this.render();
@@ -52,6 +54,13 @@
                 { source: 'sessions', target: 'redis', protocol: 'Tasks', bidirectional: true },
                 { source: 'auth', target: 'postgres', protocol: 'SQL', bidirectional: true }
             ];
+        }
+
+        updateNodesMap() {
+            this.nodesMap.clear();
+            this.nodes.forEach(node => {
+                this.nodesMap.set(node.id, node);
+            });
         }
 
         createDiagram() {
@@ -195,8 +204,8 @@
 
                 // Притяжение по связям
                 this.edges.forEach(edge => {
-                    const source = this.nodes.find(n => n.id === edge.source);
-                    const target = this.nodes.find(n => n.id === edge.target);
+                    const source = this.nodesMap.get(edge.source);
+                    const target = this.nodesMap.get(edge.target);
 
                     if (source && target) {
                         const dx = target.x - source.x;
@@ -417,8 +426,8 @@
             );
 
             connectedEdges.forEach(edge => {
-                const source = this.nodes.find(n => n.id === edge.source);
-                const target = this.nodes.find(n => n.id === edge.target);
+                const source = this.nodesMap.get(edge.source);
+                const target = this.nodesMap.get(edge.target);
 
                 if (source && target) {
                     this.drawConnection(source, target, edge, true);
@@ -593,13 +602,13 @@
 
             this.edges.forEach(edge => {
                 if (edge.target === node.id) {
-                    const source = this.nodes.find(n => n.id === edge.source);
+                    const source = this.nodesMap.get(edge.source);
                     if (source) {
                         incoming.push({ name: source.name, protocol: edge.protocol, bidirectional: edge.bidirectional });
                     }
                 }
                 if (edge.source === node.id) {
-                    const target = this.nodes.find(n => n.id === edge.target);
+                    const target = this.nodesMap.get(edge.target);
                     if (target) {
                         outgoing.push({ name: target.name, protocol: edge.protocol, bidirectional: edge.bidirectional });
                     }
